@@ -19,7 +19,7 @@ class actvity(commands.Cog):
             "🎵 God, I miss you every single day and now you're so far away...🎸🎸🎸 🎵"
         ])
 
-    @tasks.loop(seconds=30.0)
+    @tasks.loop(seconds=5.0)
     async def change_status(self):
         await self.bot.change_presence(status=discord.Status.online,
                                        activity=discord.Activity(
