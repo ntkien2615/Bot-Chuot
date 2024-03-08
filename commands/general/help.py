@@ -18,11 +18,15 @@ class SelectDropdown(discord.ui.Select):  # Clearer class name
         super().__init__(placeholder="Chọn một lựa chọn đi",
                          max_values=1, min_values=1, options=options)
 
-    async def callback(self, interaction: discord.Interaction):
+    async def callback(self,select, interaction: discord.Interaction):
         selected_option = self.values[0]
         response = f"You selected: {selected_option}"  # Dynamic response
         # Edit original message
-        await interaction.response.edit_message(content=response)
+        if selected_option == 1:
+            select_embed = discord.Embed(title='BOT INFO',description='Hmm, nói sao ta, chỉ là con bot phát triển chính bởi 1 người và có sự trợ giúp của vài người với mục đích mua vui là chính và phát triển kĩ năng lol. Dài quá khỏi viết',
+            color=discord.Color.random())
+            select_embed.set_image(url='https://i.pinimg.com/564x/fc/f9/63/fcf9633b52c2b327cc9337169dc1829d.jpg')
+        await interaction.response.edit_message(content=response,embed=select_embed)
 
 
 class DropdownMenu(discord.ui.View):  # Consistent naming
@@ -40,11 +44,11 @@ class HelpCog(commands.Cog):  # Correct PascalCase
         view = DropdownMenu()
 
         embed_msg = discord.Embed(title="HELP COMMAND",
-                                  description="Đây là help command, nếu bạn đọc được cái này, bạn đã giải tỏa căng thẳng cho thằng dev xàm lờ",
+                                  description="Xin chào, bot đã comeback. Và đây là help command, nếu bạn đọc được cái này, bạn đã giải tỏa căng thẳng cho thằng dev xàm lờ",
                                   color=discord.Color.random())
         embed_msg.set_thumbnail(
             url='https://images-ext-1.discordapp.net/external/4l1sSRH8ZyOAWjLY9KyMefCCwzKQqbQdZp5-FHo3pKg/%3Fsize%3D1024/https/cdn.discordapp.com/avatars/104272908108.png?format=webp&quality=lossless&width=676&height=676')
-        muc1 = 'Hiện tại bot đã chuyển từ replit sang codesandbox (do replit không cho phép sử dụng bên thứ 3 để duy trì code) nên hiện tại bot sẽ rất lộn xộn nên thông cảm giùm'
+        muc1 = 'Sau nhiều lần di chuyển, bot đã đặt chân tại render.com. Hy vọng sẽ duy trì đủ lâu'
         embed_msg.add_field(name="BOT ĐÃ CHUYỂN NHÀ", value=muc1, inline=False)
         muc3 = 'Bot đã đang và sẽ có sự thay đổi trong các lệnh và khắc phục những lỗi do code đã được sử dụng trong replit, trong tương lai anh coder này sẽ tối ưu bot nhiều hơn giúp hiệu quả bot được nâng cao'
         embed_msg.add_field(name="Thay đổi và những khắc phục",
@@ -52,6 +56,8 @@ class HelpCog(commands.Cog):  # Correct PascalCase
         muc2 = 'Bot sẽ liên tục cập nhật những tính năng nên cứ đợi đi, bên này mượt hơn và ít ping hơn nên dễ làm việc, và cảm ơn vì đã đợi :3'
         embed_msg.add_field(name="Tu bi con tìn niu...",
                             value=muc2, inline=False)
+        muc4 = 'Help commands sẽ bắt đầu code ngay từ bây giờ'
+        embed_msg.add_field(name="Bắt đầu", value= muc4, inline=False)
         hinhnen = 'Cái hình để chưng bên dưới sẽ ghi nguồn sau'
         embed_msg.add_field(name="Hình nền", value=hinhnen, inline=False)
         embed_msg.set_image(
