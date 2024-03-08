@@ -19,14 +19,11 @@ class SelectDropdown(discord.ui.Select):  # Clearer class name
                          max_values=1, min_values=1, options=options)
 
     async def callback(self,select, interaction: discord.Interaction):
-        selected_option = self.values[0]
-        response = f"You selected: {selected_option}"  # Dynamic response
-        # Edit original message
         if selected_option == 1:
             select_embed = discord.Embed(title='BOT INFO',description='Hmm, nói sao ta, chỉ là con bot phát triển chính bởi 1 người và có sự trợ giúp của vài người với mục đích mua vui là chính và phát triển kĩ năng lol. Dài quá khỏi viết',
             color=discord.Color.random())
             select_embed.set_image(url='https://i.pinimg.com/564x/fc/f9/63/fcf9633b52c2b327cc9337169dc1829d.jpg')
-        await interaction.response.edit_message(content=response,embed=select_embed)
+        await interaction.response.edit_message(embed=select_embed)
 
 
 class DropdownMenu(discord.ui.View):  # Consistent naming
