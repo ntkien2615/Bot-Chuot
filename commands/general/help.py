@@ -3,25 +3,26 @@ from discord.ext import commands
 from discord import app_commands
 
 
-class SelectDropdown(discord.ui.Select):  # Clearer class name
+class SelectDropdown(discord.ui.Select):
     def __init__(self):
         options = [
-            discord.SelectOption(label="Info",value=1, emoji='🐭',
+            discord.SelectOption(label="Info", value=1, emoji='🐭',
                                  description="Thông tin chung về bot"),
-            discord.SelectOption(label="Lệnh nonslash",
-                                 emoji="🐁",value=2, description="Các lệnh non-slash",),
-            discord.SelectOption(label="Lệnh slash",value=3, emoji='🐀',
-                                 description="Các lệnh slash",),
-            discord.SelectOption(label="Cảm ơn",value=4, emoji='💖',
-                                 description="Cảm ơn những người hỗ trợ dev",)
+            discord.SelectOption(label="Lệnh nonslash", value=2, emoji="🐁",
+                                 description="Các lệnh non-slash"),
+            discord.SelectOption(label="Lệnh slash", value=3, emoji='🐀',
+                                 description="Các lệnh slash"),
+            discord.SelectOption(label="Cảm ơn", value=4, emoji='💖',
+                                 description="Cảm ơn những người hỗ trợ dev"),
         ]
         super().__init__(placeholder="Chọn một lựa chọn đi",
                          max_values=1, min_values=1, options=options)
 
-    async def callback(self,select, interaction: discord.Interaction):
+    async def callback(self, select, interaction: discord.Interaction):
         if select.value[0] == 1:
-            select_embed = discord.Embed(title='BOT INFO',description='Hmm, nói sao ta, chỉ là con bot phát triển chính bởi 1 người và có sự trợ giúp của vài người với mục đích mua vui là chính và phát triển kĩ năng lol. Dài quá khỏi viết',
-            color=discord.Color.random())
+            select_embed = discord.Embed(title='BOT INFO',
+                                         description='Bot được phát triển bởi 1 người với mục đích mua vui là chính và phát triển kĩ năng.',
+                                         color=discord.Color.random())
             select_embed.set_image(url='https://i.pinimg.com/564x/fc/f9/63/fcf9633b52c2b327cc9337169dc1829d.jpg')
         await interaction.response.edit_message(embed=select_embed)
 
