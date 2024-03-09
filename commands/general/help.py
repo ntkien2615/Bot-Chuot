@@ -18,7 +18,7 @@ class SelectDropdown(discord.ui.Select):
         super().__init__(placeholder="Chọn một lựa chọn đi",
                          max_values=1, min_values=1, options=options)
 
-    async def callback(self,selcet,interaction: discord.Interaction):
+    async def callback(self,select,interaction: discord.Interaction):
         if select.values[0] == "Info":
             select_embed = discord.Embed(title='BOT INFO',
                                          description='Bot được phát triển bởi 1 người với mục đích mua vui là chính và phát triển kĩ năng.',
