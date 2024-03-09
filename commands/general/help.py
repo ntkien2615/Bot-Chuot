@@ -10,9 +10,9 @@ class SelectDropdown(discord.ui.Select):
                                  description="Thông tin chung về bot"),
             discord.SelectOption(label="Lệnh nonslash", emoji="🐁",
                                  description="Các lệnh non-slash"),
-            discord.SelectOption(label="Lệnh slash", value="3", emoji='🐀',
+            discord.SelectOption(label="Lệnh slash", emoji='🐀',
                                  description="Các lệnh slash"),
-            discord.SelectOption(label="Cảm ơn", value="4", emoji='💖',
+            discord.SelectOption(label="Cảm ơn", emoji='💖',
                                  description="Cảm ơn những người hỗ trợ dev"),
         ]
         super().__init__(placeholder="Chọn một lựa chọn đi",
