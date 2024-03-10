@@ -6,7 +6,7 @@ from discord import app_commands
 class SelectDropdown(discord.ui.Select):
     def __init__(self):
         options = [
-            discord.SelectOption(label="Info",value="1", emoji='🐭',
+            discord.SelectOption(label="Info", value="1", emoji='🐭',
                                  description="Thông tin chung về bot"),
             discord.SelectOption(label="Lệnh nonslash", emoji="🐁",
                                  description="Các lệnh non-slash"),
@@ -18,9 +18,8 @@ class SelectDropdown(discord.ui.Select):
         super().__init__(placeholder="Chọn một lựa chọn đi",
                          max_values=1, min_values=1, options=options)
 
-    async def callback(self,interaction: discord.Interaction, select):
-        select.disabled = True
-        if select.values[0] == "1":
+    async def callback(self,interaction: discord.Interaction):
+        if self.values[0] == "1":
             select_embed = discord.Embed(title='BOT INFO',
                                          description='Bot được phát triển bởi 1 người với mục đích mua vui là chính và phát triển kĩ năng.',
                                          color=discord.Color.random())
