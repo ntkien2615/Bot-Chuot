@@ -1,6 +1,6 @@
 Đây là mục giới thiệu về bot (Sơ yếu lí lịch về bot, người tạo bot, lịch sử về bot)
-Bot chuột là bot nhà làm được tạo ra nhằm mục đích giáo dục và phát triển kỹ năng lập trình và không nhằm mục đích thương mại
-Đây là bot tạo bởi người tên là k3v15l3v13tc05g (nick chơi game là MèoBoCute(trừ Free Fire và Roblox)), không ai hỏi nhưng việc học quá nhiều và chơi game đã thôi thúc anh làm một cô đẻ (coder)
+Bot chuột là bot nhà làm được tạo ra nhằm mục đích giáo dục và phát triển kỹ năng lập trình và không nhằm mục đích thương mại 
+Đây là bot tạo bởi người tên là k3v15l3v13tc05g (nick chơi game là MèoBoCute(trừ Free Fire và Roblox)), không ai hỏi nhưng việc học quá nhiều và chơi game đã thôi thúc anh làm một cô đẻ (coder) 
 Sở thích: Code, game, chat-chit, nghe nhạc (nhất là mấy cái nhạc trên soundcloud ấy, vì spotify không có tiền mua premium) (hướng nội nên toàn nói chuyện với cái máy tính) và :3
 Là 2k6 vô tư, kệ cm sự đời, chưa có bồ, lại bị mấy đứa con gái tẩy chay (")>, còn về đại học sau này thì không biết nữa :3
 Chuột được tạo từ 17/11/2022, lúc trước đã từng tạo rồi xóa do mất động lực, bây giờ bot vẫn đang phát triển. Cảm hứng để tạo bot này từ khi học Python và tiếp xúc với Discord, được Kyen(Kiên) giới thiệu nên đã cố gắng học theo và đam mê nó
