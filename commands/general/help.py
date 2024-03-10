@@ -31,7 +31,8 @@ class SelectDropdown(discord.ui.Select):
             select_embed = discord.Embed(title='BOT INFO',
                                          description=self.file_read("./txt_files/help/help1.txt",1),
                                          color=discord.Color.random())
-            select_embed.add_field(name='Sơ yếu lí lịch về bot',value=self.file_read("./txt_files_help/help1.txt",2),inline=False)
+            select_embed.add_field(name='Sơ yếu lí lịch về bot',inline=False)
+            select_embed.add_field(name='',value=self.file_read("./txt_files/help/help1.txt",2),inline=False)
             select_embed.add_field(name='Thông tin về chủ bot',value='', inline=False)
             select_embed.add_field(name='',value=self.file_read("./txt_files/help/help1.txt",3),inline=False)
             select_embed.add_field(name='',value=self.file_read("./txt_files/help/help1.txt",4),inline=False)
