@@ -37,13 +37,13 @@ class HelpCog(commands.Cog):  # Correct PascalCase
     def __init__(self, bot):
         self.bot = bot
 
-    def file_read(file_name, line):
-        with open(file_name, "r") as f:
-            for i, line in enumerate(f):
-                if i == line - 1:
-                    line = line
-                    break
-        return line
+    def file_read(file_path, line_number):
+        try:
+            with open(file_path, "r") as f:
+                lines = f.readlines()
+            return lines[line_number - 1].strip()
+        except IndexError:
+            raise IndexError(f"Line number {line_number} is out of bounds for file {file_path}")
 
     @app_commands.command(name='help', description='trợ giúp')
     async def menu(self, interaction: discord.Interaction):
