@@ -8,15 +8,15 @@ class actvity(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.status = cycle([
-            "Bot tạm down để chuyển nhà",
-            "🎵 Oh, love 🎵",
-            "🎵 How I miss you every single day when I see you on those streets 🎵",
-            "🎵 Oh, love 🎵",
-            "🎵 Tell me there's a river I can swim that will bring you back to me 🎵",
-            "🎵 Cause I don't know how to love someone else 🎵",
-            "🎵 I don't know how to forget your face 🎵",
-            "🎵 Oh, love 🎵",
-            "🎵 God, I miss you every single day and now you're so far away...🎸🎸🎸 🎵"
+            "Bot đã quay trở lại và thảm hại hơn xưa",
+            "🎵 ...Ai dám nói trước sau này 🎵",
+            "🎵 Chằng ai biết trước tương lai sau này 🎵",
+            "🎵 Tình yêu đâu biết mai này có vẹn nguyên 🎵",
+            "🎵 Còn nguyên như lời ta đã hứa trước đây 🎵",
+            "🎵 Dẫu cho giông tố xô xa rời 🎵",
+            "🎵 Còn mãi những điều đẹp đẽ say đắm một thời 🎵",
+            "🎵 Nụ cười và giọt nước mắt rơi từng trao cùng ta 🎵",
+            "🎵 Nhìn lại về phía mặt trời... 🎵"
         ])
 
     @tasks.loop(seconds=5.0)
