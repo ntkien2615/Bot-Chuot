@@ -24,7 +24,7 @@ class SelectDropdown(discord.ui.Select):
                                          description='Bot được phát triển bởi 1 người với mục đích mua vui là chính và phát triển kĩ năng.',
                                          color=discord.Color.random())
             select_embed.set_image(url='https://i.pinimg.com/564x/fc/f9/63/fcf9633b52c2b327cc9337169dc1829d.jpg')
-            await interaction.response.send_message(embed=select_embed,ephemeral=True)
+            await interaction.response.edit_message(embed=select_embed,ephemeral=True)
 
 
 class DropdownMenu(discord.ui.View):  # Consistent naming
