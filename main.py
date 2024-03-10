@@ -5,7 +5,7 @@ import keep_alive
 import asyncio
 
 keep_alive.awake(
-    "https://5ynpyw-6789.csb.app",
+    "https://bot-chuot.onrender.com",
     debug=False)
 
 intents = discord.Intents.default()
