@@ -47,9 +47,9 @@ class HelpCog(commands.Cog):  # Correct PascalCase
     @app_commands.command(name='help', description='trợ giúp')
     async def menu(self, interaction: discord.Interaction):
         view = DropdownMenu()
-
+        description= file_read("./Bot-chuot/txt_files/help0.txt",1)
         embed_msg = discord.Embed(title="HELP COMMAND",
-                                  description=file_read("./Bot-chuot/txt_files/help0.txt",1),
+                                  description=description,
                                   color=discord.Color.random())
         embed_msg.set_thumbnail(
             url='https://images-ext-1.discordapp.net/external/4l1sSRH8ZyOAWjLY9KyMefCCwzKQqbQdZp5-FHo3pKg/%3Fsize%3D1024/https/cdn.discordapp.com/avatars/104272908108.png?format=webp&quality=lossless&width=676&height=676')
