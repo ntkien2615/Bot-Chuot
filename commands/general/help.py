@@ -29,7 +29,7 @@ class SelectDropdown(discord.ui.Select):
     async def callback(self,interaction: discord.Interaction):
         if self.values[0] == "1":
             select_embed = discord.Embed(title='BOT INFO',
-                                         description=self.file_read("./txt_files/help/help0.txt",1),
+                                         description=self.file_read("./txt_files/help/help1.txt",1),
                                          color=discord.Color.random())
             select_embed.add_field(name='Sơ yếu lí lịch về bot',value=self.file_read("./txt_files/help/help1",1),inline=False)
             select_embed.add_field(name='Thông tin về chủ bot',value=self.file_read("./txt_files_help/help2",2), inline=False)
