@@ -31,38 +31,40 @@ class DropdownMenu(discord.ui.View):  # Consistent naming
         super().__init__()  # Timeout not needed
         self.add_item(SelectDropdown())
 
-def file_read(self, file_path, line_number):
-  try:
-    with open(file_path, "r") as f:
-      lines = f.readlines()
-      return lines[line_number - 1].strip()
-  except (IndexError, FileNotFoundError) as e:
-    return None
+
 
 class HelpCog(commands.Cog):  # Correct PascalCase
     def __init__(self, bot):
         self.bot = bot
+    
+    def file_read(self, file_path, line_number):
+        try:
+            with open(file_path, "r") as f:
+                lines = f.readlines()
+            return lines[line_number - 1].strip()
+        except (IndexError, FileNotFoundError) as e:
+            return None
 
     @app_commands.command(name='help', description='trợ giúp')
     async def menu(self, interaction: discord.Interaction):
         view = DropdownMenu()
-        description= file_read("./txt_files/help/help0.txt",1)
+        description= self.file_read("./txt_files/help/help0.txt",1)
         embed_msg = discord.Embed(title="HELP COMMAND",
                                   description=description,
                                   color=discord.Color.random())
         embed_msg.set_thumbnail(
             url='https://images-ext-1.discordapp.net/external/4l1sSRH8ZyOAWjLY9KyMefCCwzKQqbQdZp5-FHo3pKg/%3Fsize%3D1024/https/cdn.discordapp.com/avatars/104272908108.png?format=webp&quality=lossless&width=676&height=676')
-        muc1 = file_read("./txt_files/help/help0.txt",2)
+        muc1 = self.file_read("./txt_files/help/help0.txt",2)
         embed_msg.add_field(name="BOT ĐÃ CHUYỂN NHÀ", value=muc1, inline=False)
-        muc3 = file_read("./txt_files/help/help0.txt",3)
+        muc3 = self.file_read("./txt_files/help/help0.txt",3)
         embed_msg.add_field(name="Thay đổi và những khắc phục",
                             value=muc3, inline=False)
-        muc2 =file_read("./txt_files/help/help0.txt",4)
+        muc2 = self.file_read("./txt_files/help/help0.txt",4)
         embed_msg.add_field(name="Tu bi con tìn niu...",
                             value=muc2, inline=False)
-        muc4 = file_read("./txt_files/help/help0.txt",5)
+        muc4 = self.file_read("./txt_files/help/help0.txt",5)
         embed_msg.add_field(name="Bắt đầu", value= muc4, inline=False)
-        hinhnen = file_read("./txt_files/help/help0.txt",6)
+        hinhnen = self.file_read("./txt_files/help/help0.txt",6)
         embed_msg.add_field(name="Hình nền", value=hinhnen, inline=False)
         embed_msg.set_image(
             url='https://images7.alphacoders.com/134/1347439.jpeg')
