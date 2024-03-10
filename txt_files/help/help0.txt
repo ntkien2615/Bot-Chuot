@@ -1,0 +1,6 @@
+Xin chào, bot đã comeback. Và đây là help command, nếu bạn đọc được cái này, bạn đã giải tỏa căng thẳng cho thằng dev xàm lờ
+Sau nhiều lần di chuyển, bot đã đặt chân tại render.com. Hy vọng sẽ duy trì đủ lâu
+Bot đã đang và sẽ có sự thay đổi trong các lệnh và khắc phục những lỗi do code đã được sử dụng trong replit, trong tương lai anh coder này sẽ tối ưu bot nhiều hơn giúp hiệu quả bot được nâng cao
+Bot sẽ liên tục cập nhật những tính năng nên cứ đợi đi, bên này mượt hơn và ít ping hơn nên dễ làm việc, và cảm ơn vì đã đợi :3
+Help commands sẽ bắt đầu code ngay từ bây giờ
+Cái hình để chưng bên dưới sẽ ghi nguồn sau
