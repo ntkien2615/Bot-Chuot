@@ -17,23 +17,38 @@ class SelectDropdown(discord.ui.Select):
         ]
         super().__init__(placeholder="Chọn một lựa chọn đi",
                          max_values=1, min_values=1, options=options)
+    
+    def file_read(self, file_path, line_number):
+        try:
+            with open(file_path, "r") as f:
+                lines = f.readlines()
+            return lines[line_number - 1].strip()
+        except (IndexError, FileNotFoundError) as e:
+            return None
 
     async def callback(self,interaction: discord.Interaction):
         if self.values[0] == "1":
             select_embed = discord.Embed(title='BOT INFO',
-                                         description='Bot được phát triển bởi 1 người với mục đích mua vui là chính và phát triển kĩ năng.',
+                                         description=self.file_read("./txt_files/help/help0.txt",1),
                                          color=discord.Color.random())
+            select_embed.add_field(name='Sơ yếu lí lịch về bot',value=self.file_read("./txt_files/help/help1",1),inline=False)
+            select_embed.add_field(name='Thông tin về chủ bot',value=self.file_read("./txt_files_help/help2",2), inline=False)
+            select_embed.add_field(name='',value=self.file_read("./txt_files/help/help1.txt",3),inline=False)
+            select_embed.add_field(name='',value=self.file_read("./txt_files/help/help1.txt",4),inline=False)
+            select_embed.add_field(name='Lịch sử của Chuột',value=self.file_read("./txt_files/help/help1.txt",5),inline=False)
+            select_embed.add_field(name='Tương lai',value=self.file_read("./txt_files/help/help1.txt",6),inline=False)
+            select_embed.add_field(name='Thông tin về Coder (chắc chưa phải gọi là Dev đâu)',value=self.file_read("./txt_files/help/help1.txt",7),inline=False)
             select_embed.set_image(url='https://images.alphacoders.com/135/1353722.jpeg')
             await interaction.response.edit_message(embed=select_embed)
 
-class DropdownMenu(discord.ui.View):  # Consistent naming
+class DropdownMenu(discord.ui.View): 
     def __init__(self):
-        super().__init__()  # Timeout not needed
+        super().__init__() 
         self.add_item(SelectDropdown())
 
 
 
-class HelpCog(commands.Cog):  # Correct PascalCase
+class HelpCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
