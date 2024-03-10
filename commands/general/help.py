@@ -53,17 +53,17 @@ class HelpCog(commands.Cog):  # Correct PascalCase
                                   color=discord.Color.random())
         embed_msg.set_thumbnail(
             url='https://images-ext-1.discordapp.net/external/4l1sSRH8ZyOAWjLY9KyMefCCwzKQqbQdZp5-FHo3pKg/%3Fsize%3D1024/https/cdn.discordapp.com/avatars/104272908108.png?format=webp&quality=lossless&width=676&height=676')
-        muc1 = 'Sau nhiều lần di chuyển, bot đã đặt chân tại render.com. Hy vọng sẽ duy trì đủ lâu'
+        muc1 = file_read("./Bot-chuot/txt_files/help0.txt",2)
         embed_msg.add_field(name="BOT ĐÃ CHUYỂN NHÀ", value=muc1, inline=False)
-        muc3 = 'Bot đã đang và sẽ có sự thay đổi trong các lệnh và khắc phục những lỗi do code đã được sử dụng trong replit, trong tương lai anh coder này sẽ tối ưu bot nhiều hơn giúp hiệu quả bot được nâng cao'
+        muc3 = file_read("./Bot-chuot/txt_files/help0.txt",3)
         embed_msg.add_field(name="Thay đổi và những khắc phục",
                             value=muc3, inline=False)
-        muc2 = 'Bot sẽ liên tục cập nhật những tính năng nên cứ đợi đi, bên này mượt hơn và ít ping hơn nên dễ làm việc, và cảm ơn vì đã đợi :3'
+        muc2 =file_read("./Bot-chuot/txt_files/help0.txt",4)
         embed_msg.add_field(name="Tu bi con tìn niu...",
                             value=muc2, inline=False)
-        muc4 = 'Help commands sẽ bắt đầu code ngay từ bây giờ'
+        muc4 = file_read("./Bot-chuot/txt_files/help0.txt",5)
         embed_msg.add_field(name="Bắt đầu", value= muc4, inline=False)
-        hinhnen = 'Cái hình để chưng bên dưới sẽ ghi nguồn sau'
+        hinhnen = file_read("./Bot-chuot/txt_files/help0.txt",6)
         embed_msg.add_field(name="Hình nền", value=hinhnen, inline=False)
         embed_msg.set_image(
             url='https://images7.alphacoders.com/134/1347439.jpeg')
