@@ -41,7 +41,7 @@ class HelpCog(commands.Cog):  # Correct PascalCase
         with open(file_name, "r") as f:
             for i, line in enumerate(f):
                 if i == line - 1:
-                    print(line)
+                    line = line
                     break
 
     @app_commands.command(name='help', description='trợ giúp')
