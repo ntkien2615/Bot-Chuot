@@ -31,13 +31,13 @@ class SelectDropdown(discord.ui.Select):
             select_embed = discord.Embed(title='BOT INFO',
                                          description=self.file_read("./txt_files/help/help1.txt",1),
                                          color=discord.Color.random())
-            select_embed.add_field(name='Sơ yếu lí lịch về bot',value=self.file_read("./txt_files/help/help1",1),inline=False)
-            select_embed.add_field(name='Thông tin về chủ bot',value=self.file_read("./txt_files_help/help2",2), inline=False)
-            select_embed.add_field(name='',value=self.file_read("./txt_files/help/help1.txt",3),inline=False)
+            select_embed.add_field(name='Sơ yếu lí lịch về bot',value=self.file_read("./txt_files/help/help1.txt",2),inline=False)
+            select_embed.add_field(name='Thông tin về chủ bot',value=self.file_read("./txt_files_help/help1.txt",3), inline=False)
             select_embed.add_field(name='',value=self.file_read("./txt_files/help/help1.txt",4),inline=False)
-            select_embed.add_field(name='Lịch sử của Chuột',value=self.file_read("./txt_files/help/help1.txt",5),inline=False)
-            select_embed.add_field(name='Tương lai',value=self.file_read("./txt_files/help/help1.txt",6),inline=False)
-            select_embed.add_field(name='Thông tin về Coder (chắc chưa phải gọi là Dev đâu)',value=self.file_read("./txt_files/help/help1.txt",7),inline=False)
+            select_embed.add_field(name='',value=self.file_read("./txt_files/help/help1.txt",5),inline=False)
+            select_embed.add_field(name='Lịch sử của Chuột',value=self.file_read("./txt_files/help/help1.txt",6),inline=False)
+            select_embed.add_field(name='Tương lai',value=self.file_read("./txt_files/help/help1.txt",7),inline=False)
+            select_embed.add_field(name='Thông tin về Coder (chắc chưa phải gọi là Dev đâu)',value=self.file_read("./txt_files/help/help1.txt",8),inline=False)
             select_embed.set_image(url='https://images.alphacoders.com/135/1353722.jpeg')
             await interaction.response.edit_message(embed=select_embed)
 
