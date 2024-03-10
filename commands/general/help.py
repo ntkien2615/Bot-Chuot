@@ -26,26 +26,24 @@ class SelectDropdown(discord.ui.Select):
             select_embed.set_image(url='https://images.alphacoders.com/135/1353722.jpeg')
             await interaction.response.edit_message(embed=select_embed)
 
-
 class DropdownMenu(discord.ui.View):  # Consistent naming
     def __init__(self):
         super().__init__()  # Timeout not needed
         self.add_item(SelectDropdown())
 
+def file_read(self, file_path, line_number):
+  try:
+    with open(file_path, "r") as f:
+      lines = f.readlines()
+      return lines[line_number - 1].strip()
+  except (IndexError, FileNotFoundError) as e:
+    return None
 
 class HelpCog(commands.Cog):  # Correct PascalCase
     def __init__(self, bot):
         self.bot = bot
 
     @app_commands.command(name='help', description='trợ giúp')
-    def file_read(file_path, line_number):
-        try:
-            with open(file_path, "r") as f:
-                lines = f.readlines()
-            return lines[line_number - 1].strip()
-        except IndexError:
-            raise IndexError(f"Line number {line_number} is out of bounds for file {file_path}")
-
     async def menu(self, interaction: discord.Interaction):
         view = DropdownMenu()
         description= file_read("./txt_files/help/help0.txt",1)
