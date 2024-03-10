@@ -37,12 +37,19 @@ class HelpCog(commands.Cog):  # Correct PascalCase
     def __init__(self, bot):
         self.bot = bot
 
+    def file_read(file_name, line):
+        with open(file_name, "r") as f:
+            for i, line in enumerate(f):
+                if i == line - 1:
+                    print(line)
+                    break
+
     @app_commands.command(name='help', description='trợ giúp')
     async def menu(self, interaction: discord.Interaction):
         view = DropdownMenu()
 
         embed_msg = discord.Embed(title="HELP COMMAND",
-                                  description="Xin chào, bot đã comeback. Và đây là help command, nếu bạn đọc được cái này, bạn đã giải tỏa căng thẳng cho thằng dev xàm lờ",
+                                  description=file_read("./Bot-chuot/txt_files/help0.txt",1),
                                   color=discord.Color.random())
         embed_msg.set_thumbnail(
             url='https://images-ext-1.discordapp.net/external/4l1sSRH8ZyOAWjLY9KyMefCCwzKQqbQdZp5-FHo3pKg/%3Fsize%3D1024/https/cdn.discordapp.com/avatars/104272908108.png?format=webp&quality=lossless&width=676&height=676')
