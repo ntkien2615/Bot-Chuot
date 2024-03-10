@@ -43,6 +43,7 @@ class HelpCog(commands.Cog):  # Correct PascalCase
                 if i == line - 1:
                     line = line
                     break
+        return line
 
     @app_commands.command(name='help', description='trợ giúp')
     async def menu(self, interaction: discord.Interaction):
