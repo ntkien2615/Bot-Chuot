@@ -73,10 +73,10 @@ class SelectDropdown(discord.ui.Select):
             select_embed_3.set_image(url='https://images3.alphacoders.com/125/1254519.jpg')
             await interaction.response.edit_message(embed=select_embed_3)        
         elif self.values[0] == "4":
-            select_embed_4 = discord.Embed(title="Những người tạo ra bot",value=self.file_read('./txt_files/help/help3.txt',1), inline=True)
-            select_embed_4.add_field(name='k3v15l3v13tc05g(Cáo)', value=self.file_read('./txt_files/help/help3.txt',2),inline=False)
-            select_embed_4.add_field(name='Chuột', value=self.file_read('./txt_files/help/help3.txt',3),inline=False)
-            select_embed_4.add_field(name='Kyen', value=self.file_read('./txt_files/help/help3.txt',4),inline=False)
+            select_embed_4 = discord.Embed(title="Những người tạo ra bot",value=self.file_read('./txt_files/help/help4.txt',1), inline=True)
+            select_embed_4.add_field(name='k3v15l3v13tc05g(Cáo)', value=self.file_read('./txt_files/help/help4.txt',2),inline=False)
+            select_embed_4.add_field(name='Chuột', value=self.file_read('./txt_files/help/help4.txt',3),inline=False)
+            select_embed_4.add_field(name='Kyen', value=self.file_read('./txt_files/help/help4.txt',4),inline=False)
             select_embed_4.set_image(url='https://images-ext-2.discordapp.net/external/CgWKNYMqM2H_Q8rel9vzchKdh75oJzykfgId8tssbdQ/https/media.tenor.com/-q5sc5HU_SgAAAPo/the-goats-yes-king.mp4')
 class DropdownMenu(discord.ui.View): 
     def __init__(self):
