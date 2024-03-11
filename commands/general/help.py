@@ -73,7 +73,7 @@ class SelectDropdown(discord.ui.Select):
             select_embed_3.set_image(url='https://images3.alphacoders.com/125/1254519.jpg')
             await interaction.response.edit_message(embed=select_embed_3)        
         elif self.values[0] == "4":
-            select_embed_4 = discord.Embed(title="Những người tạo ra bot",value=self.file_read('./txt_files/help/help4.txt',1), color=discord.Color.random())
+            select_embed_4 = discord.Embed(title="Những người tạo ra bot",description=self.file_read('./txt_files/help/help4.txt',1), color=discord.Color.random())
             select_embed_4.add_field(name='k3v15l3v13tc05g(Cáo)', value=self.file_read('./txt_files/help/help4.txt',2),inline=False)
             select_embed_4.add_field(name='Chuột', value=self.file_read('./txt_files/help/help4.txt',3),inline=False)
             select_embed_4.add_field(name='Kyen', value=self.file_read('./txt_files/help/help4.txt',4),inline=False)
