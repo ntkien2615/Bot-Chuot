@@ -47,7 +47,7 @@ class SelectDropdown(discord.ui.Select):
             description=self.file_read("./txt_files/help/help2.txt",1),
             color= discord.Color.random())
             select_embed_2.add_field(name= 'Prefix',value='Bot dùng dấu cộng (+) để thực hiện', inline= False)
-            select_embed_2.add_field(name='Các lệnh',value= None, inline=False)
+            select_embed_2.add_field(name='Các lệnh',value='', inline=False)
             select_embed_2.add_field(name='', value=self.file_read('./txt_files/help/help2.txt',2),inline=False)
             select_embed_2.add_field(name='', value=self.file_read('./txt_files/help/help2.txt',3),inline=False)
             select_embed_2.add_field(name='', value=self.file_read('./txt_files/help/help2.txt',4),inline=False)
