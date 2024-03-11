@@ -28,21 +28,32 @@ class SelectDropdown(discord.ui.Select):
 
     async def callback(self,interaction: discord.Interaction):
         if self.values[0] == "1":
-            select_embed = discord.Embed(title='BOT INFO',
+            select_embed_1 = discord.Embed(title='BOT INFO',
                                          description=self.file_read("./txt_files/help/help1.txt",1),
                                          color=discord.Color.random())
-            select_embed.add_field(name='Sơ yếu lí lịch về bot',value='',inline=False)
-            select_embed.add_field(name='',value=self.file_read("./txt_files/help/help1.txt",2),inline=False)
-            select_embed.add_field(name='Thông tin về chủ bot',value='', inline=False)
-            select_embed.add_field(name='',value=self.file_read("./txt_files/help/help1.txt",3),inline=False)
-            select_embed.add_field(name='',value=self.file_read("./txt_files/help/help1.txt",4),inline=False)
-            select_embed.add_field(name='',value=self.file_read("./txt_files/help/help1.txt",5),inline=False)
-            select_embed.add_field(name='Lịch sử của Chuột',value=self.file_read("./txt_files/help/help1.txt",6),inline=False)
-            select_embed.add_field(name='Tương lai',value=self.file_read("./txt_files/help/help1.txt",7),inline=False)
-            select_embed.add_field(name='Thông tin về Coder (chắc chưa phải gọi là Dev đâu)',value=self.file_read("./txt_files/help/help1.txt",8),inline=False)
-            select_embed.set_image(url='https://images.alphacoders.com/135/1353722.jpeg')
-            await interaction.response.edit_message(embed=select_embed)
-
+            select_embed_1.add_field(name='Sơ yếu lí lịch về bot',value='',inline=False)
+            select_embed_1.add_field(name='',value=self.file_read("./txt_files/help/help1.txt",2),inline=False)
+            select_embed_1.add_field(name='Thông tin về chủ bot',value='', inline=False)
+            select_embed_1.add_field(name='',value=self.file_read("./txt_files/help/help1.txt",3),inline=False)
+            select_embed_1.add_field(name='',value=self.file_read("./txt_files/help/help1.txt",4),inline=False)
+            select_embed_1.add_field(name='',value=self.file_read("./txt_files/help/help1.txt",5),inline=False)
+            select_embed_1.add_field(name='Lịch sử của Chuột',value=self.file_read("./txt_files/help/help1.txt",6),inline=False)
+            select_embed_1.add_field(name='Chúng ta của tương lai',value=self.file_read("./txt_files/help/help1.txt",7),inline=False)
+            select_embed_1.add_field(name='Thông tin về Coder (chắc chưa phải gọi là Dev đâu)',value=self.file_read("./txt_files/help/help1.txt",8),inline=False)
+            select_embed_1.set_image(url='https://images.alphacoders.com/135/1353722.jpeg')
+            await interaction.response.edit_message(embed=select_embed_1)
+        elif self.values[0] == "2":
+            select_embed_2 = discord.Embed(title="Các lệnh nonslash",
+            description=self.file_read("./txt_files/help/help2.txt",1),
+            color= discord.Color.random())
+            select_embed_2.add_field(name= 'Prefix',value='Bot dùng dấu cộng (+) để thực hiện', inline= False)
+            select_embed_2.add_field(name='Các lệnh',value= None, inline=False)
+            select_embed_2.add_field(name='', value=self.file_read('./txt_files/help/help2.txt',2),inline=False)
+            select_embed_2.add_field(name='', value=self.file_read('./txt_files/help/help2.txt',3),inline=False)
+            select_embed_2.add_field(name='', value=self.file_read('./txt_files/help/help2.txt',4),inline=False)
+            select_embed_2.add_field(name='', value=self.file_read('./txt_files/help/help2.txt',5),inline=False)
+            select_embed_2.set_image(url='https://i.pinimg.com/736x/33/db/52/33db52085d5eb336a6057b1f6750c12f.jpg')
+            await interaction.response.edit_message(embed=select_embed_2)
 class DropdownMenu(discord.ui.View): 
     def __init__(self):
         super().__init__() 
