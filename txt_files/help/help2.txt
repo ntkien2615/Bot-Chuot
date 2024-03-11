@@ -1,0 +1,5 @@
+Các lệnh nonslash là tàn dư của thời kỳ đầu khi bot còn sơ khai và chưa có lệnh slash
+codejoke: joke về code (bản tiếng anh)
+im: chỉ người khác phải im
+kill: "kill" người khác
+wibi: chọc thằng nào đó là wibi
