@@ -4,7 +4,7 @@ Avatar: lấy avt của bản thân hoặc người khác (khuyến khích nên 
 Help: là cái lệnh bạn đang dùng lmfao 
 Ping: Ping thử bot chết chưa, kiểm tra độ trễ của bot 
 Thì nó để giải trí thôi như minigame chẳng hạn :3 
-Dice: tung xúc xắc
-Rate: đánh giá một ai đó (đừng tin vào cái này)
-RPS: Kéo búa bao với máy (sẽ có đối với người trong tương lai)
-Search: Tìm kiếm một hình ảnh trên mạng (giới hạn 100 lần một ngày lol)
+Dice: tung xúc xắc 
+Rate: đánh giá một ai đó (đừng tin vào cái này) 
+RPS: Kéo búa bao với máy (sẽ có đối với người trong tương lai) 
+Search: Tìm kiếm một hình ảnh trên mạng (giới hạn 100 lần một ngày lol) 

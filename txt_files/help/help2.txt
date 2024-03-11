@@ -1,5 +1,7 @@
-Các lệnh nonslash là tàn dư của thời kỳ đầu khi bot còn sơ khai và chưa có lệnh slash
-codejoke : joke về code (bản tiếng anh)
-im @<tên người dùng>: chỉ người khác phải im
-kill @<tên người dùng>: "kill" người khác
-wibi @<tên người dùng>: chọc thằng nào đó là wibi
+Các lệnh nonslash là tàn dư của thời kỳ đầu khi bot còn sơ khai và chưa có lệnh slash 
+codejoke : joke về code (bản tiếng anh)  
+im @<tên người dùng>: chỉ người khác phải im 
+kill @<tên người dùng>: "kill" người khác 
+wibi @<tên người dùng>: chọc thằng nào đó là wibi 
+dice <2,4,8,12,20> tung xúc xắc 
+conflip: tung mặt đồng xu 

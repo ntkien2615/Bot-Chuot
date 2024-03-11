@@ -12,7 +12,7 @@ class SelectDropdown(discord.ui.Select):
                                  description="Các lệnh non-slash"),
             discord.SelectOption(label="Lệnh slash",value="3", emoji='🐀',
                                  description="Các lệnh slash"),
-            discord.SelectOption(label="Cảm ơn",value="4", emoji='💖',
+            discord.SelectOption(label="Về những người làm nên hôm nay",value="4", emoji='💖',
                                  description="Cảm ơn những người hỗ trợ dev"),
         ]
         super().__init__(placeholder="Chọn một lựa chọn đi",
@@ -71,7 +71,13 @@ class SelectDropdown(discord.ui.Select):
             select_embed_3.add_field(name='Lệnh chưa phân loại', value='',inline=False)
             select_embed_3.add_field(name='', value=self.file_read('./txt_files/help/help3.txt',10),inline=False)
             select_embed_3.set_image(url='https://images3.alphacoders.com/125/1254519.jpg')
-            await interaction.response.edit_message(embed=select_embed_3)
+            await interaction.response.edit_message(embed=select_embed_3)        
+        elif self.values[0] == "4":
+            select_embed_4 = discord.Embed(title="Những người tạo ra bot",value=self.file_read('./txt_files/help/help3.txt',1), inline=True)
+            select_embed_4.add_field(name='k3v15l3v13tc05g(Cáo)', value=self.file_read('./txt_files/help/help3.txt',2),inline=False)
+            select_embed_4.add_field(name='Chuột', value=self.file_read('./txt_files/help/help3.txt',3),inline=False)
+            select_embed_4.add_field(name='Kyen', value=self.file_read('./txt_files/help/help3.txt',4),inline=False)
+            select_embed_4.set_image(url='https://images-ext-2.discordapp.net/external/CgWKNYMqM2H_Q8rel9vzchKdh75oJzykfgId8tssbdQ/https/media.tenor.com/-q5sc5HU_SgAAAPo/the-goats-yes-king.mp4')
 class DropdownMenu(discord.ui.View): 
     def __init__(self):
         super().__init__() 
@@ -109,7 +115,7 @@ class HelpCog(commands.Cog):
         embed_msg.add_field(name="Tu bi con tìn niu...",
                             value=muc2, inline=False)
         muc4 = self.file_read("./txt_files/help/help0.txt",5)
-        embed_msg.add_field(name="Bắt đầu", value= muc4, inline=False)
+        embed_msg.add_field(name="Hoàn thành", value= muc4, inline=False)
         hinhnen = self.file_read("./txt_files/help/help0.txt",6)
         embed_msg.add_field(name="Hình nền", value=hinhnen, inline=False)
         embed_msg.set_image(
