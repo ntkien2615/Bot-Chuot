@@ -41,6 +41,8 @@ class SelectDropdown(discord.ui.Select):
             select_embed_1.add_field(name='Chúng ta của tương lai',value=self.file_read("./txt_files/help/help1.txt",7),inline=False)
             select_embed_1.add_field(name='Thông tin về Coder (chắc chưa phải gọi là Dev đâu)',value=self.file_read("./txt_files/help/help1.txt",8),inline=False)
             select_embed_1.set_image(url='https://images.alphacoders.com/135/1353722.jpeg')
+            select_embed_1.set_footer(text=f"Requested by {interaction.user}",
+                             icon_url=interaction.user.avatar)
             await interaction.response.edit_message(embed=select_embed_1)
         elif self.values[0] == "2":
             select_embed_2 = discord.Embed(title="Các lệnh nonslash",
@@ -55,6 +57,8 @@ class SelectDropdown(discord.ui.Select):
             select_embed_2.add_field(name='', value=self.file_read('./txt_files/help/help2.txt',6),inline=False)
             select_embed_2.add_field(name='', value=self.file_read('./txt_files/help/help2.txt',7),inline=False)
             select_embed_2.set_image(url='https://i.pinimg.com/736x/33/db/52/33db52085d5eb336a6057b1f6750c12f.jpg')
+            select_embed_2.set_footer(text=f"Requested by {interaction.user}",
+                             icon_url=interaction.user.avatar)
             await interaction.response.edit_message(embed=select_embed_2)
         elif self.values[0] == "3":
             select_embed_3 = discord.Embed(title="Các lệnh Slash",
@@ -71,6 +75,8 @@ class SelectDropdown(discord.ui.Select):
             select_embed_3.add_field(name='Lệnh chưa phân loại', value='',inline=False)
             select_embed_3.add_field(name='', value=self.file_read('./txt_files/help/help3.txt',10),inline=False)
             select_embed_3.set_image(url='https://images3.alphacoders.com/125/1254519.jpg')
+            select_embed_3.set_footer(text=f"Requested by {interaction.user}",
+                             icon_url=interaction.user.avatar)
             await interaction.response.edit_message(embed=select_embed_3)        
         elif self.values[0] == "4":
             select_embed_4 = discord.Embed(title="Những người tạo ra bot",description=self.file_read('./txt_files/help/help4.txt',1), color=discord.Color.random())
@@ -78,6 +84,8 @@ class SelectDropdown(discord.ui.Select):
             select_embed_4.add_field(name='Chuột', value=self.file_read('./txt_files/help/help4.txt',3),inline=False)
             select_embed_4.add_field(name='Kyen', value=self.file_read('./txt_files/help/help4.txt',4),inline=False)
             select_embed_4.set_image(url='https://images-ext-2.discordapp.net/external/CgWKNYMqM2H_Q8rel9vzchKdh75oJzykfgId8tssbdQ/https/media.tenor.com/-q5sc5HU_SgAAAPo/the-goats-yes-king.mp4')
+            select_embed_4.set_footer(text=f"Requested by {interaction.user}",
+                             icon_url=interaction.user.avatar)
             await interaction.response.edit_message(embed=select_embed_4)
 class DropdownMenu(discord.ui.View): 
     def __init__(self):
@@ -125,8 +133,8 @@ class HelpCog(commands.Cog):
                              icon_url=interaction.user.avatar)
 
         await interaction.response.send_message(
-            embed=embed_msg, view=view)  # Pass the view object
+            embed=embed_msg, view=view)
 
 
 async def setup(bot):
-    await bot.add_cog(HelpCog(bot))  # Use updated class name
+    await bot.add_cog(HelpCog(bot))
