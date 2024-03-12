@@ -17,7 +17,7 @@ class actvity(commands.Cog):
             "🎵 Nụ cười em trên môi thay cho nỗi đau anh nơi này 🎵",
             "🎵 Màu trời em xanh mãi mỗi anh là mù mây 🎵",
             "🎵 Cứ như vậy đi 🎵",
-            "🎵 Sóng đâu cản được gió mang thuyền xa... 🎵"
+            "🎵 Sóng đâu cản được gió mang thuyền xa 🗣️🗣️🗣️🗣️🗣️ 🎵"
         ])
 
     @tasks.loop(seconds=5.0)
