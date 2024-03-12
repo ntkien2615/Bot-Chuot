@@ -46,7 +46,6 @@ async def load():
         if filename.endswith('.py'):
             await bot.load_extension(f'message.{filename[:-3]}')
 
-
 async def main():
     await load()
     token = open("./secret/token.txt", "r")
