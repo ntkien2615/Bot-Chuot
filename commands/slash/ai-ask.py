@@ -31,7 +31,7 @@ class AiAsk(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    @app_commands.command(name="AIask",description="Hỏi người máy")
+    @app_commands.command(name="aiask",description="Hỏi người máy")
     @app_commands.describe(search='bạn hỏi cái gì')
     async def AiAsk(self, interaction:discord.Interaction, search:str):
         response = model.generate_content(prompt)
