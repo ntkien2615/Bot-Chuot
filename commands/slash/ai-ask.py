@@ -36,5 +36,6 @@ class AiAsk(commands.Cog):
     async def aiask(self, interaction:discord.Interaction, question:str):
       response = await model.generate_content(question)
       await interaction.response.send_message(response.text)
+
 def setup(bot):
     bot.add_cog(AiAsk(bot))
