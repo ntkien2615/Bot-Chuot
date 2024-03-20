@@ -32,7 +32,7 @@ class AiAsk(commands.Cog):
         self.bot = bot
     
     @app_commands.command(name="aiask",description="Hỏi người máy")
-    @app_commands.describe(search='bạn hỏi cái gì')
+    @app_commands.describe(question='bạn hỏi cái gì')
     async def AiAsk(self, interaction:discord.Interaction, question:str):
         response = model.generate_content(question)
         await interaction.response.send_message(response.text)
