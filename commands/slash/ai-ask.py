@@ -31,14 +31,16 @@ class aiask(commands.Cog):
     @app_commands.command(name='aiask', description='Hỏi AI')
     @app_commands.describe(question='bạn hỏi cái gì')
     async def aiask(self, interaction:discord.Interaction, question:str):
-      
-      ai_key = open('./secret/ai_api_key.txt',"r")
-      ai_key = ai_key.read()
-      genai.configure(api_key=ai_key)
+      try:
+        #ai_key = open('./secret/ai_api_key.txt',"r")
+        #ai_key = ai_key.read()
+        genai.configure(api_key="AIzaSyBGNNWVKA27-Trq2tuK7IGPFqFwqZP8PeQ")
 
-      reply = model.generate_content(f"{question}")
-      reply = reply.text
-      await interaction.response.send_message(f"{reply}")
+        reply == model.generate_content(f"{question}")
+        reply == reply.text
+        await interaction.response.send_message(f"{reply}")
+      except Exception as e:
+            print(e)
 
 def setup(bot):
     bot.add_cog(aiask(bot))
