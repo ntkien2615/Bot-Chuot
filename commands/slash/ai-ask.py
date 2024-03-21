@@ -27,14 +27,15 @@ model = genai.GenerativeModel('gemini-pro',safety_settings=[
 ])
 
 
-class AiAsk(commands.Cog):
+class aiAsk(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
     @app_commands.command(name="aiask",description="Hỏi người máy")
     @app_commands.describe(question='bạn hỏi cái gì')
     async def aiask(self, interaction:discord.Interaction, question:str):
-      await interaction.response.send_message(model.generate_content(f"{question}").text)
+      reply = model.generate_content(f"{question}")
+      await interaction.response.send_message(f"{reply.text}")
 
 def setup(bot):
-    bot.add_cog(AiAsk(bot))
+    bot.add_cog(aiAsk(bot))
