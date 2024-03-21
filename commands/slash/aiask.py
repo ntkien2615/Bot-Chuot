@@ -20,9 +20,8 @@ class aiask(commands.Cog):
     @app_commands.describe(question='bạn hỏi cái gì')
     async def aiask(self, interaction:discord.Interaction, question:str):
       try:       
-        reply = model.generate_content(f"{question}")
-        reply = reply.text
-        await interaction.response.send_message(f"{reply}")
+        reply = model.generate_content(question)
+        await interaction.response.send_message(reply.text)
       except Exception as e:
             print(e)
 
