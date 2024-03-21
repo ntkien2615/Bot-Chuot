@@ -18,12 +18,9 @@ class aiask(commands.Cog):
     
     @app_commands.command(name='aiask', description='Hỏi AI')
     @app_commands.describe(question='bạn hỏi cái gì')
-    async def aiask(self, interaction:discord.Interaction, question:str):
-      try:       
-        reply = model.generate_content(question)
-        await interaction.response.send_message(reply.text)
-      except Exception as e:
-            print(e)
+    async def aiask(self, interaction:discord.Interaction, question:str):      
+      reply = model.generate_content(question)
+      await interaction.response.send_message(reply.text)
 
 async def setup(bot):
   await bot.add_cog(aiask(bot))
