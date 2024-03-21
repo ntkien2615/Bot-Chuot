@@ -29,4 +29,4 @@ class aiask(commands.Cog):
             print(e)
 
 async def setup(bot):
-    bot.add_cog(aiask(bot))
+  await bot.add_cog(aiask(bot))
