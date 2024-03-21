@@ -22,9 +22,7 @@ class aiask(commands.Cog):
       try:       
         reply = model.generate_content(f"{question}")
         reply = reply.text
-        embed = discord.Embed(title="AI ASK", description=question, color=discord.Color.random())
-        embed.add_field(name="", value=f"{reply}", inline=False)
-        await interaction.response.send_message(embed=embed)
+        await interaction.response.send_message(f"{reply}")
       except Exception as e:
             print(e)
 
