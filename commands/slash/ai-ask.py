@@ -3,9 +3,6 @@ from discord.ext import commands
 import google.generativeai as genai
 from discord import app_commands
 
-ai_key = open('./secret/ai_api_key.txt',"r")
-ai_key = ai_key.read()
-genai.configure(api_key=ai_key)
 
 model = genai.GenerativeModel('gemini-pro',safety_settings=[
 {
@@ -34,6 +31,11 @@ class aiAsk(commands.Cog):
     @app_commands.command(name="aiask",description="Hỏi người máy")
     @app_commands.describe(question='bạn hỏi cái gì')
     async def aiask(self, interaction:discord.Interaction, question:str):
+      
+      ai_key = open('./secret/ai_api_key.txt',"r")
+      ai_key = ai_key.read()
+      genai.configure(api_key=ai_key)
+
       reply = model.generate_content(f"{question}")
       reply = reply.text
       await interaction.response.send_message(f"{reply}")
