@@ -20,7 +20,7 @@ class aiask(commands.Cog):
     @app_commands.describe(question='bạn hỏi cái gì')
     async def aiask(self, interaction:discord.Interaction, question:str):
       try:       
-        reply = model.generate_content(f"{question}")
+        reply = await model.generate_content(f"{question}")
         embed = discord.Embed(title="AI ASK", description=question, color=discord.Color.random())
         embed.add_field(name="", value=f"{reply}", inline=False)
         await interaction.response.send_message(embed=embed)
