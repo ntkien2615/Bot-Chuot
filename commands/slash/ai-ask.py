@@ -34,7 +34,7 @@ class AiAsk(commands.Cog):
     @app_commands.command(name="aiask",description="Hỏi người máy")
     @app_commands.describe(question='bạn hỏi cái gì')
     async def aiask(self, interaction:discord.Interaction, question:str):
-      await interaction.response.send_message(model.generate_content(question).text)
+      await interaction.response.send_message(model.generate_content(f"{question}").text)
 
 def setup(bot):
     bot.add_cog(AiAsk(bot))
