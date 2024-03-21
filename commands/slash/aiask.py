@@ -14,7 +14,7 @@ class aiask(commands.Cog):
         #ai_key = open('./secret/ai_api_key.txt',"r")
         #ai_key = ai_key.read()
         genai.configure(api_key="AIzaSyBGNNWVKA27-Trq2tuK7IGPFqFwqZP8PeQ")
-        model = genai.GenerativeModel('gemini-pro',safety_settings=[
+        model = genai.GenerativeModel('models/gemini-pro',safety_settings=[
           {
             "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
             "threshold": "BLOCK_NONE",
