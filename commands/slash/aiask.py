@@ -20,12 +20,12 @@ class aiask(commands.Cog):
     @app_commands.describe(question='bạn hỏi cái gì')
     async def aiask(self, interaction:discord.Interaction, question:str):
       try:       
-        reply = await model.generate_content(f"{question}")
+        reply = model.generate_content(f"{question}")
         embed = discord.Embed(title="AI ASK", description=question, color=discord.Color.random())
         embed.add_field(name="", value=f"{reply}", inline=False)
         await interaction.response.send_message(embed=embed)
       except Exception as e:
             print(e)
 
-def setup(bot):
+async def setup(bot):
     bot.add_cog(aiask(bot))
