@@ -50,6 +50,12 @@ class on_message(commands.Cog):
                 )
                 await self.bot.process_commands(message)
 
+        non = ['Non','non']
+        for nonword in non:
+            if nonword in message.content.lower():
+                await message.channel.send('Êu, có con gà non chưa kìa')
+                await self.bot.process_commands(message)
+
 
 async def setup(bot):
     await bot.add_cog(on_message(bot))
