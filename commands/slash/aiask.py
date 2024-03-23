@@ -20,7 +20,7 @@ class aiask(commands.Cog):
     @app_commands.describe(question='bạn hỏi cái gì')
     async def aiask(self, interaction:discord.Interaction, question:str):      
       reply = model.generate_content(question)
-      await interaction.response.send_message(reply.text)
+      await interaction.response.send_message(f'{reply.text}')
 
 async def setup(bot):
   await bot.add_cog(aiask(bot))
