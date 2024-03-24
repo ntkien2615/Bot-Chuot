@@ -56,10 +56,10 @@ class on_message(commands.Cog):
                 await message.channel.send('Êu, có con gà green chưa kìa')
                 await self.bot.process_commands(message)
         
-        bomspam = ['spam']
+        bomspam = ['y']
         for bomspamword in bomspam:
             if bomspamword in message.content.lower():
-                await message.channel.send('Đây là spam, bật chế độ hủy diệt')
+                await message.channel.send('aaaaaaaa')
                 await self.bot.process_commands(message)
 
 
