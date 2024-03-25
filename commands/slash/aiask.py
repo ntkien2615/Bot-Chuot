@@ -9,7 +9,7 @@ class aiask(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    @app_commands.command(name='aiask', description='Hỏi AI')
+    @app_commands.command(name='Aiask', description='Hỏi AI')
     @app_commands.describe(question='bạn hỏi cái gì')
     async def aiask(self, interaction:discord.Interaction, question:str):      
         if not question or len(question) > 200:
