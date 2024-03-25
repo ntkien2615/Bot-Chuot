@@ -4,15 +4,6 @@ import google.generativeai as genai
 from discord import app_commands
 from dotenv import load_dotenv, find_dotenv
 
-load_dotenv(find_dotenv())
-ai_api_key = os.getenv("ai_api_key")
-genai.configure(api_key=ai_api_key)
-model = genai.GenerativeModel('gemini-pro',safety_settings=[
-    {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
-    {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
-    {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
-    {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
-])
 
 class aiask(commands.Cog):
     def __init__(self, bot):
@@ -21,9 +12,20 @@ class aiask(commands.Cog):
     @app_commands.command(name='aiask', description='Hỏi AI')
     @app_commands.describe(question='bạn hỏi cái gì')
     async def aiask(self, interaction:discord.Interaction, question:str):      
-      if not question or len(question) > 200:
+        if not question or len(question) > 200:
             await interaction.response.send_message("Câu hỏi không hợp lệ.")
             return
+    
+    load_dotenv(find_dotenv())
+    ai_api_key = os.getenv("ai_api_key")
+    genai.configure(api_key=ai_api_key)
+    model = genai.GenerativeModel('gemini-pro',safety_settings=[
+        {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+        {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+        {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+        {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
+])
+
 
     try:
         reply = model.generate_content(question)
