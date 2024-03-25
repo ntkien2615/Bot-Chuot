@@ -32,5 +32,14 @@ class rd(commands.Cog):
   #   db.comit()
   #   cursor.close()
   #   db.close()
+
+  @commands.Cog.listener()
+  async def on_ready(self):
+    try:
+      synced = await self.bot.tree.sync()
+      print(f'{len(synced)}')
+    except Exception as e:
+      print(f'Lỗi: {e}')
+
 async def setup(bot):
   await bot.add_cog(rd(bot))
