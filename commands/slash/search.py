@@ -3,7 +3,7 @@ from discord.ext import commands
 from discord import app_commands
 import random
 from googleapiclient.discovery import build
-
+from dotenv import load_dotenv, find_dotenv
 
 class searchslash(commands.Cog):
 

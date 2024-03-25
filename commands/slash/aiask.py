@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import google.generativeai as genai
 from discord import app_commands
+from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 ai_api_key = os.getenv("ai_api_key")
