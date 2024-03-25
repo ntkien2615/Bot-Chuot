@@ -28,12 +28,13 @@ class aiask(commands.Cog):
 
         try:
             reply = model.generate_content(question)
+            reply.text
         except Exception as e:
             print(f"Lỗi khi gọi API: {e}")
             await interaction.response.send_message("Lỗi hệ thống. Vui lòng thử lại sau.")
             return
 
-        await interaction.response.send_message(f'{reply.text}')
+        await interaction.response.send_message(f'{reply}')
 
 async def setup(bot):
   await bot.add_cog(aiask(bot))
