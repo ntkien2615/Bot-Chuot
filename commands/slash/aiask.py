@@ -27,7 +27,7 @@ class aiask(commands.Cog):
         ])
 
         try:
-            reply = await model.generate_content(question)
+            reply = model.generate_content(question)
         except Exception as e:
             print(f"Lỗi khi gọi API: {e}")
             await interaction.response.send_message("Lỗi hệ thống. Vui lòng thử lại sau.")
