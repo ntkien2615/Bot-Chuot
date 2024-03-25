@@ -3,7 +3,7 @@ from discord.ext import commands
 import os
 import keep_alive
 import asyncio
-
+from dotenv import load_dotenv, find_dotenv
 keep_alive.awake(
     "https://bot-chuot.onrender.com",
     debug=False)
@@ -48,9 +48,9 @@ async def load():
 
 async def main():
     await load()
-    token = open("./secret/token.txt", "r")
-    token = token.read()
-    await bot.start(token)
+    load_dotenv(find_dotenv())
+    discord_token = os.getenv(discord_token)
+    await bot.start(discord_token)
 
 
 asyncio.run(main())
