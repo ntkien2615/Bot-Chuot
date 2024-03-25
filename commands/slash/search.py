@@ -13,7 +13,8 @@ class searchslash(commands.Cog):
     @app_commands.command(name='search', description='tìm ảnh trên mạng')
     @app_commands.describe(search='bạn search cái gì')
     async def search(self, interaction: discord.Interaction, search: str):
-        api_key = open('./secret/api_key.txt', 'r').read()
+        load_dotenv(find_dotenv())
+        api_key = os.getenv("search_api_key")
         ran = random.randint(0, 9)
         resource = build('customsearch', 'v1', developerKey=api_key).cse()
         result = resource.list(q=f"{search}",

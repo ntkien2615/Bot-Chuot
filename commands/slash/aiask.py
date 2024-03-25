@@ -3,8 +3,10 @@ from discord.ext import commands
 import google.generativeai as genai
 from discord import app_commands
 
-genai.configure(api_key="AIzaSyBGNNWVKA27-Trq2tuK7IGPFqFwqZP8PeQ")
-model = genai.GenerativeModel('models/gemini-pro',safety_settings=[
+load_dotenv(find_dotenv())
+ai_api_key = os.getenv("ai_api_key")
+genai.configure(api_key=ai_api_key)
+model = genai.GenerativeModel('gemini-pro',safety_settings=[
     {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
     {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
     {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
