@@ -50,7 +50,7 @@ async def load():
 async def main():
     await load()
     load_dotenv(find_dotenv())
-    discord_token = os.getenv(discord_token)
+    discord_token = os.getenv("discord_token")
     await bot.start(discord_token)
 
 
