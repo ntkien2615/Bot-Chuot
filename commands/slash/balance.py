@@ -12,11 +12,12 @@ class balance(commands.Cog):
         if member == None:
             member = interaction.user
         await open_acount(member)
-    
+        users = get_bank_data()
+        wallet = user[str(user.id)]["wallet"]
+        bank = user[str(user.id)]["bank"]
+        await interaction.response.send_message(f'{wallet} -- {bank}')
     async def open_acount(user):
-        with open("./balance/balance.json","r") as f:
-            users = json.load(f)
-
+        users = get_bank_data()
         if str(user.id) in users:
             return False
         else:
@@ -27,11 +28,9 @@ class balance(commands.Cog):
             json.dump(users,f)
 
         return True
-
-        
-
-        await interaction.response.send_message(f'{wallet} -- {bank}')
-        
+    async def get_bank_data():
+        with open("./balance/balance.json","r") as f:
+            users = json.load(f)
 async def setup(bot):
     await bot.add_cog(balance(bot))
 
