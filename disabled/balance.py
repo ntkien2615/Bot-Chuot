@@ -13,7 +13,7 @@ class balance(commands.Cog):
             member = interaction.user
 
         db = aiosqlite.connect("./db/eco.sqlite")
-        cursor = db.cursor()
+        cursor = self.db.cursor()
 
         
         cursor.execute(f'SELECT wallet,bank FROM eco WHERE user_id = {author.id}')

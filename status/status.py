@@ -16,7 +16,7 @@ class rd(commands.Cog):
       print(f'Lỗi: {e}')
       
     db = aiosqlite.connect("./db/main.sqlite")
-    cursor = db.cursor()
+    cursor = self.db.cursor()
     cursor.execute('CREATE TABLE IF NOT EXISTS main(user_id INTEGER, wallet INTEGER, bank INTEGER)')
 
   @commands.Cog.listener()
