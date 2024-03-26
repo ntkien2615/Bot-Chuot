@@ -12,9 +12,23 @@ class balance(commands.Cog):
         if member == None:
             member = interaction.user
 
-        db = aiosqlite.connect("./db/main.sqlite")
+        db = aiosqlite.connect("./db/eco.sqlite")
         cursor = db.cursor()
 
+        
+        cursor.execute(f'SELECT wallet,bank FROM eco WHERE user_id = {author.id}')
+        bal = cursor.fetchone()
+
+        try:
+            wallet = bal[0]
+            bank = bal[1]
+        except:
+            wallet = 0
+            bank   = 1
+
+        await interaction.response.send_message(f'{wallet} -- {bank}')
+        
+        
         cursor.execute()
 
 
