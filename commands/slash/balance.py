@@ -1,4 +1,4 @@
-import discord
+import discord, os
 from discord import app_commands
 from discord.ext import commands
 import json
@@ -36,12 +36,20 @@ class Balance(commands.Cog):  # Capitalize class name for consistency
         return True  # Account created successfully
 
     async def get_bank_data(self):
+        # Check if file exists
+        if not os.path.exists("./balance/balance.json"):
+            with open("./balance/balance.json", "w") as f:
+                json.dump({}, f)  # Create empty file
+
+        # Now proceed with reading the file
         try:
             with open("./balance/balance.json", "r") as f:
                 users = json.load(f)
             return users
-        except FileNotFoundError:  # Handle missing file gracefully
-            return {}  # Return empty dictionary if file doesn't exist
+        except FileNotFoundError:
+            return {}  # Shouldn't happen after creating the file
+        except json.JSONDecodeError:
+            return {}  # Handle invalid JSON data
 
 async def setup(bot):
     await bot.add_cog(Balance(bot))  # Use the corrected class name
