@@ -13,8 +13,8 @@ class balance(commands.Cog):
             member = interaction.user
         await open_acount(member)
         users = get_bank_data()
-        wallet = user[str(user.id)]["wallet"]
-        bank = user[str(user.id)]["bank"]
+        wallet = users[str(user.id)]["wallet"]
+        bank = users[str(user.id)]["bank"]
         await interaction.response.send_message(f'{wallet} -- {bank}')
     async def open_acount(user):
         users = get_bank_data()
