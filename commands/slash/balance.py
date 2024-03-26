@@ -1,7 +1,7 @@
 import discord,aiosqlite
 from discord import app_commands
 from discord.ext import commands
-
+import json
 
 class balance(commands.Cog):
     def __init__(self,bot):
@@ -11,24 +11,28 @@ class balance(commands.Cog):
     async def balance(self, interaction:discord.Interaction,member: discord.Member = None):
         if member == None:
             member = interaction.user
+        await open_acount(member)
+    
+    async def open_acount(user):
+        with open("./balance/balance.json","r") as f:
+            users = json.load(f)
 
-        db = aiosqlite.connect("./db/eco.sqlite")
-        cursor = self.db.cursor()
+        if str(user.id) in users:
+            return False
+        else:
+            user[str(user.id)]["wallet"] = 0
+            user[str(user.id)]["bank"] = 0
+        
+        with open("./balance/balance.json","w") as f:
+            json.dump(users,f)
+
+        return True
 
         
-        cursor.execute(f'SELECT wallet,bank FROM eco WHERE user_id = {author.id}')
-        bal = cursor.fetchone()
-
-        try:
-            wallet = bal[0]
-            bank = bal[1]
-        except:
-            wallet = 0
-            bank   = 1
 
         await interaction.response.send_message(f'{wallet} -- {bank}')
         
-        
-        cursor.execute()
+async def setup(bot):
+    await bot.add_cog(balance(bot))
 
 
