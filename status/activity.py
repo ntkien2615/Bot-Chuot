@@ -8,16 +8,30 @@ class actvity(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.status = cycle([
-            "Bot đã quay trở lại và thảm hại hơn xưa",
-            "🎵 ...Vậy giờ người đừng tìm lại anh, nơi ai khác không phải anh 🎵",
-            "🎵 Chẳng thể nào bận tâm, tim anh mãi luôn chân thành 🎵",
-            "🎵 Liệu rằng lời xin lỗi đó có khiến ta còn như lúc đầu? 🎵",
-            "🎵 Từng câu hát đã cố viết thêm những chương sau 🎵",
-            "🎵 Giờ này nhìn về nhau nơi ấy còn đâu? 🎵",
-            "🎵 Nụ cười em trên môi thay cho nỗi đau anh nơi này 🎵",
-            "🎵 Màu trời em xanh mãi mỗi anh là mù mây 🎵",
-            "🎵 Cứ như vậy đi 🎵",
-            "🎵 Sóng đâu cản được gió mang thuyền xa 🗣️🗣️🗣️🗣️🗣️ 🎵"
+            'Chẳng giữ những lời hứa, lúc xưa từng hẹn thề',
+            'Đón đưa cùng người về, những nơi mà ta êm ấm',
+            'Lời chia tay em nói, thế thôi đành ngậm ngùi',
+            'Lẻ loi nhìn người yên vui cùng ai',
+            'Ngồi ôm bao nỗi nhớ, ngẩn ngơ vẫn đợi chờ',
+            'Giấc mơ lụi tàn, để con tim lặng im vỡ nát',
+            'Giờ hai ta hai hướng, nhớ thương còn lại gì',
+            'Vấn vương cũng chẳng níu em đừng đi !',
+            'Tại sao anh còn thương em mãi',
+            'Nhưng lòng đau thì ai có hay ?',
+            'Người đi người buông ai thấu đâu',
+            'Khi tình ta giờ chia hai ngã',
+            'Là em đã rời xa anh đấy',
+            'Để tình tan còn bao đắng cay',
+            'Chẳng câu biệt ly em bước đi',
+            'Theo người ta em không suy nghĩ',
+            'Vì ai em vội quên năm tháng',
+            'Kỷ niệm xưa giờ đây trái ngang',
+            'Để cho nước mắt còn rơi trên',
+            'Đôi bờ mi mà sao em nỡ ?',
+            'Lòng còn vương đem lời thương chôn giấu',
+            'Bao đậm sâu giờ cũng đớn đau',
+            'Đành tâm nhìn em hạnh phúc',
+            'Những ngọt ngào em trao cho người ta !'
         ])
 
     @tasks.loop(seconds=5.0)
