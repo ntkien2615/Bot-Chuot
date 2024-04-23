@@ -74,6 +74,7 @@ class SelectDropdown(discord.ui.Select):
             select_embed_3.add_field(name='', value=self.file_read('./txt_files/help/help3.txt',9),inline=False)
             select_embed_3.add_field(name='Lệnh chưa phân loại', value='',inline=False)
             select_embed_3.add_field(name='', value=self.file_read('./txt_files/help/help3.txt',10),inline=False)
+            select_embed_3.add_field(name='', value=self.file_read('./txt_files/help/help3.txt',11),inline=False)
             select_embed_3.set_image(url='https://images3.alphacoders.com/125/1254519.jpg')
             select_embed_3.set_footer(text=f"Requested by {interaction.user}",
                              icon_url=interaction.user.avatar)
