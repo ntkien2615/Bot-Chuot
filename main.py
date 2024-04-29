@@ -6,7 +6,7 @@ import asyncio
 from dotenv import load_dotenv, find_dotenv
 
 keep_alive.awake(
-    "https://bot-chuot.onrender.com",
+    "https://bot-chuot-uw6x.onrender.com",
     debug=False)
 
 intents = discord.Intents.default()
