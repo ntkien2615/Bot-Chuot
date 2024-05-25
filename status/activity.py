@@ -9,7 +9,7 @@ class actvity(commands.Cog):
         self.bot = bot
         self.status = cycle([
             "Ú òa!",
-            "Ăn mừng những lời nói dối của Thiệu",
+            "Ăn mừng tháng của những người ko bình thường",
             "Hôm nào cũng là 7 tháng 3"
         ])
 
