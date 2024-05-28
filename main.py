@@ -27,9 +27,9 @@ async def load():
         if filename.endswith('.py'):
             await bot.load_extension(f'commands.non-slash.{filename[:-3]}')
 
-    for filename in os.listdir('./commands/games'):
+    for filename in os.listdir('./commands/fun'):
         if filename.endswith('.py'):
-            await bot.load_extension(f'commands.games.{filename[:-3]}')
+            await bot.load_extension(f'commands.fun.{filename[:-3]}')
 
     for filename in os.listdir('./commands/slash'):
         if filename.endswith('.py'):
