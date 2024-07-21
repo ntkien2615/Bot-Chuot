@@ -64,7 +64,7 @@ class on_message(commands.Cog):
         
         overthinking_words = set(['overthinking'])
         already_replied = set()
-        for word in overthinking:
+        for word in overthinking_words:
             if word in message.content.lower() and word not in already_replied:
                 await message.channel.reply("Why we overthinking because we can ||overdose||. :3")
                 already_replied.add(word)
