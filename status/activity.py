@@ -9,8 +9,8 @@ class actvity(commands.Cog):
         self.bot = bot
         self.status = cycle([
             "Ú òa!",
-            "Ăn mừng tháng của những người ko bình thường",
-            "Hôm nào cũng là 7 tháng 3"
+            "ArenaBreakout - More Fun - More Depressed",
+            "Megakill!!!!"
         ])
 
     @tasks.loop(seconds=5.0)
