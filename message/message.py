@@ -62,11 +62,13 @@ class on_message(commands.Cog):
                 await message.channel.reply('cẩn thận bị tiểu đường')
                 await self.bot.process_commands(message)
         
-        overthinking = ['overthinking']
+        overthinking_words = set(['overthinking'])
+        already_replied = set()
         for word in overthinking:
             if word in message.content.lower() and word not in already_replied:
                 await message.channel.reply("Why we overthinking because we can ||overdose||. :3")
                 already_replied.add(word)
+                break
                 await self.bot.process_commands(message)
 
 async def setup(bot):
