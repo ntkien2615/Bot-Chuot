@@ -35,15 +35,15 @@ class on_message(commands.Cog):
             await self.bot.process_commands(message)
 
         sui = ['sui', 'sủi']
-        for suiword in sui:
-            if suiword in message.content.lower():
+        for sui_word in sui:
+            if sui_word in message.content.lower():
                 await message.channel.send(
                     f'{message.author.display_name} *sẽ im lặng và biến mất...*')
                 await self.bot.process_commands(message)
 
         dmcs = ['dmcs', 'đmcs']
-        for dmcsword in dmcs:
-            if dmcsword in message.content.lower():
+        for dmcs_word in dmcs:
+            if dmcs_word in message.content.lower():
                 await message.reply(f'{message.author.display_name}')
                 await message.channel.send(
                     "https://th.bing.com/th/id/R.2f1a48275690965a28da2930ea9d85dd?rik=%2fu7q7c6PPfn6wA&pid=ImgRaw&r=0"
@@ -51,17 +51,23 @@ class on_message(commands.Cog):
                 await self.bot.process_commands(message)
 
         non = ['non']
-        for nonword in non:
-            if nonword in message.content.lower():
+        for non_word in non:
+            if non_word in message.content.lower():
                 await message.channel.send('Êu, có con gà green chưa kìa')
                 await self.bot.process_commands(message)
         
         ngot = ['ngọt','ngot']
-        for ngotword in ngot:
-            if ngotword in message.content.lower():
+        for word in ngot:
+            if word in message.content.lower():
                 await message.channel.reply('cẩn thận bị tiểu đường')
                 await self.bot.process_commands(message)
-
+        
+        overthinking = ['overthinking']
+        for word in overthinking:
+            if word in message.content.lower() and word not in already_replied:
+                await message.channel.reply("Why we overthinking because we can ||overdose||. :3")
+                already_replied.add(word)
+                await self.bot.process_commands(message)
 
 async def setup(bot):
     await bot.add_cog(on_message(bot))
