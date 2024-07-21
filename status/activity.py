@@ -10,7 +10,9 @@ class actvity(commands.Cog):
         self.status = cycle([
             "Ú òa!",
             "ArenaBreakout - More Fun - More Depressed",
-            "Megakill!!!!"
+            "Megakill!!!!",
+            "Tom and Jerry: Chase - Đấu trường bình đẳng 1v4",
+            "Road to 1 jack"
         ])
 
     @tasks.loop(seconds=5.0)
