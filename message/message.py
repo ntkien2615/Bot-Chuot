@@ -12,7 +12,7 @@ class on_message(commands.Cog):
         if message.author.bot:
             return
             await self.bot.process_commands(message)
-            
+
         hi = ['chào', 'hi', 'hello', 'chao', 'xin chào', 'xin chao']
         if message.content.lower() in hi:
             await message.channel.send('chào cc')
@@ -57,7 +57,7 @@ class on_message(commands.Cog):
         non = ['non']
         for non_word in non:
             if non_word in message.content.lower():
-                await message.channel.send('Êu, có con gà green chưa kìa')
+                await message.channel.send('Êu, có con gà non chưa kìa')
                 await self.bot.process_commands(message)
         
         ngot = ['ngọt','ngot']
@@ -69,7 +69,7 @@ class on_message(commands.Cog):
         overthinking_words=['overthinking']
         for ovt_word in overthinking_words:
             if ovt_word in message.content.lower():
-                await message.reply("Why we overthinking when we can ||overdose||. :3")
+                await message.reply("Why we overthinking when we can ||Ov3Rdo$$3||. :3")
                 await self.bot.process_commands(message)       
                 
 
