@@ -9,6 +9,10 @@ class on_message(commands.Cog):
 
     @commands.Cog.listener("on_message")
     async def message(self, message):
+        if message.author.bot:
+            return
+            await self.bot.process_commands(message)
+            
         hi = ['chào', 'hi', 'hello', 'chao', 'xin chào', 'xin chao']
         if message.content.lower() in hi:
             await message.channel.send('chào cc')
@@ -62,14 +66,11 @@ class on_message(commands.Cog):
                 await message.reply('cẩn thận bị tiểu đường')
                 await self.bot.process_commands(message)
         
-        overthinking_words = set(['overthinking'])
-        already_replied = set()
+        overthinking_words=['overthinking']
         for ovt_word in overthinking_words:
-            if (ovt_word in message.content.lower()) and (ovt_word not in already_replied):
+            if ovt_word in message.content.lower():
                 await message.reply("Why we overthinking when we can ||overdose||. :3")
-                already_replied.add(ovt_word)
-                break
-        await self.bot.process_commands(message)       
+                await self.bot.process_commands(message)       
                 
 
 async def setup(bot):
