@@ -58,7 +58,7 @@ class on_message(commands.Cog):
         
         ngot = ['ngọt','ngot']
         for ngot_word in ngot:
-            if word in message.content.lower():
+            if ngot_word in message.content.lower():
                 await message.channel.reply('cẩn thận bị tiểu đường')
                 await self.bot.process_commands(message)
         

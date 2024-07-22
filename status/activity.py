@@ -12,7 +12,8 @@ class actvity(commands.Cog):
             "ArenaBreakout - More Fun - More Depressed",
             "Megakill!!!!",
             "Tom and Jerry: Chase - Đấu trường bình đẳng 1v4",
-            "Road to 1 jack"
+            "Road to 1 jack",
+            "Arya brutal segggggs"
         ])
 
     @tasks.loop(seconds=5.0)
