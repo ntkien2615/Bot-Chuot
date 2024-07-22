@@ -57,15 +57,15 @@ class on_message(commands.Cog):
                 await self.bot.process_commands(message)
         
         ngot = ['ngọt','ngot']
-        for word in ngot:
+        for ngot_word in ngot:
             if word in message.content.lower():
                 await message.channel.reply('cẩn thận bị tiểu đường')
                 await self.bot.process_commands(message)
         
         overthinking_words = set(['overthinking'])
         already_replied = set()
-        for word in overthinking_words:
-            if (word in message.content.lower()) and (word not in already_replied):
+        for ovt_word in overthinking_words:
+            if (ovt_word in message.content.lower()) and (word not in already_replied):
                 await message.channel.reply("Why we overthinking because we can ||overdose||. :3")
                 already_replied.add(word)
                 break
