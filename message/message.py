@@ -69,7 +69,7 @@ class on_message(commands.Cog):
                 await message.reply("Why we overthinking when we can ||overdose||. :3")
                 already_replied.add(ovt_word)
                 break
-                await self.bot.process_commands(message)
+            await self.bot.process_commands(message)       
                 
 
 async def setup(bot):
