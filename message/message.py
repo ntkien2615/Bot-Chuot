@@ -67,7 +67,7 @@ class on_message(commands.Cog):
         for ovt_word in overthinking_words:
             if (ovt_word in message.content.lower()) and (ovt_word not in already_replied):
                 await message.reply("Why we overthinking because we can ||overdose||. :3")
-                already_replied.add(word)
+                already_replied.add(ovt_word)
                 await self.bot.process_commands(message)
                 break
 
