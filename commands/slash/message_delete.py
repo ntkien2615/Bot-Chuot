@@ -18,7 +18,7 @@ class delslash(commands.Cog):
             deleted = await message_interaction.channel.purge(limit=amount, before=message_interaction)
             embed = discord.Embed(title="", description=f"{len(deleted)} tin nhắn đã được xóa bởi A-Train ({amount} messages deleted by A-Train)", color=discord.Color.random())
             embed.set_image(url="https://tenor.com/view/a-train-edit-a-train-the-boys-a-train-the-boys-edit-gif-26341809")
-            await interaction.respone.send_message(embed=embed)
+            await interaction.response.send_message(embed=embed)
         except discord.HTTPException as e:
             print(f"An error occurred while deleting messages: {e}")
             await interaction.response.send_message("Có lỗi xảy ra khi xóa tin nhắn (Error deleting messages)", ephemeral=True)
