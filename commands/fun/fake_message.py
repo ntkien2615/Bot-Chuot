@@ -9,8 +9,8 @@ class fakemsgslash(commands.Cog):
         self.bot = bot
 
     @app_commands.command(name='fakemsg', description='gửi tin nhắn giả với tên của người khác')
-    @app_command.describe(name='member',description="Người muốn fake tin nhắn")
-    @app_command.describe(search="Tin nhắn giả")
+    @app_commands.describe(name='member',description="Người muốn fake tin nhắn")
+    @app_commands.describe(search="Tin nhắn giả")
     async def fakemsg(self, interaction: discord.Interaction,member:discord.Member, msg: str):
         if member == None:
             await interaction.response.send_message("Có thể nếu bạn không cung cấp tên người nào đó thì mình đã sài tên bạn rồi", ephemeral=True)
