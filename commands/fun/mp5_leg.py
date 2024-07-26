@@ -17,7 +17,9 @@ class legslash(commands.Cog):
         elif member == interaction.user:
             await interaction.response.send_message(f"Thiệt luôn, mà cặp giò của bạn trông khá múp ấy {member}")
         else:
-            await interaction.send_message(f"CAN THAN CAP GIO VOI HON DAI CUA M DAY <@{member}>")
+            mp5_msg == f"<@{member.id} CAN THAN CAI CAP GIO VOI HAI DON M DAY"
+            embed.set_image(url="https://media.discordapp.net/attachments/1077151202040614988/1266412244976140328/yukka.jpg?ex=66a50dd0&is=66a3bc50&hm=62543a0caa799b92258c2641f7b8633fa0a8d6e8bd1bc7c4c460a51cd9aabb83&=&format=webp&width=418&height=350")
+            await interaction.response.send_message(mp5_msg,embed=embed)
 
 async def setup(bot):
     await bot.add_cog(legslash(bot))
