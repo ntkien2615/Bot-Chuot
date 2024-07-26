@@ -9,16 +9,17 @@ class delslash(commands.Cog):
         self.bot = bot
 
     @app_commands.command(name='msg_delete', description='Xóa tin nhắn')
+    @app_commands.describe(amount="lượng tin nhắn xóa")
     @commands.has_permissions(manage_messages=True)
     async def msgdeleteslash(self,interaction: discord.Interaction,amount: int):
         if amount > 100:
             await interaction.response.send_message("Bro tôi không xóa nổi 100 tin nhắn đâu", ephemeral=True)
         return
         try:
-            deleted = await message_interaction.channel.purge(limit=amount, before=message_interaction)
+            deleted = await message_interaction.channel.purge(limit=amount)
             embed = discord.Embed(title="", description=f"{len(deleted)} tin nhắn đã được xóa bởi A-Train ({amount} messages deleted by A-Train)", color=discord.Color.random())
             embed.set_image(url="https://tenor.com/view/a-train-edit-a-train-the-boys-a-train-the-boys-edit-gif-26341809")
-            await interaction.response.send_message(embed=embed)
+            await interaction.response.send_message(embed=embed,ephemeral=True)
         except discord.HTTPException as e:
             print(f"An error occurred while deleting messages: {e}")
             await interaction.response.send_message("Có lỗi xảy ra khi xóa tin nhắn (Error deleting messages)", ephemeral=True)
