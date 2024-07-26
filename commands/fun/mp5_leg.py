@@ -17,8 +17,7 @@ class legslash(commands.Cog):
         elif member == interaction.user:
             await interaction.response.send_message(f"Thiệt luôn, mà cặp giò của bạn trông khá múp ấy {member}")
         else:
-            await interaction.response.send_message(f"CAN THAN CAP GIO VOI HON DAI CUA M DAY <@{member}>")
-            await interaction.message.add_files(files="./img/yukka.jpg")
+            await interaction.send_message(f"CAN THAN CAP GIO VOI HON DAI CUA M DAY <@{member}>")
 
 async def setup(bot):
     await bot.add_cog(legslash(bot))
