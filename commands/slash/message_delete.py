@@ -10,7 +10,7 @@ class delslash(commands.Cog):
 
     @app_commands.command(name='msg_delete', description='Xóa tin nhắn')
     @commands.has_permissions(manage_messages=True)
-    async def msgdeleteslash(self,interaction: discord.Interaction,message_interaction:discord.InteractionMessage,ammount: int):
+    async def msgdeleteslash(self,interaction: discord.Interaction,ammount: int):
         if amount > 100:
             await interaction.response.send_message("Bro tôi không xóa nổi 100 tin nhắn đâu", ephemeral=True)
         return
