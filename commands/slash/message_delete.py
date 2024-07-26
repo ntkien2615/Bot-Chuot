@@ -16,7 +16,7 @@ class delslash(commands.Cog):
             await interaction.response.send_message("Bro tôi không xóa nổi 100 tin nhắn đâu", ephemeral=True)
         return
         try:
-            deleted = await message_interaction.channel.purge(limit=amount)
+            deleted = await channel.purge(limit=amount)
             embed = discord.Embed(title="", description=f"{len(deleted)} tin nhắn đã được xóa bởi A-Train ({amount} messages deleted by A-Train)", color=discord.Color.random())
             embed.set_image(url="https://tenor.com/view/a-train-edit-a-train-the-boys-a-train-the-boys-edit-gif-26341809")
             await interaction.response.send_message(embed=embed,ephemeral=True)
