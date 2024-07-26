@@ -21,7 +21,7 @@ class fakemsgslash(commands.Cog):
                 author_avatar = member.avatar.url
             except discord.HTTPException as e:
                 if e.status == 403:
-                    await interaction.response.send_message("I don't have permission to use that member's avatar.", ephemeral=True)
+                    await interaction.response.send_message("Tui ko có quyền lmfao, sorry.", ephemeral=True)
                     return
                 else:
                     raise 
@@ -29,6 +29,7 @@ class fakemsgslash(commands.Cog):
             webhook = await interaction.channel.create_webhook(name=f"Simulated Message - {author_name}")
             await webhook.send(msg, username=author_name, avatar_url=author_avatar)
             await webhook.delete()
+            await interaction.response.send_message("Thành công!",emphemeral=True)
         except discord.Forbidden as e:
             await interaction.response.send_message("I don't have permission to create webhooks in this channel.", ephemeral=True)
         except discord.HTTPException as e:
