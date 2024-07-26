@@ -12,15 +12,27 @@ class fakemsgslash(commands.Cog):
     @app_commands.describe(member="Người muốn fake tin nhắn")
     @app_commands.describe(msg="Tin nhắn giả")
     async def fakemsg(self, interaction: discord.Interaction,member:discord.Member,msg: str):
-        if member == None:
-            await interaction.response.send_message("Có thể nếu bạn không cung cấp tên người nào đó thì mình đã sài tên bạn rồi", ephemeral=True)
-            return
-        webhook = await interaction.channel.create_webhook(name=member.name)
-        await webhook.send(
-            msg, username=member.name, avatar_url=member.avatar_url)
-
-        webhooks = await interaction.channel.webhooks()
-        for webhook in webhooks:
-                await webhook.delete()
+        if not member:
+            author_name = interaction.user.name
+            author_avatar = interaction.user.avatar.url
+        else:
+            try:
+                author_name = member.name
+                author_avatar = member.avatar.url
+            except discord.HTTPException as e:
+                if e.status == 403:
+                    await interaction.response.send_message("I don't have permission to use that member's avatar.", ephemeral=True)
+                    return
+                else:
+                    raise 
+        try:
+            webhook = await interaction.channel.create_webhook(name=f"Simulated Message - {author_name}")
+            await webhook.send(msg, username=author_name, avatar_url=author_avatar)
+            await webhook.delete()
+        except discord.Forbidden as e:
+            await interaction.response.send_message("I don't have permission to create webhooks in this channel.", ephemeral=True)
+        except discord.HTTPException as e:
+            print(f"An error occurred while creating a webhook: {e}")
+            await interaction.response.send_message("An error occurred while simulating the message. Please try again later.", ephemeral=True)
 async def setup(bot):
     await bot.add_cog(fakemsgslash(bot))
