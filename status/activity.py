@@ -13,7 +13,8 @@ class actvity(commands.Cog):
             "Megakill!!!!",
             "Tom and Jerry: Chase - Đấu trường bình đẳng 1v4",
             "Road to 1 jack",
-            "Arya brutal segggggs"
+            "Arya brutal segggggs",
+            "Tiến tới xóa toàn bộ lệnh non-slash, tách info và help dù không ai hỏi"
         ])
 
     @tasks.loop(seconds=5.0)
