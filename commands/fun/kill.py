@@ -32,7 +32,7 @@ class Kill(commands.Cog):
             'đi làm ở Nagasaki 9/8/1945'
         ]
         kill_list_random = random.choice(kill_list)
-        await interaction.response.send_message(f'{user} đã chết bởi lý do: {kill_list_random}')
+        await interaction.response.send_message(f'<@{user.id}> đã chết bởi lý do: {kill_list_random}')
 async def setup(bot):
     await bot.add_cog(Kill(bot))
 
