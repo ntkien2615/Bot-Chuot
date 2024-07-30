@@ -26,11 +26,11 @@ class SelectDropdown(discord.ui.Select):
     async def callback(self,interaction: discord.Interaction):
         if self.values[0] == "1":
             select_embed_1 = discord.Embed(title='Update',
-                                         description=self.file_read("./txt_files/info/info0.txt",1),
+                                         description=self.file_read("./txt_files/info/update_log.txt",1),
                                          color=discord.Color.random())
-            select_embed_1.add_field(name='Thêm các câu lệnh mới',value=self.file_read("./txt_files/info/info0.txt",2),inline=False)
-            select_embed_1.add_field(name='Loại bỏ dần các lệnh non-slash',value=self.file_read("./txt_files/info/info0.txt",3),inline=False)
-            select_embed_1.add_field(name='Thêm các dòng tin nhắn mới',value=self.file_read("./txt_files/info/info0.txt",4),inline=False)
+            select_embed_1.add_field(name='Thêm các câu lệnh mới',value=self.file_read("./txt_files/info/update_log.txt",2),inline=False)
+            select_embed_1.add_field(name='Loại bỏ dần các lệnh non-slash',value=self.file_read("./txt_files/info/update_log.txt",3),inline=False)
+            select_embed_1.add_field(name='Thêm các dòng tin nhắn mới',value=self.file_read("./txt_files/info/update_log.txt",4),inline=False)
             select_embed_1.set_image(url='https://images.alphacoders.com/135/1353722.jpeg')
             select_embed_1.set_footer(text=f"Requested by {interaction.user}",
                              icon_url=interaction.user.avatar)
