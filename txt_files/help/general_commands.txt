@@ -1,5 +1,5 @@
 
 Tạo avatar ảnh của bản thân à người khác
 Trợ giúp về lệnh
-Về các bản cập nhật và phần after credit của bot
-Thử độ trễ của bot (ping)
+Về các bản cập nhật và phần after credit của bot 
+Thử độ trễ của bot
