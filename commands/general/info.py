@@ -70,7 +70,7 @@ class InfoCog(commands.Cog):
     @app_commands.command(name='info', description='Về bot')
     async def menu(self, interaction: discord.Interaction):
         view = DropdownMenu()
-        description= self.file_read("./txt_files/info.txt/info0.txt",1)
+        description= self.file_read("./txt_files/info/info0.txt",1)
         embed_msg = discord.Embed(title="INFO COMMAND",
                                   description=description,
                                   color=discord.Color.random())
