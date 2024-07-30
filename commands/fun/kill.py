@@ -27,7 +27,7 @@ class Kill(commands.Cog):
             'ảo tưởng lên cân 5',
             'chơi game 159 phút 99s',
             'bồ đá','đi làm vào ngày 11/9/2001',
-            'làm công nhân ở Chernobyl trong ngày 1986',
+            'làm công nhân ở Chernobyl trong ngày 25/4/1986',
             'đi làm việc ở Hiroshma 6/8/1945',
             'đi làm ở Nagasaki 9/8/1945'
         ]
