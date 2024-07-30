@@ -9,7 +9,7 @@ class SelectDropdown(discord.ui.Select):
             discord.SelectOption(label="Update", value="1",
                                  description="Thông tin cập nhật về bot"),
             discord.SelectOption(label="Về những người làm nên hôm nay",value="2",
-                                 description="Cảm ơn những người hỗ trợ dev")
+                                 description="Cảm ơn những người hỗ trợ dev"),
             discord.SelectOption(label="Những thứ không ai hỏi", value="3", description="Những thứ ko ai hỏi tôi")
         ]
         super().__init__(placeholder="Chọn một lựa chọn đi",
@@ -55,7 +55,7 @@ class DropdownMenu(discord.ui.View):
 
 
 
-class HelpCog(commands.Cog):
+class InfoCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
@@ -81,4 +81,4 @@ class HelpCog(commands.Cog):
 
 
 async def setup(bot):
-    await bot.add_cog(HelpCog(bot))
+    await bot.add_cog(InfoCog(bot))
