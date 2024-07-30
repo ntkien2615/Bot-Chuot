@@ -8,7 +8,7 @@ class SelectDropdown(discord.ui.Select):
         options = [
             discord.SelectOption(label="General commands", value="1", 
                                  description="Các lệnh chung"),
-            discord.SelectOption(label="Fun commands",value="2"
+            discord.SelectOption(label="Fun commands",value="2",
                                  description="Các lệnh giải trí"),
             discord.SelectOption(label="Unclassified commands",value="3",
                                  description="Lệnh này không biết phân loại ra sao")
