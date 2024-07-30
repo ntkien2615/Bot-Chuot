@@ -27,7 +27,7 @@ class SelectDropdown(discord.ui.Select):
     async def callback(self,interaction: discord.Interaction):
         if self.values[0] == "1":
             select_embed_1 = discord.Embed(title='Các lệnh chung',
-                                         description="",1),
+                                         description="",
                                          color=discord.Color.random())
             select_embed_1.add_field(name='/avatar',value=self.file_read("./txt_files/help/general_commands.txt",2),inline=False)
             select_embed_1.add_field(name='/help',value=self.file_read("./txt_files/help/general_commands.txt",3),inline=False)
