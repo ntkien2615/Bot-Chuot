@@ -28,7 +28,7 @@ class SelectDropdown(discord.ui.Select):
             select_embed_1 = discord.Embed(title='Update',
                                          description=self.file_read("./txt_files/info/info0.txt",1),
                                          color=discord.Color.random())
-            select_embed_1.add_field(name='Thêm các câu lệnh mới',self.file_read("./txt_files/info/info0.txt",2),inline=False)
+            select_embed_1.add_field(name='Thêm các câu lệnh mới',value=self.file_read("./txt_files/info/info0.txt",2),inline=False)
             select_embed_1.add_field(name='Loại bỏ dần các lệnh non-slash',value=self.file_read("./txt_files/info/info0.txt",3),inline=False)
             select_embed_1.add_field(name='Thêm các dòng tin nhắn mới',value=self.file_read("./txt_files/info/info0.txt",4),inline=False)
             select_embed_1.set_image(url='https://images.alphacoders.com/135/1353722.jpeg')
