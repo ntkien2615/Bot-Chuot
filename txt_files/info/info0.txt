@@ -1,0 +1,1 @@
+Phần này sẽ tách riêng phần info ra cho dễ hiểu hơn nếu cần tìm trợ giúp => /help

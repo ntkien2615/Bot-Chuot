@@ -1,0 +1,4 @@
+Mục này nói về update bot này 30/7/2024
+chủ yếu là các lệnh cho vui là chính, chưa cập nhật nhiều được
+Bot hiện tại sẽ tiến tới việc là loại bỏ dần các lệnh non-slash do không còn tính thực tiễn
+Tự tìm nhé, biết đâu may mắn bot sẽ phản hổi lại
