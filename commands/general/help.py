@@ -53,8 +53,8 @@ class SelectDropdown(discord.ui.Select):
             select_embed_3 = discord.Embed(title="Các lệnh chưa phân loại được",
             description='',
             color= discord.Color.random())
-            select_embed_3.add_field(name='/search',value=self.file_read('./txt_files/help/unclassified_commands',2), inline=False)
-            select_embed_3.add_field(name='/aiask', value=self.file_read('./txt_files/help/unclassified_commands',3),inline=False)
+            select_embed_3.add_field(name='/search',value=self.file_read('./txt_files/help/unclassified_commands.txt',2), inline=False)
+            select_embed_3.add_field(name='/aiask', value=self.file_read('./txt_files/help/unclassified_commands.txt',3),inline=False)
             select_embed_3.set_footer(text=f"Requested by {interaction.user}",
                              icon_url=interaction.user.avatar)
             await interaction.response.edit_message(embed=select_embed_3)        
