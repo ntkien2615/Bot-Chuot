@@ -80,6 +80,9 @@ class Hack(commands.Cog):
         await interaction.edit_original_response(content=f'Thành công, hình ảnh gần đây nhất: ',embed=anh_embed)
         await asyncio.sleep(1)
 
+        #end
+        end_embed = discord.Embed(title="", description="", color=discord.Color.random())
+        end_embed.set_image(url='https://i.pinimg.com/564x/4f/68/6d/4f686d942e4b0280102deb3610f6d639.jpg')
         await interaction.edit_original_response(content=f"Hack complete! Đã thực hiện cuộc tấn công đầy nguy hiểm vào máy tính <@{user.id}>", embed=None)
 
 async def setup(bot):
