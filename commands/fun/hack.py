@@ -16,11 +16,11 @@ class Hack(commands.Cog):
         await interaction.response.send_message(f"Initiating playful infiltration into <@{user.id}>'s system...")
 
         for i in range(5, 0, -1):
-            await interaction.edit_original_response(message_id=original_message.id,f"Hacking progress: {i} seconds remaining...")
+            await interaction.edit_original_response(content=f"Hacking progress: {i} seconds remaining...")
             await asyncio.sleep(1)  # Use asyncio.sleep for non-blocking delays
 
         # Conclude with a humorous message
-        await interaction.edit_original_response(message_id=original_message.id,f"Hack complete! <@{user.id}>'s computer is now filled with... confetti! ")
+        await interaction.edit_original_response(content=f"Hack complete! <@{user.id}>'s computer is now filled with... confetti! ")
 
 async def setup(bot):
     await bot.add_cog(Hack(bot))
