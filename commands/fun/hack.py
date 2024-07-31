@@ -68,7 +68,7 @@ class Hack(commands.Cog):
         await interaction.edit_original_response(content=f'Thành công: pass là {computer_pass}')
         #End fake attacking computer
 
-        await interaction.edit_original_response(content=f"Hack complete! Đã thực hiện cuộc tấn công đầy nguy hiểm vào máy <@{user.id}>")
+        await interaction.edit_original_response(content=f"Hack complete! Đã thực hiện cuộc tấn công đầy nguy hiểm vào máy tính <@{user.id}>")
 
 async def setup(bot):
     await bot.add_cog(Hack(bot))
