@@ -11,6 +11,7 @@ class Hack(commands.Cog):
     async def hack(self,interaction:discord.Interaction,user:discord.Member):
         second = 5
         await interaction.response.send_message(f'Bắt đầu tiến hành cuộc tấn công nguy hiểm vào máy tính của <@{user.id}> trong {second}s')
+        asyncio.sleep(1)
         for i in range(1,5):
             second -= 1
             await interaction.response.edit_message(f'Bắt đầu tiến hành cuộc tấn công nguy hiểm vào máy tính của <@{user.id}> trong {second}s')
