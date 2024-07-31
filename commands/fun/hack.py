@@ -8,7 +8,7 @@ class Hack(commands.Cog):
 
     @app_commands.command(name='hack',description='hack vào máy ai đó')
     @app_commands.describe(user='máy tính của ai')
-    async def hack(self,interaction:discord.Interaction,user=discord.Member):
+    async def hack(self,interaction:discord.Interaction,user:discord.Member):
         second == 5
         await interaction.response.send_message(f'Bắt đầu tiến hành cuộc tấn công nguy hiểm vào máy tính của <@{user.id}> trong {second}s')
         for i in range(1,5):
