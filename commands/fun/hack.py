@@ -26,13 +26,13 @@ class Hack(commands.Cog):
         await asyncio.sleep(1)
 
         def random_file_read(self, file_path):
-        try:
-            with open(file_path, "r") as f:
-                lines = f.readlines()
-            if lines:
-                return random.choice(lines).strip()
-        except (IndexError, FileNotFoundError) as e:
-            return None
+            try:
+                with open(file_path, "r") as f:
+                    lines = f.readlines()
+                if lines:
+                    return random.choice(lines).strip()
+            except (IndexError, FileNotFoundError) as e:
+                return None
 
         wifi_name = random_file_read('./txt_files/hack/1a_wifiname.txt')
         number_connected = random.randint(1,9)
