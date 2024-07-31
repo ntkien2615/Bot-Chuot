@@ -29,7 +29,7 @@ class Kill(commands.Cog):
             'bồ đá','đi làm vào ngày 11/9/2001',
             'làm công nhân ở Chernobyl trong ngày 25/4/1986',
             'đi làm việc ở Hiroshma 6/8/1945',
-            'đi làm ở Nagasaki 9/8/1945'
+            'đi làm ở Nagasaki 9/8/1945','chơi buckshot roullete'
         ]
         kill_list_random = random.choice(kill_list)
         await interaction.response.send_message(f'<@{user.id}> đã chết bởi lý do: {kill_list_random}')
