@@ -15,7 +15,6 @@ class Hack(commands.Cog):
             second -= 1
             await interaction.response.edit_message(f'Bắt đầu tiến hành cuộc tấn công nguy hiểm vào máy tính của <@{user.id}> trong {second}s')
             time.sleep(1)        
-        await interaction.response.edit_message(f'đã hoàn thành việc hack vào máy tính của  <@{user.id}>')
 
 async def setup(bot):
     await bot.add_cog(Hack(bot))
