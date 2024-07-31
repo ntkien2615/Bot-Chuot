@@ -78,7 +78,7 @@ class Hack(commands.Cog):
         anh_embed = discord.Embed(title="", description="", color=discord.Color.red())
         anh_embed.set_image(url=anh)
         await interaction.edit_original_response(content=f'Thành công, hình ảnh gần đây nhất: ',embed=anh_embed)
-        await asyncio.sleep(1)
+        await asyncio.sleep(3)
 
         #end
         end_embed = discord.Embed(title="", description="", color=discord.Color.random())
