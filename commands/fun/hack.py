@@ -27,7 +27,7 @@ class Hack(commands.Cog):
         await interaction.response.send_message(f"Bắt đầu thực hiện việc hack nguy hiểm vào máy tính của <@{user.id}>...")
         await asyncio.sleep(1)
         
-        #attack Wifi
+        #fake attacking Wifi
         for i in range(5, 0, -1):
             await interaction.edit_original_response(content=f"Tìm kiếm wifi của <@{user.id}>: {i} seconds remaining...")
             await asyncio.sleep(1)  # Use asyncio.sleep for non-blocking delays
@@ -49,7 +49,25 @@ class Hack(commands.Cog):
         wifi_pass = self.random_file_read('./txt_files/hack/1b_wifipass.txt')
         await interaction.edit_original_response(content=f'Thành công, password là: {wifi_pass}')
         await asyncio.sleep(3)
+        #end fake attacking Wifi
 
+        #Fake attacking Computer Password
+        await interaction.edit_original_response(content=f'Bắt đầu tìm kiếm máy tính của {user}:')
+        await asyncio.sleep(1)
+        for i in range(5, 0, -1):
+            await interaction.edit_original_response(content=f"Bắt đầu tìm kiếm máy tính của {user}: {i} seconds remaining")
+            await asyncio.sleep(1)
+        computer_username = self.random_file_read('./txt_files/hack/2a_computer_name.txt')
+        await interaction.edit_original_response(content=f'Thành công, tên đăng nhập là: {computer_username}')
+        async asyncio.sleep(1)
+        await interaction.edit_original_response(content=f'Đang bẻ khóa...')
+        for i in range(5, 0, -1):
+            await interaction.edit_original_response(content=f"Đang bẻ khóa... {i} seconds remaining")
+            await asyncio.sleep(1)
+        computer_pass = self.random_file_read('./txt_files/hack/2b_computer_pass.txt')
+        await interaction.edit_original_response(content=f'Thành công: pass là {computer_pass}')
+        #End fake attacking computer
+        
         await interaction.edit_original_response(content=f"Hack complete! Đã thực hiện cuộc tấn công đầy nguy hiểm vào máy <@{user.id}>")
 
 async def setup(bot):
