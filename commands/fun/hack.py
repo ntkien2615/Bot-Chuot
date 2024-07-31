@@ -59,7 +59,7 @@ class Hack(commands.Cog):
             await asyncio.sleep(1)
         computer_username = self.random_file_read('./txt_files/hack/2a_computer_name.txt')
         await interaction.edit_original_response(content=f'Thành công, tên đăng nhập là: {computer_username}')
-        async asyncio.sleep(1)
+        await asyncio.sleep(1)
         await interaction.edit_original_response(content=f'Đang bẻ khóa...')
         for i in range(5, 0, -1):
             await interaction.edit_original_response(content=f"Đang bẻ khóa... {i} seconds remaining")
