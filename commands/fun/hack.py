@@ -38,7 +38,7 @@ class Hack(commands.Cog):
         wifi_name = self.random_file_read('./txt_files/hack/1a_wifiname.txt')
         number_connected = random.randint(1,9)
         await interaction.edit_original_response(content=f'Tên wifi: {wifi_name}, có {number_connected} kết nối')
-        await async.io(3)
+        await asyncio.sleep(3)
 
         await interaction.edit_original_response(content=f'Bắt đầu WPA Handshake...')
         await asyncio.sleep(1)
