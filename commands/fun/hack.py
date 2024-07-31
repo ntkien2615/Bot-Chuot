@@ -68,6 +68,7 @@ class Hack(commands.Cog):
         await interaction.edit_original_response(content=f'Thành công: pass là {computer_pass}')
         opr = self.random_file_read('./txt_files/hack/2b_computer_opr')
         await interaction.edit_original_response(content=f'Đăng nhập thành công, máy tính {user} đang chạy trên hệ điều hành:{opr}')
+        await asyncio.sleep(1)
         #End fake attacking computer
 
         #Fake sending image
