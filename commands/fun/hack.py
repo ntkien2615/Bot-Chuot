@@ -64,10 +64,21 @@ class Hack(commands.Cog):
         for i in range(5, 0, -1):
             await interaction.edit_original_response(content=f"Đang bẻ khóa... {i} seconds remaining")
             await asyncio.sleep(1)
-        computer_pass = self.random_file_read('./txt_files/hack/2b_computer_pass.txt')
+        computer_pass = self.random_file_read('./txt_files/hack/2c_computer_pass.txt')
         await interaction.edit_original_response(content=f'Thành công: pass là {computer_pass}')
+        opr = self.random_file_read('./txt_files/hack/2b_computer_opr')
+        await interaction.edit_original_response(content=f'Đăng nhập thành công, máy tính {user} đang chạy trên hệ điều hành:{opr}')
         #End fake attacking computer
 
+        #Fake sending image
+        await interaction.edit_original_response(content=f'Đang truy cập vào thư mục ảnh...')
+        await asyncio.sleep(1)
+        anh = self.random_file_read(content=f'./txt_files/hack/3a_img.txt')
+        anh_embed = discord.Embed(title="", description="", color=discord.Color.red())
+        anh_embed.set_image(url=anh)
+        await interaction.edit_original_response(content=f'Thành công, hình ảnh gần đây nhất: ',embed=anh_embed)
+        await asyncio.sleep(1)
+        
         await interaction.edit_original_response(content=f"Hack complete! Đã thực hiện cuộc tấn công đầy nguy hiểm vào máy tính <@{user.id}>")
 
 async def setup(bot):
