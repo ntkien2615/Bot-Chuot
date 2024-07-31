@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-import time
+import asyncio
 class Hack(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -14,7 +14,7 @@ class Hack(commands.Cog):
         for i in range(1,5):
             second -= 1
             await interaction.response.edit_message(f'Bắt đầu tiến hành cuộc tấn công nguy hiểm vào máy tính của <@{user.id}> trong {second}s')
-            time.sleep(1)        
+            asyncio.sleep(1)        
 
 async def setup(bot):
     await bot.add_cog(Hack(bot))
