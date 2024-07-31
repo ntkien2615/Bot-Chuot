@@ -26,9 +26,10 @@ class Hack(commands.Cog):
 
         await interaction.response.send_message(f"Bắt đầu thực hiện việc hack nguy hiểm vào máy tính của <@{user.id}>...")
         await asyncio.sleep(1)
-
+        
+        #attack Wifi
         for i in range(5, 0, -1):
-            await interaction.edit_original_response(content=f"Tìm kiếm wifi của <@{user.id}: {i} seconds remaining...")
+            await interaction.edit_original_response(content=f"Tìm kiếm wifi của <@{user.id}>: {i} seconds remaining...")
             await asyncio.sleep(1)  # Use asyncio.sleep for non-blocking delays
 
         await interaction.edit_original_response(content=f'Phát hiện wifi của <@{user.id}>')
@@ -37,13 +38,19 @@ class Hack(commands.Cog):
         wifi_name = self.random_file_read('./txt_files/hack/1a_wifiname.txt')
         number_connected = random.randint(1,9)
         await interaction.edit_original_response(content=f'Tên wifi: {wifi_name}, có {number_connected} kết nối')
+        await async.io(3)
+
         await interaction.edit_original_response(content=f'Bắt đầu WPA Handshake...')
-        await asyncio.sleep(2)
+        await asyncio.sleep(1)
+        for i in range(5, 0, -1):
+            await interaction.edit_original_response(content=f"Bắt đầu WPA Handshake... {i} seconds remaining")
+            await asyncio.sleep(1)
+
         wifi_pass = self.random_file_read('./txt_files/hack/1b_wifipass.txt')
         await interaction.edit_original_response(content=f'Thành công, password là: {wifi_pass}')
-        await asyncio.sleep(1)
-        # Conclude with a humorous message
-        await interaction.edit_original_response(content=f"Hack complete! <@{user.id}>'s computer is now filled with... confetti! ")
+        await asyncio.sleep(3)
+
+        await interaction.edit_original_response(content=f"Hack complete! Đã thực hiện cuộc tấn công đầy nguy hiểm vào máy <@{user.id}>")
 
 async def setup(bot):
     await bot.add_cog(Hack(bot))
