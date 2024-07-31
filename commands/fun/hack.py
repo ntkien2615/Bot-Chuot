@@ -73,12 +73,12 @@ class Hack(commands.Cog):
         #Fake sending image
         await interaction.edit_original_response(content=f'Đang truy cập vào thư mục ảnh...')
         await asyncio.sleep(1)
-        anh = self.random_file_read(content=f'./txt_files/hack/3a_img.txt')
+        anh = self.random_file_read('./txt_files/hack/3a_img.txt')
         anh_embed = discord.Embed(title="", description="", color=discord.Color.red())
         anh_embed.set_image(url=anh)
         await interaction.edit_original_response(content=f'Thành công, hình ảnh gần đây nhất: ',embed=anh_embed)
         await asyncio.sleep(1)
-        
+
         await interaction.edit_original_response(content=f"Hack complete! Đã thực hiện cuộc tấn công đầy nguy hiểm vào máy tính <@{user.id}>")
 
 async def setup(bot):
