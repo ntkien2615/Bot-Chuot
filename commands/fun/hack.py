@@ -17,7 +17,7 @@ class Hack(commands.Cog):
             except (IndexError, FileNotFoundError) as e:
                 return None
 
-    @app_commands.command(name='hack',description='hack vào máy ai đó')
+    @app_commands.command(name='hack',description='hack vào máy ai đó (beta)')
     @app_commands.describe(user='máy tính của ai')
     async def hack(self,interaction:discord.Interaction,user:discord.Member):
         if user == interaction.user:
@@ -67,7 +67,7 @@ class Hack(commands.Cog):
         computer_pass = self.random_file_read('./txt_files/hack/2b_computer_pass.txt')
         await interaction.edit_original_response(content=f'Thành công: pass là {computer_pass}')
         #End fake attacking computer
-        
+
         await interaction.edit_original_response(content=f"Hack complete! Đã thực hiện cuộc tấn công đầy nguy hiểm vào máy <@{user.id}>")
 
 async def setup(bot):
