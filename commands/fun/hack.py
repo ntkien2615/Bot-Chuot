@@ -34,12 +34,12 @@ class Hack(commands.Cog):
             except (IndexError, FileNotFoundError) as e:
                 return None
 
-        wifi_name = random_file_read('./txt_files/hack/1a_wifiname.txt')
+        wifi_name = self.random_file_read('./txt_files/hack/1a_wifiname.txt')
         number_connected = random.randint(1,9)
         await interaction.edit_original_response(content=f'Tên wifi: {wifi_name}, có {number_connected} kết nối')
         await interaction.edit_original_response(content=f'Bắt đầu WPA Handshake...')
         await asyncio.sleep(2)
-        wifi_pass = random_file_read('./txt_files/hack/1b_wifipass.txt')
+        wifi_pass = self.random_file_read('./txt_files/hack/1b_wifipass.txt')
         await interaction.edit_original_response(content=f'Thành công, password là: {wifi_pass}')
         await asyncio.sleep(1)
         # Conclude with a humorous message
