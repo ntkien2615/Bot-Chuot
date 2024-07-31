@@ -9,10 +9,20 @@ class Hack(commands.Cog):
     @app_commands.command(name='hack',description='hack vào máy ai đó')
     @app_commands.describe(user='máy tính của ai')
     async def hack(self,interaction:discord.Interaction,user:discord.Member):
-        second = 5
-        await interaction.response.send_message(f'Bắt đầu tiến hành cuộc tấn công nguy hiểm vào máy tính của <@{user.id}> trong {second}s')
-        await asyncio.sleep(1)
-        await interaction.response.edit_message(f'Bắt đầu tiến hành cuộc tấn công nguy hiểm vào máy tính của <@{user.id}> trong {second}s')
+        if user == interaction.user:
+            await interaction.response.send_message("You can't hack yourself! Try a friend ")
+            return
+
+        # Emphasize the playful nature
+        await interaction.response.send_message(f"Initiating playful infiltration into <@{user.id}>'s system...")
+
+        # Use a loop to create a countdown effect
+        for i in range(5, 0, -1):
+            await interaction.response.edit_message(f"Hacking progress: {i} seconds remaining...")
+            await asyncio.sleep(1)  # Use asyncio.sleep for non-blocking delays
+
+        # Conclude with a humorous message
+        await interaction.response.edit_message(f"Hack complete! <@{user.id}>'s computer is now filled with... confetti! ")
 
 async def setup(bot):
     await bot.add_cog(Hack(bot))
