@@ -18,11 +18,11 @@ class Hack(commands.Cog):
 
         # Use a loop to create a countdown effect
         for i in range(5, 0, -1):
-            await interaction.response.edit_message(f"Hacking progress: {i} seconds remaining...")
+            await interaction.response.edit_message(message_id=original_message.id,f"Hacking progress: {i} seconds remaining...")
             await asyncio.sleep(1)  # Use asyncio.sleep for non-blocking delays
 
         # Conclude with a humorous message
-        await interaction.response.edit_message(f"Hack complete! <@{user.id}>'s computer is now filled with... confetti! ")
+        await interaction.response.edit_message(message_id=original_message.id,f"Hack complete! <@{user.id}>'s computer is now filled with... confetti! ")
 
 async def setup(bot):
     await bot.add_cog(Hack(bot))
