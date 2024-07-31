@@ -12,10 +12,7 @@ class Hack(commands.Cog):
         second = 5
         await interaction.response.send_message(f'Bắt đầu tiến hành cuộc tấn công nguy hiểm vào máy tính của <@{user.id}> trong {second}s')
         await asyncio.sleep(1)
-        for i in range(1,5):
-            second -= 1
-            await interaction.response.edit_message(f'Bắt đầu tiến hành cuộc tấn công nguy hiểm vào máy tính của <@{user.id}> trong {second}s')
-            await asyncio.sleep(1)        
+        await interaction.response.edit_message(f'Bắt đầu tiến hành cuộc tấn công nguy hiểm vào máy tính của <@{user.id}> trong {second}s')
 
 async def setup(bot):
     await bot.add_cog(Hack(bot))
