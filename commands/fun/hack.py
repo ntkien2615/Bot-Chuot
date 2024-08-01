@@ -113,7 +113,7 @@ class Hack(commands.Cog):
             await asyncio.sleep(1)
         else:
             await interaction.edit_original_response(content='Đã phát hiện, tiến hành gửi tin nhắn với nội dung: Cút mẹ mày đi')
-            await asyncio.sleep(1)
+            await asyncio.sleep(2)
             await interaction.edit_original_response(content='Đã spam tin nhắn, tiến hành block các tài khoản')
             await asyncio.sleep(1)
 
