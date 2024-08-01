@@ -132,7 +132,7 @@ class Hack(commands.Cog):
         await interaction.edit_original_response(content='đang thu thập tất cả thông tin tìm được')
         await asyncio.sleep(1)
 
-        b = random.randint(1,5)
+        b = random.randint(1,4)
         if b == 1:
             await interaction.edit_original_response(content='Đã thu thập các thông tin cá nhân nhạy cảm')
             await asyncio.sleep(1)
