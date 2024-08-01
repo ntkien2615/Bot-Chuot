@@ -90,8 +90,88 @@ class Hack(commands.Cog):
         discord_message = self.random_file_read('./txt_files/hack/3b_discord_message.txt')
         await interaction.edit_original_response(content=f'Phát hiện tin nhắn gần đây nhất của {user}: {discord_message}',embed=None)
         await asyncio.sleep(1)
-        #end
+
+        #Facebook
+        await interaction.edit_original_response(content=f'Đang truy cập vào Facebook:...',embed=None)
+        await asyncio.sleep(1)
+        await interaction.edit_original_response(content=f'Đang tìm kiếm bình luận gần đây...')
+        await asyncio.sleep(1)
+        await interaction.edit_original_response(content='Phát hiện bình luận')
+        await interaction.edit_original_response
+        facebook_comment = self.random_file_read('./txt_files/hack/3c_facebook_comment.txt')
+        await interaction.edit_original_response(content=f'Nội dung: {facebook_comment}')
+        await asyncio.sleep(1)
+
+        #Messenger
+        await interaction.edit_original_response(content='Đang truy cập vào Messenger...')
+        await asyncio.sleep(1)
+        await interaction.edit_original_response(content='')
+         for i in range(5, 0, -1):
+            await interaction.edit_original_response(content=f"Đang tìm tin nhắn có theme của setlove... {i} seconds remaining")
+            await asyncio.sleep(1)
+        a = random.randint(1,2)
+        if a == 1:
+            await interaction.edit_original_response(content="Không phát hiện, có lẽ mục tiêu không có bạn gái")
+            await asyncio.sleep(1)
+        else:
+            await interaction.edit_original_response(content='Đã phát hiện, tiến hành gửi tin nhắn với nội dung: Cút mẹ mày đi')
+            await asyncio.sleep(1)
+            await interaction.edit_original_response(content='Đã spam tin nhắn, tiến hành block các tài khoản')
+            await asyncio.sleep(1)
+
+        #Google_search
+        await interaction.edit_original_response(content='Đang truy cập vào Google Activity...')
+        await asyncio.sleep(1)
+        await interaction.edit_original_response(content='Đang tìm kiếm hoạt động gần đây...')
+        for i in range(3, 0, -1):
+            await interaction.edit_original_response(content=f"Đang tìm lịch sử tin nhắn gần đây... {i} seconds remaining")
+            await asyncio.sleep(1)
+        search = self.random_file_read('./txt_files/hack/3d_google_search.txt')
+        await interaction.edit_original_response(content=f'Tìm thành công, lần gần đây {user} có đã tìm kiếm: {search}')
+        await asyncio.sleep(2)
+
+        #Ending
+        interaction.edit_original_response(content='đang thu thập tất cả thông tin tìm được')
+        await asyncio.sleep(1)
+
+        b = random.randint(1,5)
+        if b == 1:
+            await interaction.edit_original_response(content='Đã thu thập các thông tin cá nhân nhạy cảm')
+            await asyncio.sleep(1)
+            await interaction.edit_original_response(content='Đăng đăng lên bán...')
+            await asyncio.sleep(3)
+            await interaction.edit_original_response(content='Bán thành công! Tôi được 10$')
+            await asyncio.sleep(1)
+            await interaction.edit_original_response(content='Tạo backdoor và xóa sạch dấu vết:...')
+            await asyncio.sleep(3)
+            await interaction.edit_original_response(content='Đang thoát...')
+            await asyncio.sleep(1)
+            await interaction.edit_original_response(content='Hoàn thành!')
+        elif b == 2:
+            await interaction.edit_original_response(content='Xóa sạch dữ liệu: ')
+            for i in range(1,10):
+                await interaction.edit_original_response(content=f'Xóa sạch dữ liệu: {i*10} %') 
+                await asyncio.sleep(0.2)
+            await asyncio.sleep(1)
+            await interaction.edit_original_response(content='BỤP!!!!!!!!!!')
+            await asyncio.sleep(1.5)
+        elif b == 3:
+            await interaction.edit_original_response(content='Gửi đến ở đâu đó ở Trung Đông')
+            await asyncio.sleep(1)
+            await interaction.edit_original_response(content='Có người nhắn lại: "Haram"')
+            await asyncio.sleep(1)
+            await interaction.edit_original_response(content='Có tin nhắn: Đã định vị tên lửa vào vị trí')
+            await asyncio.sleep(1)
+            await interaction.edit_original_response(content='Tạm biệt!')
+            await asyncio.sleep(1)
+        elif b == 4:
+            await interaction.edit_original_response(content='Gửi đến Nga')
+            await asyncio.sleep(1)
+            await interaction.edit_original_response(content='Thôi xong, trốn trước đây')
+            await asyncio.sleep(1)
+            await interaction.edit_original_response(content='Bye!!!!')
+            await asyncio.sleep(1)
         await interaction.edit_original_response(content=f"Hack complete! Đã thực hiện cuộc tấn công đầy nguy hiểm vào máy tính <@{user.id}>", embed=None)
 
-async def setup(bot):
+async def setup(bot)
     await bot.add_cog(Hack(bot))
