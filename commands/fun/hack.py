@@ -24,6 +24,9 @@ class Hack(commands.Cog):
             await interaction.response.send_message("Ông không thể hack chính ông đc, thử đứa khác đi")
             return
 
+        if user.id == 1042729081088778272:
+            await interaction.response.send_message('Làm sao t hack chính tôi đc, thử ai đó đi')
+
         await interaction.response.send_message(f"Bắt đầu thực hiện việc hack nguy hiểm vào máy tính của <@{user.id}>...")
         await asyncio.sleep(1)
         
