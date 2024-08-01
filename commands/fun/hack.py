@@ -173,5 +173,5 @@ class Hack(commands.Cog):
             await asyncio.sleep(1)
         await interaction.edit_original_response(content=f"Hack complete! Đã thực hiện cuộc tấn công đầy nguy hiểm vào máy tính <@{user.id}>", embed=None)
 
-async def setup(bot)
+async def setup(bot):
     await bot.add_cog(Hack(bot))
