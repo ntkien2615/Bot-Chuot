@@ -88,8 +88,8 @@ class Hack(commands.Cog):
         await interaction.edit_original_response(content=f'Đang truy cập vào discord:...')
         await asyncio.sleep(1)
         discord_message = self.random_file_read('./txt_filess/hack/3b_discord_message.txt')
-        await interaction.edit_original_response(content=f'Phát hiện tin nhắn gần đây nhất của {user}: {discord_message}')
-
+        await interaction.edit_original_response(content=f'Phát hiện tin nhắn gần đây nhất của {user}: {discord_message}',embed=None)
+        await asyncio.sleep(1)
         #end
         await interaction.edit_original_response(content=f"Hack complete! Đã thực hiện cuộc tấn công đầy nguy hiểm vào máy tính <@{user.id}>", embed=None)
 
