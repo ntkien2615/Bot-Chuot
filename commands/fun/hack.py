@@ -87,7 +87,7 @@ class Hack(commands.Cog):
         #Discord
         await interaction.edit_original_response(content=f'Đang truy cập vào discord:...')
         await asyncio.sleep(1)
-        discord_message = self.random_file_read('./txt_filess/hack/3b_discord_message.txt')
+        discord_message = self.random_file_read('./txt_files/hack/3b_discord_message.txt')
         await interaction.edit_original_response(content=f'Phát hiện tin nhắn gần đây nhất của {user}: {discord_message}',embed=None)
         await asyncio.sleep(1)
         #end
