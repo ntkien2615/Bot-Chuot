@@ -81,11 +81,11 @@ class Hack(commands.Cog):
         anh = self.random_file_read('./txt_files/hack/3a_img.txt')
         anh_embed = discord.Embed(title="", description="", color=discord.Color.red())
         anh_embed.set_image(url=anh)
-        await interaction.edit_original_response(content=f'Thành công, hình ảnh gần đây nhất: ',embed=anh_embed)
+        await interaction.edit_original_response(content=f'Thành công, hình ảnh gần đây nhất của {user}: ',embed=anh_embed)
         await asyncio.sleep(3)
 
         #Discord
-        await interaction.edit_original_response(content=f'Đang truy cập vào discord:...')
+        await interaction.edit_original_response(content=f'Đang truy cập vào discord:...', embed=None)
         await asyncio.sleep(1)
         discord_message = self.random_file_read('./txt_files/hack/3b_discord_message.txt')
         await interaction.edit_original_response(content=f'Phát hiện tin nhắn gần đây nhất của {user}: {discord_message}',embed=None)
