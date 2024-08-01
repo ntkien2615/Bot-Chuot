@@ -97,7 +97,6 @@ class Hack(commands.Cog):
         await interaction.edit_original_response(content=f'Đang tìm kiếm bình luận gần đây...')
         await asyncio.sleep(1)
         await interaction.edit_original_response(content='Phát hiện bình luận')
-        await interaction.edit_original_response
         facebook_comment = self.random_file_read('./txt_files/hack/3c_facebook_comment.txt')
         await interaction.edit_original_response(content=f'Nội dung: {facebook_comment}')
         await asyncio.sleep(1)
