@@ -8,7 +8,6 @@ class actvity(commands.Cog):
     def read_file_into_list(filename):
         with open(filename, 'r') as file:
             lines = file.readlines()
-            return lines
 
     def __init__(self, bot):
         self.bot = bot
