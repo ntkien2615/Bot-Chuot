@@ -5,17 +5,13 @@ from itertools import cycle
 
 class actvity(commands.Cog):
 
+    def read_file_into_list(filename):
+        with open(filename, 'r') as file:
+            lines = file.readlines()
+
     def __init__(self, bot):
         self.bot = bot
-        self.status = cycle([
-            "Ú òa!",
-            "ArenaBreakout - More Fun - More Depressed",
-            "Megakill!!!!",
-            "Tom and Jerry: Chase - Đấu trường bình đẳng 1v4",
-            "Road to 1 jack",
-            "Arya brutal segggggs",
-            "Tiến tới xóa toàn bộ lệnh non-slash, tách info và help dù không ai hỏi"
-        ])
+        self.status = cycle(read_file_into_list("./txt_files/activity.txt"))
 
     @tasks.loop(seconds=5.0)
     async def change_status(self):
