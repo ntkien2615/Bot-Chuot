@@ -7,7 +7,7 @@ class actvity(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.status_list = read_file_into_list("./txt_files/activity.txt")
+        self.status_list = self.read_file_into_list("./txt_files/activity.txt")
         self.status_cycle = cycle(self.status_list)
 
         def read_file_into_list(filename):
