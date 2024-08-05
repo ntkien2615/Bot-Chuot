@@ -5,14 +5,15 @@ from itertools import cycle
 
 class actvity(commands.Cog):
 
-    def read_file_into_list(filename):
-        with open(filename, 'r') as file:
-            lines = file.readlines()
-
     def __init__(self, bot):
         self.bot = bot
         self.status_list = read_file_into_list("./txt_files/activity.txt")
         self.status_cycle = cycle(self.status_list)
+
+        def read_file_into_list(filename):
+            with open(filename, 'r') as file:
+                lines = file.readlines()
+            return lines
 
     @tasks.loop(seconds=5.0)
     async def change_status(self):
