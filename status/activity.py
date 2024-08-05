@@ -12,7 +12,8 @@ class actvity(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.status = cycle(read_file_into_list("./txt_files/activity.txt"))
+        self.status_list = read_file_into_list("./txt_files/activity.txt")
+        self.status_cycle = cycle(self.status_list)
 
     @tasks.loop(seconds=5.0)
     async def change_status(self):
