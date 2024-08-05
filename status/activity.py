@@ -13,7 +13,6 @@ class actvity(commands.Cog):
         def read_file_into_list(filename):
             with open(filename, 'r') as file:
                 lines = file.readlines()
-            return lines
 
     @tasks.loop(seconds=5.0)
     async def change_status(self):
