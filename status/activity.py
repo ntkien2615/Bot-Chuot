@@ -13,13 +13,14 @@ class actvity(commands.Cog):
         def read_file_into_list(filename):
             with open(filename, 'r') as file:
                 lines = file.readlines()
+            return lines
 
     @tasks.loop(seconds=5.0)
     async def change_status(self):
         await self.bot.change_presence(status=discord.Status.online,
                                        activity=discord.Activity(
                                            type=discord.ActivityType.watching,
-                                           name=next(self.status)))
+                                           name=next(self.status_cycle)))
 
     @commands.Cog.listener()
     async def on_ready(self):
