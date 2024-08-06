@@ -26,21 +26,21 @@ class gun(commands.Cog):
     
         if (user == None) or (user == interaction.user):
             user = interaction.user
-            message_prefix = "đã chọn kết liễu bản thân và:"
+            message_prefix = "đã chọn kết liễu bản thân và"
             await interaction.response.send_message(f'<@{user.id}> {message_prefix}')
             await asyncio.sleep(2)
-            if luck < 30:                
-                await interaction.edit_original_response(content=f'<@{user.id}> {message_prefix}: BÙM!!!!!! {user} đã bị {random.choice(gun_kill)} trong {round(self.bot.latency*1000)} ms. Luck: {luck} < 30')
+            if luck < 55:                
+                await interaction.edit_original_response(content=f'<@{user.id}> {message_prefix}: BÙM!!!!!! {user} đã bị {random.choice(gun_kill)} trong {round(self.bot.latency*1000)} ms. Luck: {luck} < 55')
             else:
-                await interaction.edit_original_response(content=f'<@{user.id}> {message_prefix}: TẠCH! {user} đã sống sót, thật may mắn vì {user} đã có giáp mũ tier 9. Luck: {luck} >= 30')
+                await interaction.edit_original_response(content=f'<@{user.id}> {message_prefix}: TẠCH! {user} đã sống sót, thật may mắn vì {user} đã có giáp mũ tier 9. Luck: {luck} >= 55')
         else:
             message_prefix_2 = "đã bị chĩa súng vào mặt bởi"
             await interaction.response.send_message(f'<@{user.id}> {message_prefix_2} {interaction.user} và: ')
             await asyncio.sleep(2)
-            if luck < 30:                
-                await interaction.edit_original_response(content=f'<@{user.id}> {message_prefix_2} {interaction.user} và: BÙM!!!!!! {user} đã bị {random.choice(gun_kill)} trong {round(self.bot.latency*1000)} ms. Luck: {luck} < 30')
+            if luck < 55:                
+                await interaction.edit_original_response(content=f'<@{user.id}> {message_prefix_2} {interaction.user} và: BÙM!!!!!! {user} đã bị {random.choice(gun_kill)} trong {round(self.bot.latency*1000)} ms. Luck: {luck} < 55')
             else:
-                await interaction.edit_original_response(content=f'<@{user.id}> {message_prefix_2} {interaction.user} và: TẠCH! {user} đã sống sót, thật may mắn vì {user} đã có giáp mũ tier 9. Luck: {luck} >= 30')
+                await interaction.edit_original_response(content=f'<@{user.id}> {message_prefix_2} {interaction.user} và: TẠCH! {user} đã sống sót, thật may mắn vì {user} đã có giáp mũ tier 9. Luck: {luck} >= 55')
 
 async def setup(bot):
     await bot.add_cog(gun(bot))
