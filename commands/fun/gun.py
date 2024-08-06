@@ -39,8 +39,8 @@ class gun(commands.Cog):
             await asyncio.sleep(2)
             if luck < 55:                
                 await interaction.edit_original_response(content=f'<@{user.id}> {message_prefix_2} {interaction.user} và: BÙM!!!!!! {user} đã bị {random.choice(gun_kill)} trong {round(self.bot.latency*1000)} ms. Luck: {luck} < 55')
-            elif (luck >=55) and (luck < 80):
-                await interaction.edit_original_response(content=f'<@{user.id}> {message_prefix_2} {interaction.user} và: TẠCH! {user} đã sống sót, thật may mắn vì {user} đã có giáp mũ tier 9. Luck: 55 <= {luck} < 55')
+            elif (luck >=55) and (luck < 85):
+                await interaction.edit_original_response(content=f'<@{user.id}> {message_prefix_2} {interaction.user} và: TẠCH! {user} đã sống sót, thật may mắn vì {user} đã có giáp mũ tier 9. Luck: 55 <= {luck} < 85')
             else:
                 await interaction.edit_original_response(content=f'<@{user.id}> {message_prefix_2} {interaction.user} và: BÙM!!!!!! khẩu súng trên tay {interaction.user} đã nổ tung!!!! Luck của {user} >= 85')
 
