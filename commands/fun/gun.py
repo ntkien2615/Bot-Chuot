@@ -31,9 +31,9 @@ class gun(commands.Cog):
                 'SAIGA-12 (S12K) shụt',
                 'USA12 kéo một lượt 20 viên đạn ghém'
             ]
-            await interaction.edit_original_response(f'<@{user}> đã chọn kết liễu bản thân và: BÙM!!!!!! {user} đã bị {gun_kill} trong {round(self.bot.latency*1000)} ms. Luck của {user} là {luck} < 30')
+            await interaction.edit_original_response(f'<@{user.id}> đã chọn kết liễu bản thân và: BÙM!!!!!! {user} đã bị {gun_kill} trong {round(self.bot.latency*1000)} ms. Luck của {user} là {luck} < 30')
         else:
-            await interaction.edit_original_response(f'<@{user}> đã chọn kết liễu bản thân và: TẠCH! {user} đã sống sót, thật may mắn vì user đã có giáp mũ tier 9. Luck của {user} là {luck} >= 30')
+            await interaction.edit_original_response(f'<@{user.id}> đã chọn kết liễu bản thân và: TẠCH! {user} đã sống sót, thật may mắn vì user đã có giáp mũ tier 9. Luck của {user} là {luck} >= 30')
 
 async def setup(bot):
     await bot.add_cog(gun(bot))
