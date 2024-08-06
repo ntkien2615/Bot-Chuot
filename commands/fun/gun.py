@@ -10,7 +10,7 @@ class gun(commands.Cog):
         self.bot = bot
 
         
-    @app_commands.command(name='gun_lỏ',description='Có cơ hội đưa bản thân lên bảng điểm số hoặc bắn ai đó cũng được (luck < 30 là chết nhé!)') 
+    @app_commands.command(name='gun_lỏ',description='Có cơ hội đưa bản thân lên bảng điểm số hoặc bắn ai đó cũng được (luck < 55 là chết nhé!)') 
     @app_commands.describe(user='Người bạn muốn bắn')
     async def gun(self, interaction:discord.Interaction, user: discord.Member = None):
         luck = random.randint(1,100)
