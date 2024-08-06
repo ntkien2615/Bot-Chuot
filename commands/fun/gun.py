@@ -20,7 +20,7 @@ class gun(commands.Cog):
 
         await interaction.response.send_message(f'<@{user.id}> đã chọn kết liễu bản thân và: ')
         await asyncio.sleep(2)
-        luck = random.randint(1,100):
+        luck = random.randint(1,100)
         if luck < 30:
             gun_kill = [
                 'NAGANT 1895 bắn',
