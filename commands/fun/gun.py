@@ -16,7 +16,7 @@ class gun(commands.Cog):
     @app_commands.describe(user='Người bạn muốn bắn')
     async def gun(self, interaction:discord.Interaction, user: discord.Member):
         if user == None:
-            user = interaction.user:
+            user = interaction.user
 
         await interaction.response.send_message(f'<@{user.id}> đã chọn kết liễu bản thân và: ')
         await asyncio.sleep(2)
