@@ -34,7 +34,7 @@ class gun(commands.Cog):
             else:
                 await interaction.edit_original_response(content=f'<@{user.id}> {message_prefix}: TẠCH! {user} đã sống sót, thật may mắn vì user đã có giáp mũ tier 9. Luck: {luck} >= 30')
         else:
-            message_prefix_2 = "đã bị chĩa súng vào mặt"
+            message_prefix_2 = "đã bị chĩa súng vào mặt bởi"
             await interaction.response.send_message(f'<@{user.id}> {message_prefix_2} {interaction.user} và: ')
             await asyncio.sleep(2)
             if luck < 30:                
