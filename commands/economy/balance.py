@@ -33,6 +33,9 @@ class Balance(commands.Cog):
             # Fetch the balance result
             myresult = mycursor.fetchone()
 
+            mycursor.close()
+            mydb.close()
+
             if myresult:
                 balance = myresult[0]
                 await interaction.response.send_message(f"Your current balance is: {balance} coin")  # Include the coin unit
@@ -46,10 +49,7 @@ class Balance(commands.Cog):
         except mysql.connector.Error as err:
             print(f"Error connecting to database: {err}")
             await interaction.response.send_message("An error occurred while checking your balance. Please try again later.")
-        finally:
-            if mydb:# Close the database connection (if successfully established)
-                mycursor.close()
-                mydb.close()
+        
 
 async def setup(bot):
     await bot.add_cog(Balance(bot))
