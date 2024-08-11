@@ -24,7 +24,7 @@ class momoi(commands.Cog):
         embed = discord.Embed(title="", description="", color=discord.Color.random())
         embed.set_image(url=momoi)
 
-        await interacton.response.send_message(f'{user}',embed=embed)
+        await interacton.response.send_message(f'<@{user.id}>',embed=embed)
 
 async def setup(bot):
     await bot.add_cog(momoi(bot))
