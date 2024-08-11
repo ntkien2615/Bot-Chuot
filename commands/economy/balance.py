@@ -12,16 +12,12 @@ class Balance(commands.Cog):
         user_id = interaction.user.id  # Get the user's ID from Discord
 
         try:
-            MYSQL_HOST = "sql12.freesqldatabase.com"
-            MYSQL_USER = "sql12725224"
-            MYSQL_PASSWORD = "bN1exXNWYp"
-            MYSQL_DATABASE = "bot_chuot"
             # Connect to the MySQL database
             mydb = mysql.connector.connect(
-                host=MYSQL_HOST,
-                user=MYSQL_USER,
-                password=MYSQL_PASSWORD,
-                database=MYSQL_DATABASE
+                host= "sql12.freesqldatabase.com",
+                user= "sql12725224",
+                password= "bN1exXNWYp",
+                database= "bot_chuot"
             )
             mycursor = mydb.cursor()
 
