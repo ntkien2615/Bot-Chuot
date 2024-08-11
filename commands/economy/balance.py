@@ -49,9 +49,8 @@ class Balance(commands.Cog):
             await interaction.response.send_message("An error occurred while checking your balance. Please try again later.")
         finally:
             # Close the database connection (if successfully established)
-            if mydb:
-                mycursor.close()
-                mydb.close()
+            mycursor.close()
+            mydb.close()
 
 async def setup(bot):
     await bot.add_cog(Balance(bot))
