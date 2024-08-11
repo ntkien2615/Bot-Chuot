@@ -43,14 +43,13 @@ class Balance(commands.Cog):
                 mycursor.execute(sql, val)
                 mydb.commit()  # Commit the insertion
                 await interaction.response.send_message(f"Welcome! Your starting balance is: 10 coin")
-
         except mysql.connector.Error as err:
             print(f"Error connecting to database: {err}")
             await interaction.response.send_message("An error occurred while checking your balance. Please try again later.")
         finally:
-            # Close the database connection (if successfully established)
-            mycursor.close()
-            mydb.close()
+            if mydb:# Close the database connection (if successfully established)
+                mycursor.close()
+                mydb.close()
 
 async def setup(bot):
     await bot.add_cog(Balance(bot))
