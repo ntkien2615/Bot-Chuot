@@ -3,7 +3,7 @@ from discord.ext import commands
 from discord import app_commands
 
 
-class moimoi(commands.Cog):
+class momoi(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
@@ -18,11 +18,12 @@ class moimoi(commands.Cog):
 
     @app_commands.command(name='momoi',description='momoi ní...') 
     @app_commands.describe(user='Người muốn được đua xe')
-    async def moimoi(self, interaction:discord.Interaction,user=discord.Member):        
+    async def moimoi(self, interaction:discord.Interaction, user:discord.Member):        
         momoi = self.random_file_read('./txt_files/moimoi.txt')
         embed = discord.Embed(title="", description="", color=discord.Color.random())
         embed.set_image(url=momoi)
 
         await interacton.response.send_message(f'{user}',embed=embed)
+
 async def setup(bot):
-    await bot.add_cog(moimoi(bot))
+    await bot.add_cog(momoi(bot))
