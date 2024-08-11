@@ -3,12 +3,6 @@ from discord.ext import commands
 from discord import app_commands
 import mysql.connector  # Import the MySQL connector library
 
-# Replace these with your actual connection details
-MYSQL_HOST = "sql12.freesqldatabase.com"
-MYSQL_USER = "sql12725224"
-MYSQL_PASSWORD = "bN1exXNWYp"
-MYSQL_DATABASE = "bot_chuot"
-
 class Balance(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -18,6 +12,10 @@ class Balance(commands.Cog):
         user_id = interaction.user.id  # Get the user's ID from Discord
 
         try:
+            MYSQL_HOST = "sql12.freesqldatabase.com"
+            MYSQL_USER = "sql12725224"
+            MYSQL_PASSWORD = "bN1exXNWYp"
+            MYSQL_DATABASE = "bot_chuot"
             # Connect to the MySQL database
             mydb = mysql.connector.connect(
                 host=MYSQL_HOST,
