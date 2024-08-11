@@ -17,7 +17,7 @@ class Balance(commands.Cog):
                 host= "sql12.freesqldatabase.com",
                 user= "sql12725224",
                 password= "bN1exXNWYp",
-                database= "sql12725224"
+                database= "bot_chuot"
             )
             mycursor = mydb.cursor()
 
