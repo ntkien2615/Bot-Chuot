@@ -14,7 +14,6 @@ class Balance(commands.Cog):
         self.bot = bot
 
     @app_commands.command(name="balance", description="Checks your account balance.")
-    @app_commands.describe(coin="Your current balance in the system (coins).")
     async def balance(self, interaction: discord.Interaction):
         user_id = interaction.user.id  # Get the user's ID from Discord
 
