@@ -19,7 +19,7 @@ class momoi(commands.Cog):
 
     @app_commands.command(name='momoi',description='momoi ní...') 
     @app_commands.describe(user='Người muốn được đua xe')
-    async def moimoi(self, interaction:discord.Interaction, user:discord.Member):
+    async def moimoi(self, interaction: discord.Interaction, user:discord.Member):
         if (user == None) or (user == interaction.user):
             await interaction.response.send_message('Nhập người nào vào đi',ephemeral=True)
             return
@@ -28,7 +28,7 @@ class momoi(commands.Cog):
             embed = discord.Embed(title="", description="", color=discord.Color.random())
             embed.set_image(url=momoi)
 
-        await interacton.response.send_message(f"<@{user.id}>",embed=embed)
+        await interaction.response.send_message(f"<@{user.id}>",embed=embed)
 
 async def setup(bot):
     await bot.add_cog(momoi(bot))
