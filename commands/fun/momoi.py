@@ -20,7 +20,7 @@ class momoi(commands.Cog):
     @app_commands.command(name='momoi',description='momoi ní...') 
     @app_commands.describe(user='Người muốn được đua xe')
     async def moimoi(self, interaction:discord.Interaction, user:discord.Member):
-        if (member == None) or (member == interaction.user):
+        if (userr == None) or (user == interaction.user):
             await interaction.response.send_message('Nhập người nào vào đi',ephemeral=True)
             return
         else:      
