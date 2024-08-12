@@ -19,13 +19,16 @@ class momoi(commands.Cog):
 
     @app_commands.command(name='momoi',description='momoi ní...') 
     @app_commands.describe(user='Người muốn được đua xe')
-    async def moimoi(self, interaction:discord.Interaction, user:discord.Member):        
-        momoi = self.random_file_read('./txt_files/moimoi.txt')
-        embed = discord.Embed(title="", description="", color=discord.Color.random())
-        embed.set_image(url=momoi)
+    async def moimoi(self, interaction:discord.Interaction, user:discord.Member):
+        if (member == None) or (member == interaction.user):
+            await interaction.response.send_message('Nhập người nào vào đi',ephemeral=True)
+            return
+        else:      
+            momoi = self.random_file_read('./txt_files/moimoi.txt')
+            embed = discord.Embed(title="", description="", color=discord.Color.random())
+            embed.set_image(url=momoi)
 
-        await interacton.response.send_message(f'<@{user.id}>')
-        await interaction.edit_original_response(content=f'<@{user.id}>',embed=embed)
+        await interacton.response.send_message(f"<@{user.id}>",embed=embed)
 
 async def setup(bot):
     await bot.add_cog(momoi(bot))
