@@ -25,7 +25,7 @@ class on_message(commands.Cog):
 
         dead_chat = ['dead chat', 'dead chat xd']
         if message.content.lower() in dead_chat:
-            await message.channel.send('Dead cc')
+            await message.channel.send('Dead mả cha m')
             await self.bot.process_commands(message)
 
         russian = ['russian']
