@@ -75,7 +75,7 @@ class on_message(commands.Cog):
         about= ['về bot chuột', 'about "chuot" bot']
         for ab_word in about:
             if ab_word in message.content.lower():
-                await message.reply("Về bot chuột. Bot chuột là con bot rất láo và ổn lào")
+                await message.reply('Về bot chuột. Bot chuột là con bot rất láo và ổn lào')
                 await self.bot.process_commands(message)
                 
 
