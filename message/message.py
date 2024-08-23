@@ -71,6 +71,12 @@ class on_message(commands.Cog):
             if ovt_word in message.content.lower():
                 await message.reply("Why we overthinking when we can ||Ov3Rdo$$3||. :3")
                 await self.bot.process_commands(message)       
+
+        about= ['về bot chuột', 'about "chuot" bot']
+        for ab_word in about:
+            if ab_word in message.content.lower():
+                await message.reply("Về bot chuột. Bot chuột là con bot rất láo và ổn lào")
+                await self.bot.process_commands(message)
                 
 
 async def setup(bot):
