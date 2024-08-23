@@ -23,9 +23,9 @@ class on_message(commands.Cog):
             await message.channel.send('sủi cmm luôn đi')
             await self.bot.process_commands(message)
 
-        dead_chat = ['dead chat', 'dead chat xd']
+        dead_chat = ['dead chat', 'dead chat xd','dead chat guys']
         if message.content.lower() in dead_chat:
-            await message.channel.send('Dead mả cha m')
+            await message.channel.send('Dead mả cha m nhé')
             await self.bot.process_commands(message)
 
         russian = ['russian']
