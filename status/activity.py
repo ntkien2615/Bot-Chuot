@@ -14,7 +14,7 @@ class actvity(commands.Cog):
         self.bot = bot
         self.status = cycle(self.read_file_into_list("./txt_files/activity.txt"))
 
-    @tasks.loop(seconds=2)
+    @tasks.loop(seconds=5)
     async def change_status(self):
         await self.bot.change_presence(status=discord.Status.online,
                                        activity=discord.Activity(
