@@ -85,5 +85,12 @@ class on_message(commands.Cog):
             if kevin_word in message.content.lower():
                 await message.reply('Thang kevin la thang tao ra cai con bot nay, tuy biet code nhung ma rat hay lam tao bi brainrot')
                 await self.bot.process_commands(message)
+                
+        pholotino = ['florentino', 'fo lon ti no', 'pholotino']
+        for pholotino_word in pholotino:
+            if pholotino_word in message.content.lower():
+                await message.reply('VÀ ĐÂY LÀ TÚ CÓ NY, VÕ CÔNG QUÁ CAO CƯỜNG. THẢ FLO CHO T LÀ CHÚNG NÓ XONG RỒI')
+                await self.bot.process_commands(message)
+                
 async def setup(bot):
     await bot.add_cog(on_message(bot))
