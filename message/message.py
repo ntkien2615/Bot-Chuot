@@ -1,4 +1,5 @@
 from discord.ext import commands
+import random
 import discord
 
 
@@ -25,7 +26,8 @@ class on_message(commands.Cog):
 
         dead_chat = ['dead chat', 'dead chat xd','dead chat guys']
         if message.content.lower() in dead_chat:
-            await message.channel.send('Dead mả cha m nhé')
+            dead_chat_ans = ['dead cc','Dead mả cha m nhé']
+            await message.channel.send(random.choice(dead_chat_ans))
             await self.bot.process_commands(message)
 
         russian = ['russian']
@@ -75,7 +77,7 @@ class on_message(commands.Cog):
         about = ['về bot chuột', 'about "chuot" bot']
         for ab_word in about:
             if ab_word in message.content.lower():
-                await message.reply('Về bot chuột. Bot chuột là con bot rất láo và ổn lào')
+                await message.reply('Về bot chuột. Bot chuột là con bot rất láo và ổn lào, và bạn gõ slash /info đấy dumb, tao không hiểu tại sao thằng kia nó lại làm cái này, bot có lệnh slash hết rồi')
                 await self.bot.process_commands(message)
                 
 
