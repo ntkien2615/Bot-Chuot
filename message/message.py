@@ -79,7 +79,11 @@ class on_message(commands.Cog):
             if ab_word in message.content.lower():
                 await message.reply('Về bot chuột. Bot chuột là con bot rất láo và ổn lào, và bạn gõ slash /info đấy dumb, tao không hiểu tại sao thằng kia nó lại làm cái này, bot có lệnh slash hết rồi')
                 await self.bot.process_commands(message)
-                
-
+        
+        kevin = ['kevin', 'kê vin']
+        for kevin_word in kevin:
+            if kevin_word in message.content.lower():
+                await message.reply('Thang kevin la thang tao ra cai con bot nay, tuy biet code nhung ma rat hay lam tao bi brainrot')
+                await self.bot.process_commands(message)
 async def setup(bot):
     await bot.add_cog(on_message(bot))
