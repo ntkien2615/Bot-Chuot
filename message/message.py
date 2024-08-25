@@ -83,7 +83,7 @@ class on_message(commands.Cog):
         kevin = ['kevin', 'kê vin']
         for kevin_word in kevin:
             if kevin_word in message.content.lower():
-                await message.reply('Thang kevin la thang tao ra cai con bot nay, tuy biet code nhung ma rat hay lam tao bi brainrot')
+                await message.reply('<@868475751459094580>')
                 await self.bot.process_commands(message)
                 
         pholotino = ['florentino', 'fo lon ti no', 'pholotino']
