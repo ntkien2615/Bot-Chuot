@@ -1,4 +1,4 @@
-import discord, aiosqlite
+import discord
 from discord.ext import commands
 
 

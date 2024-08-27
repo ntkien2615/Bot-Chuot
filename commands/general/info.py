@@ -40,9 +40,9 @@ class SelectDropdown(discord.ui.Select):
             select_embed_2.add_field(name='k3v15l3v13tc05g(Cáo)', value=self.file_read('./txt_files/info/author.txt',2),inline=False)
             select_embed_2.add_field(name='Chuột', value=self.file_read('./txt_files/info/author.txt',3),inline=False)
             select_embed_2.add_field(name='Kyen', value=self.file_read('./txt_files/info/author.txt',4),inline=False)
+            select_embed_2.add_field(name='Nightcloud',value=self.file_read('./txt_files/info/author.txt',5),inline=False)
             select_embed_2.set_image(url='https://images-ext-2.discordapp.net/external/CgWKNYMqM2H_Q8rel9vzchKdh75oJzykfgId8tssbdQ/https/media.tenor.com/-q5sc5HU_SgAAAPo/the-goats-yes-king.mp4')
-            select_embed_2.set_footer(text=f"Requested by {interaction.user}",
-                             icon_url=interaction.user.avatar)
+            select_embed_2.set_footer(text=f"Requested by {interaction.user}",icon_url=interaction.user.avatar)
             await interaction.response.edit_message(embed=select_embed_2)
         elif self.values[0] == "3":
             select_embed_3 = discord.Embed(title="Những thứ không ai hỏi", description=self.file_read('./txt_files/info/no_one_ask.txt',1), color=discord.Color.random())
