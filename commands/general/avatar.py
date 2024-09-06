@@ -8,7 +8,7 @@ class MyView(discord.ui.View):
 
     @discord.ui.button(label='test', style=discord.ButtonStyle.grey)
     async def asdf(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.send_message('workie', ephemeral=True)
+        await interaction.response.send_message('test success', ephemeral=True)
 
 
 class avatarslash(commands.Cog):
