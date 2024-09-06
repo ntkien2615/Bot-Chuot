@@ -2,6 +2,13 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 
+class MyView(discord.ui.View):
+    def __init__(self):
+        super().__init__()
+
+    @discord.ui.button(label='test', style=discord.ButtonStyle.grey)
+    async def asdf(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.response.send_message('workie', ephemeral=True)
 
 class avatarslash(commands.Cog):
 
@@ -12,15 +19,16 @@ class avatarslash(commands.Cog):
     async def avtslash(self, interaction: discord.Interaction, member: discord.Member = None):
         if member == None:
             member = interaction.user
-
-        embed_msg = discord.Embed(title=f"Avatar của {member}",
+        
+        view = MyView()
+        embed_msg = discord.Embed(title=f"Avatar Global của {member}",
                                   color=discord.Color.random())
-        embed_msg.set_author(name=f"{member} ",
+        embed_msg.set_author(name=f"{member}",
                              icon_url=member.avatar)
         embed_msg.set_image(url=member.avatar)
         embed_msg.set_footer(text=f"Bởi {interaction.user}",
                              icon_url=interaction.user.avatar)
-        await interaction.response.send_message(embed=embed_msg)
+        await interaction.edit_original_response(embed=embed_msg,view=view)
 
 
 async def setup(bot):
