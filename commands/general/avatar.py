@@ -7,7 +7,7 @@ class MyView(discord.ui.View):
         super().__init__()
 
     @discord.ui.button(label='test', style=discord.ButtonStyle.grey)
-    async def asdf(self, interaction: discord.Interaction, button: discord.ui.Button):
+    async def asdf(self, interaction: discord.Interaction, button: discord.ui.Button,member: discord.Member):
         embed_msg = discord.Embed(title=f"Avatar Local của {member}",
                                   color=discord.Color.random())
         embed_msg.set_author(name=f"{member}",
