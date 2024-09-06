@@ -24,7 +24,7 @@ class avatarslash(commands.Cog):
             embed_msg.set_image(url=member.avatar)
             embed_msg.set_footer(text=f"Bởi {interaction.user}",
                                 icon_url=interaction.user.avatar)
-            await interaction.response.send_message(embed=embed_msg, view=view)
+            await interaction.response.send_message(embed=embed_msg)
         
         if options == 'local':
             embed_msg = discord.Embed(title=f"Avatar Local của {member}",
@@ -34,7 +34,7 @@ class avatarslash(commands.Cog):
             embed_msg.set_image(url=member.guild_avatar.url)
             embed_msg.set_footer(text=f"Bởi {interaction.user}",
                                 icon_url=interaction.user.avatar)
-            await interaction.response.send_message(embed=embed_msg, view=view)
+            await interaction.response.send_message(embed=embed_msg)
 
 
 async def setup(bot):
