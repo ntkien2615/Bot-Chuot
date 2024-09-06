@@ -7,8 +7,15 @@ class MyView(discord.ui.View):
         super().__init__()
 
     @discord.ui.button(label='test', style=discord.ButtonStyle.grey)
-    async def asdf(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.edit_message(content='test success')
+    async def asdf(self, interaction: discord.Interaction, button: discord.ui.Button,member: discord.Member):
+        embed_msg = discord.Embed(title=f"Avatar Local của {member}",
+                                  color=discord.Color.random())
+        embed_msg.set_author(name=f"{member}",
+                             icon_url=member.guild_avatar)
+        embed_msg.set_image(url=member.guild_avatar)
+        embed_msg.set_footer(text=f"Bởi {interaction.user}",
+                             icon_url=interaction.user.avatar)
+        await interaction.response.edit_message(content='test success',embed=embed_msg)
 
 
 class avatarslash(commands.Cog):
