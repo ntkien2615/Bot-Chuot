@@ -10,6 +10,7 @@ class MyView(discord.ui.View):
     async def asdf(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_message('workie', ephemeral=True)
 
+
 class avatarslash(commands.Cog):
 
     def __init__(self, bot):
@@ -19,7 +20,7 @@ class avatarslash(commands.Cog):
     async def avtslash(self, interaction: discord.Interaction, member: discord.Member = None):
         if member == None:
             member = interaction.user
-        
+
         view = MyView()
         embed_msg = discord.Embed(title=f"Avatar Global của {member}",
                                   color=discord.Color.random())
@@ -28,7 +29,7 @@ class avatarslash(commands.Cog):
         embed_msg.set_image(url=member.avatar)
         embed_msg.set_footer(text=f"Bởi {interaction.user}",
                              icon_url=interaction.user.avatar)
-        await interaction.edit_original_response(embed=embed_msg,view=view)
+        await interaction.response.send_message(embed=embed_msg, view=view)
 
 
 async def setup(bot):
