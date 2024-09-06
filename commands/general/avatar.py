@@ -17,7 +17,7 @@ class avatarslash(commands.Cog):
             member = interaction.user
 
         if options == 'global':
-            embed_msg = discord.Embed(title=f"Avatar Global của {member}",
+            embed_msg = discord.Embed(title=f"Avatar global của {member}",
                                     color=discord.Color.random())
             embed_msg.set_author(name=f"{member}",
                                 icon_url=member.avatar)
@@ -27,7 +27,7 @@ class avatarslash(commands.Cog):
             await interaction.response.send_message(embed=embed_msg)
         
         if options == 'local':
-            embed_msg = discord.Embed(title=f"Avatar Local của {member}",
+            embed_msg = discord.Embed(title=f"Avatar local của {member}",
                                     color=discord.Color.random())
             embed_msg.set_author(name=f"{member}",
                                 icon_url=member.avatar)
