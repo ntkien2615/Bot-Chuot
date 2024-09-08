@@ -18,7 +18,7 @@ class Banner(commands.Cog):
                 description="this user has no banner."
             ))
         else:
-            embed_msg = discord.Embed(title=f"Banner global của {member}",
+            embed_msg = discord.Embed(title=f"Banner của {member}",
                                         color=discord.Color.random())
             embed_msg.set_author(name=f"{member}",
                                     icon_url=member.avatar)
