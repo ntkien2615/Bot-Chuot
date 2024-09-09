@@ -28,9 +28,9 @@ class SelectDropdown(discord.ui.Select):
             select_embed_1 = discord.Embed(title='Update',
                                          description=self.file_read("./txt_files/info/update_log.txt",1),
                                          color=discord.Color.random())
-            select_embed_1.add_field(name='Thêm các câu lệnh mới',value=self.file_read("./txt_files/info/update_log.txt",2),inline=False)
-            select_embed_1.add_field(name='Loại bỏ dần các lệnh non-slash',value=self.file_read("./txt_files/info/update_log.txt",3),inline=False)
-            select_embed_1.add_field(name='Thêm các dòng tin nhắn mới',value=self.file_read("./txt_files/info/update_log.txt",4),inline=False)
+            select_embed_1.add_field(name='Thêm cả đống các câu lệnh mới',value=self.file_read("./txt_files/info/update_log.txt",2),inline=False)
+            select_embed_1.add_field(name='Lệnh non-slash chỉ còn một lệnh duy nhất',value=self.file_read("./txt_files/info/update_log.txt",3),inline=False)
+            select_embed_1.add_field(name='Nếu được thì chuẩn bị bot đổi host',value=self.file_read("./txt_files/info/update_log.txt",4),inline=False)
             select_embed_1.set_image(url='https://images.alphacoders.com/135/1353722.jpeg')
             select_embed_1.set_footer(text=f"Requested by {interaction.user}",
                              icon_url=interaction.user.avatar)
@@ -46,6 +46,7 @@ class SelectDropdown(discord.ui.Select):
             await interaction.response.edit_message(embed=select_embed_2)
         elif self.values[0] == "3":
             select_embed_3 = discord.Embed(title="Những thứ không ai hỏi", description=self.file_read('./txt_files/info/no_one_ask.txt',1), color=discord.Color.random())
+            select_embed_3 = discord.Embed(title="Cáo",description=self.file_read('./txt_files/info/no_one_ask.txt',2), inline=False)
             await interaction.response.edit_message(embed=select_embed_3)
 
 class DropdownMenu(discord.ui.View): 
