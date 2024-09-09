@@ -46,7 +46,7 @@ class SelectDropdown(discord.ui.Select):
             await interaction.response.edit_message(embed=select_embed_2)
         elif self.values[0] == "3":
             select_embed_3 = discord.Embed(title="Những thứ không ai hỏi", description=self.file_read('./txt_files/info/no_one_ask.txt',1), color=discord.Color.random())
-            select_embed_3 = discord.Embed(title="Cáo",value=self.file_read('./txt_files/info/no_one_ask.txt',2), inline=False)
+            select_embed_3.add_field(name="Cáo",value=self.file_read('./txt_files/info/no_one_ask.txt',2), inline=False)
             await interaction.response.edit_message(embed=select_embed_3)
 
 class DropdownMenu(discord.ui.View): 
