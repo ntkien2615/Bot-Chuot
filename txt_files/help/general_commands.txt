@@ -1,5 +1,6 @@
 
-Tạo avatar ảnh của bản thân hoặc người khác
+Tạo avatar ảnh của bản thân hoặc người khác (Local mode chỉ áp dụng với người dùng nitro)
 Trợ giúp về lệnh
 Về các bản cập nhật và phần after credit của bot 
+Lấy banner của người khác (chỉ áp dụng với nitro)
 Thử độ trễ của bot (Ping)
