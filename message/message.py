@@ -100,6 +100,11 @@ class on_message(commands.Cog):
         for jack_word in jack:
             if jack_word in message.content.lower():
                 await message.reply(random.choice(jack_ans))
+        
+        link = ['link']
+        for link_word in link:
+            if link_word in message.content.lower():
+                await message.reply('https://media.discordapp.net/attachments/883268139922636820/1287350064276045824/278755226_745698233463800_1291647474017004061_n.png?ex=66f139ad&is=66efe82d&hm=691315948a3b26a3d54e02820608b560bba49b35bf5b5c7b6812774e01660bd5&=&format=webp&quality=lossless&width=200&height=252')
                 
 async def setup(bot):
     await bot.add_cog(on_message(bot))
