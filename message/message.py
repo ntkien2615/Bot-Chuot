@@ -98,7 +98,7 @@ class on_message(commands.Cog):
             'Đừnq 👐 bao zờ 😏 gkét 😡 a Jack 😢😭, đom đóm 👉 củg zậy 😉đừg 🤫 bao zờ 😠 gkét 🤬 a ♥️😍😍 đom đóm xẽ 🙂 trịu hớt 🤯 trịu hớt😣😵 ta^t kả😇 la j fan😔 đừg lam 😠 a Jack🤩 tổn tkưg 😭😭 đom đóm xẽ đau 🙁 nkư dao kắt 🔪🔪 kim đăm 💔💔Đừnq 👐 bao zờ 😏 gkét 😡 a Jack 😢😭, đom đóm 👉 củg zậy 😉đừg 🤫 bao zờ 😠 gkét 🤬 a ♥️😍😍 đom đóm xẽ 🙂 trịu hớt 🤯 trịu hớt😣😵 ta^t kả😇 la j fan😔 đừg lam 😠 a Jack🤩 tổn tkưg 😭😭 đom đóm xẽ đau 🙁 nkư dao kắt 🔪🔪 kim đăm 💔💔Đừnq 👐 bao zờ 😏 gkét 😡 a Jack 😢😭, đom đóm 👉 củg zậy 😉đừg 🤫 bao zờ 😠 gkét 🤬 a ♥️😍😍 đom đóm xẽ 🙂 trịu hớt 🤯 trịu hớt😣😵 ta^t kả😇 la j fan😔 đừg lam 😠 a Jack🤩 tổn tkưg 😭😭 đom đóm xẽ đau 🙁 nkư dao kắt 🔪🔪 kim đăm 💔💔'
         ]
         for jack_word in jack:
-            if jack_word in message.content.lower():
+            if message.content.lower() == jack_word:
                 await message.reply(random.choice(jack_ans))
         
         link = ['link']
