@@ -15,7 +15,7 @@ class phenis(commands.Cog):
             member == interaction.user
         def tao_day_bang():
             day_bang = ""
-            for i in range(1,random.randint(1,21)):
+            for _ in range(1,random.randint(1,21)):
                 day_bang +="="
             return day_bang
         bang = tao_day_bang()
