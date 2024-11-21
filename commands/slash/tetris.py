@@ -310,7 +310,7 @@ def get_next_pos(cur_shape_pos):
     return [movement_amnt, next_space_free]
 
 
-async def run_game(msg, cur_shape):
+async def run_game(msg, cur_shape, interaction):
     global is_new_shape
     global h_movement
     global rotate_clockwise
@@ -360,7 +360,7 @@ async def run_game(msg, cur_shape):
         await msg.edit(embed=embed)
         if not is_new_shape:
             await asyncio.sleep(1) #to keep under api rate limit
-        await run_game(msg, cur_shape)
+        await run_game(msg, cur_shape, interaction)
     else:
         print('GAME OVER')
         desc = 'Score: {} \n Lines: {} \n \n Press ▶ to play again.'.format(points, lines)
@@ -414,7 +414,7 @@ class tetrisSlash(commands.Cog):
         await msg.add_reaction("➡") # Right
         await msg.add_reaction("🔃") # Rotate
         cur_shape = get_random_shape()
-        await run_game(msg, cur_shape)
+        await run_game(msg, cur_shape, interaction)
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
