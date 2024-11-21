@@ -409,8 +409,32 @@ class tetrisSlash(commands.Cog):
         await reset_game()
         embed = discord.Embed(description=format_board_as_str(), color=embed_colour)
         msg = await interaction.followup.send(embed=embed)
+        await msg.add_reaction("⬅") # Left
+        await msg.add_reaction("⬇") # Down
+        await msg.add_reaction("➡") # Right
+        await msg.add_reaction("🔃") # Rotate
         cur_shape = get_random_shape()
         await run_game(msg, cur_shape)
+
+    @commands.Cog.listener()
+    async def on_reaction_add(self, reaction, user):
+        if user.bot:
+            return
+
+        global h_movement
+        global down_pressed
+        global rotate_clockwise
+
+        if reaction.emoji == "⬅":
+            h_movement = -1
+        elif reaction.emoji == "➡":
+            h_movement = 1
+        elif reaction.emoji == "⬇":
+            down_pressed = True
+        elif reaction.emoji == "🔃":
+            rotate_clockwise = True
+
+        await reaction.message.remove_reaction(reaction.emoji, user)
 
 async def setup(bot):
     await bot.add_cog(tetrisSlash(bot))
