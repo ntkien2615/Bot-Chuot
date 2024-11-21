@@ -405,7 +405,13 @@ class tetrisSlash(commands.Cog):
 
     @app_commands.command(name='tetris', description='chơi tetris với bot')
     async def tetrisSlash(self, interaction: discord.Interaction):
-        pass
+        await interaction.response.defer()
+        await reset_game()
+        embed = discord.Embed(description=format_board_as_str(), color=embed_colour)
+        msg = await interaction.followup.send(embed=embed)
+        cur_shape = get_random_shape()
+        await run_game(msg, cur_shape)
 
 async def setup(bot):
     await bot.add_cog(tetrisSlash(bot))
+    bot.tree.add_command(tetrisSlash(bot).tetrisSlash)
