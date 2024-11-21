@@ -414,4 +414,3 @@ class tetrisSlash(commands.Cog):
 
 async def setup(bot):
     await bot.add_cog(tetrisSlash(bot))
-    bot.tree.add_command(tetrisSlash(bot).tetrisSlash)
