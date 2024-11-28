@@ -4,402 +4,239 @@ from discord import app_commands
 import random
 import asyncio
 
+# Constants
+NUM_OF_ROWS = 18
+NUM_OF_COLS = 10
+EMPTY_SQUARE = ':black_large_square:'
+SQUARES = {
+    'blue': ':blue_square:',
+    'brown': ':brown_square:',
+    'orange': ':orange_square:',
+    'yellow': ':yellow_square:',
+    'green': ':green_square:',
+    'purple': ':purple_square:',
+    'red': ':red_square:'
+}
+EMBED_COLOUR = 0x077ff7
 
+# Global variables
 board = []
-num_of_rows = 18
-num_of_cols = 10
-empty_square = ':black_large_square:'
-blue_square = ':blue_square:'
-brown_square = ':brown_square:'
-orange_square = ':orange_square:'
-yellow_square = ':yellow_square:'
-green_square = ':green_square:'
-purple_square = ':purple_square:'
-red_square = ':red_square:'
-embed_colour = 0x077ff7 #colour of line on embeds
 points = 0
-lines = 0 #how many lines cleared
-down_pressed = False #if down button has been pressed
+lines = 0
+down_pressed = False
 rotate_clockwise = False
 rotation_pos = 0
-h_movement = 0 #amount to move left or right
+h_movement = 0
 is_new_shape = False
-start_higher = False #for when near top of board
+start_higher = False
 game_over = False
 index = 0
 
-
-class Tetronimo: #Tetris pieces
+class Tetronimo:
     def __init__(self, starting_pos, colour, rotation_points):
-        self.starting_pos = starting_pos #list
+        self.starting_pos = starting_pos
         self.colour = colour
-        self.rotation_points = rotation_points #list
+        self.rotation_points = rotation_points
 
-main_wall_kicks = [ #for J, L, T, S, Z tetronimos
-                    [[0, 0], [0, -1], [-1, -1], [2, 0], [2, -1]],
-                    [[0, 0], [0, 1], [1, 1], [-2, 0], [-2, 1]],
-                    [[0, 0], [0, 1], [-1, 1], [2, 0], [2, 1]],
-                    [[0, 0], [0, -1], [1, -1], [-2, 0], [-2, -1]]
-                    ]
+# Wall kicks and rotation adjustments
+main_wall_kicks = [
+    [[0, 0], [0, -1], [-1, -1], [2, 0], [2, -1]],
+    [[0, 0], [0, 1], [1, 1], [-2, 0], [-2, 1]],
+    [[0, 0], [0, 1], [-1, 1], [2, 0], [2, 1]],
+    [[0, 0], [0, -1], [1, -1], [-2, 0], [-2, -1]]
+]
 
-i_wall_kicks = [ #for I tetronimo
-                [[0, 0], [0, -2], [0, 1], [1, -2], [-2, 1]],
-                [[0, 0], [0, -1], [0, 2], [-2, -1], [1, 2]],
-                [[0, 0], [0, 2], [0, -1], [-1, 2], [2, -1]],
-                [[0, 0], [0, 1], [0, -2], [2, 1], [-1, -2]]
-                ]
+i_wall_kicks = [
+    [[0, 0], [0, -2], [0, 1], [1, -2], [-2, 1]],
+    [[0, 0], [0, -1], [0, 2], [-2, -1], [1, 2]],
+    [[0, 0], [0, 2], [0, -1], [-1, 2], [2, -1]],
+    [[0, 0], [0, 1], [0, -2], [2, 1], [-1, -2]]
+]
 
-rot_adjustments = { #to move when rotations are slightly off
-                #blue: not sure if needs any rn
-                ':blue_square:': [[0, 1], [-1, -1], [0, 0], [-1, 0]], #[[0, 0], [0, 0], [0, 0], [0, 0]]
-                #brown: left 1, right 1, right 1, left 1,
-                ':brown_square:': [[0, 0], [0, 1], [0, 0], [0, -1]], #[[0, -1], [0, 1], [0, 1], [0, -1]]'
-                #orange: left 1, nothing, right 1, nothing
-                ':orange_square:': [[0, -1], [0, 0], [-1, 1], [0, 0]], #[[0, -1], [0, 0], [0, 1], [0, 0]]
-                #none for yellow
-                ':yellow_square:': [[0, 0], [0, 0], [0, 0], [0, 0]],
-                #green: right 1, nothing, right 1, nothing
-                ':green_square:': [[0, 0], [0, 0], [0, 0], [0, 0]], #[[0, 1], [0, 0], [0, 1], [0, 0]]
-                #purple: nothing, right 1, left 1 (possibly up too), right 1
-                ':purple_square:': [[0, 0], [1, 1], [0, -1], [0, 1]], #[[0, 0], [0, 1], [0, -1], [0, 1]]
-                #red: left 1, up 1, right 1, up 1
-                ':red_square:': [[1, -1], [-1, -1], [0, 2], [-1, -1]] #[[0, -1], [-1, 0], [0, 1], [-1, 0]]
-                }
+rot_adjustments = {
+    SQUARES['blue']: [[0, 1], [-1, -1], [0, 0], [-1, 0]],
+    SQUARES['brown']: [[0, 0], [0, 1], [0, 0], [0, -1]],
+    SQUARES['orange']: [[0, -1], [0, 0], [-1, 1], [0, 0]],
+    SQUARES['yellow']: [[0, 0], [0, 0], [0, 0], [0, 0]],
+    SQUARES['green']: [[0, 0], [0, 0], [0, 0], [0, 0]],
+    SQUARES['purple']: [[0, 0], [1, 1], [0, -1], [0, 1]],
+    SQUARES['red']: [[1, -1], [-1, -1], [0, 2], [-1, -1]]
+}
 
-#starting spots, right above the board ready to be lowered. Col is 3/4 to start in middle
-shape_I = Tetronimo([[0, 3], [0, 4], [0, 5], [0, 6]], blue_square, [1, 1, 1, 1])
-shape_J = Tetronimo([[0, 3], [0, 4], [0, 5], [-1, 3]], brown_square, [1, 1, 2, 2])
-shape_L = Tetronimo([[0, 3], [0, 4], [0, 5], [-1, 5]], orange_square, [1, 2, 2, 1])
-shape_O = Tetronimo([[0, 4], [0, 5], [-1, 4], [-1, 5]], yellow_square, [1, 1, 1, 1])
-shape_S = Tetronimo([[0, 3], [0, 4], [-1, 4], [-1, 5]], green_square, [2, 2, 2, 2])
-shape_T = Tetronimo([[0, 3], [0, 4], [0, 5], [-1, 4]], purple_square, [1, 1, 3, 0])
-shape_Z = Tetronimo([[0, 4], [0, 5], [-1, 3], [-1, 4]], red_square, [0, 1, 0, 2])
+# Tetris shapes
+shapes = [
+    Tetronimo([[0, 3], [0, 4], [0, 5], [0, 6]], SQUARES['blue'], [1, 1, 1, 1]),
+    Tetronimo([[0, 3], [0, 4], [0, 5], [-1, 3]], SQUARES['brown'], [1, 1, 2, 2]),
+    Tetronimo([[0, 3], [0, 4], [0, 5], [-1, 5]], SQUARES['orange'], [1, 2, 2, 1]),
+    Tetronimo([[0, 4], [0, 5], [-1, 4], [-1, 5]], SQUARES['yellow'], [1, 1, 1, 1]),
+    Tetronimo([[0, 3], [0, 4], [-1, 4], [-1, 5]], SQUARES['green'], [2, 2, 2, 2]),
+    Tetronimo([[0, 3], [0, 4], [0, 5], [-1, 4]], SQUARES['purple'], [1, 1, 3, 0]),
+    Tetronimo([[0, 4], [0, 5], [-1, 3], [-1, 4]], SQUARES['red'], [0, 1, 0, 2])
+]
 
-
-rot_adjustments = { #to move when rotations are slightly off
-                #blue: not sure if needs any rn
-                ':blue_square:': [[0, 1], [-1, -1], [0, 0], [-1, 0]], #[[0, 0], [0, 0], [0, 0], [0, 0]]
-                #brown: left 1, right 1, right 1, left 1,
-                ':brown_square:': [[0, 0], [0, 1], [0, 0], [0, -1]], #[[0, -1], [0, 1], [0, 1], [0, -1]]'
-                #orange: left 1, nothing, right 1, nothing
-                ':orange_square:': [[0, -1], [0, 0], [-1, 1], [0, 0]], #[[0, -1], [0, 0], [0, 1], [0, 0]]
-                #none for yellow
-                ':yellow_square:': [[0, 0], [0, 0], [0, 0], [0, 0]],
-                #green: right 1, nothing, right 1, nothing
-                ':green_square:': [[0, 0], [0, 0], [0, 0], [0, 0]], #[[0, 1], [0, 0], [0, 1], [0, 0]]
-                #purple: nothing, right 1, left 1 (possibly up too), right 1
-                ':purple_square:': [[0, 0], [1, 1], [0, -1], [0, 1]], #[[0, 0], [0, 1], [0, -1], [0, 1]]
-                #red: left 1, up 1, right 1, up 1
-                ':red_square:': [[1, -1], [-1, -1], [0, 2], [-1, -1]] #[[0, -1], [-1, 0], [0, 1], [-1, 0]]
-                }
-
-#starting spots, right above the board ready to be lowered. Col is 3/4 to start in middle
-shape_I = Tetronimo([[0, 3], [0, 4], [0, 5], [0, 6]], blue_square, [1, 1, 1, 1])
-shape_J = Tetronimo([[0, 3], [0, 4], [0, 5], [-1, 3]], brown_square, [1, 1, 2, 2])
-shape_L = Tetronimo([[0, 3], [0, 4], [0, 5], [-1, 5]], orange_square, [1, 2, 2, 1])
-shape_O = Tetronimo([[0, 4], [0, 5], [-1, 4], [-1, 5]], yellow_square, [1, 1, 1, 1])
-shape_S = Tetronimo([[0, 3], [0, 4], [-1, 4], [-1, 5]], green_square, [2, 2, 2, 2])
-shape_T = Tetronimo([[0, 3], [0, 4], [0, 5], [-1, 4]], purple_square, [1, 1, 3, 0])
-shape_Z = Tetronimo([[0, 4], [0, 5], [-1, 3], [-1, 4]], red_square, [0, 1, 0, 2])
-
-
-#fill board with empty squares
 def make_empty_board():
-    for row in range(num_of_rows):
-        board.append([])
-        for col in range(num_of_cols):
-            board[row].append(empty_square)
+    global board
+    board = [[EMPTY_SQUARE for _ in range(NUM_OF_COLS)] for _ in range(NUM_OF_ROWS)]
 
 def fill_board(emoji):
-    for row in range(num_of_rows):
-        for col in range(num_of_cols):
+    for row in range(NUM_OF_ROWS):
+        for col in range(NUM_OF_COLS):
             if board[row][col] != emoji:
                 board[row][col] = emoji
 
-
 def format_board_as_str():
-    board_as_str = ''
-    for row in range(num_of_rows):
-        for col in range(num_of_cols):
-            board_as_str += (board[row][col]) # + " " possibly
-            if col == num_of_cols - 1:
-                board_as_str += "\n "
-    return board_as_str
+    return '\n '.join(''.join(board[row]) for row in range(NUM_OF_ROWS))
 
 def get_random_shape():
-    global index
-    # ordered_shapes = [shape_J, shape_T, shape_L, shape_O, shape_S, shape_Z, shape_S, shape_T, shape_J, shape_Z, shape_S, shape_I, shape_Z, shape_O, shape_T, shape_J, shape_L, shape_Z, shape_I]
-    # random_shape = ordered_shapes[index]
-    shapes = [shape_I, shape_J, shape_L, shape_O, shape_S, shape_T, shape_Z]
-    random_shape = shapes[random.randint(0, 6)] #0, 6
-    index += 1
-    if start_higher == True:
-        for s in random_shape.starting_pos[:]: #for each square
-            s[0] = s[0] - 1 #make row 1 above
-    else:
-        starting_pos = random_shape.starting_pos[:]
-    random_shape = [random_shape.starting_pos[:], random_shape.colour, random_shape.rotation_points] #gets starting point of shapes and copies, doesn't change them
-    global is_new_shape
+    global index, is_new_shape
+    random_shape = shapes[random.randint(0, 6)]
+    if start_higher:
+        for s in random_shape.starting_pos:
+            s[0] -= 1
     is_new_shape = True
-    return random_shape #returns array with starting pos and colour
+    return [random_shape.starting_pos[:], random_shape.colour, random_shape.rotation_points]
 
 def do_wall_kicks(shape, old_shape_pos, shape_colour, attempt_kick_num):
     new_shape_pos = []
-
-    if shape_colour == blue_square:
-        kick_set = main_wall_kicks[rotation_pos]
-    else:
-        kick_set = i_wall_kicks[rotation_pos]
-
-    print('Kick set: ' + str(kick_set))
+    kick_set = main_wall_kicks[rotation_pos] if shape_colour != SQUARES['blue'] else i_wall_kicks[rotation_pos]
     for kick in kick_set:
-        print('Kick: ' + str(kick))
         for square in shape:
-            square_row = square[0]
-            square_col = square[1]
-            new_square_row = square_row + kick[0]
-            new_square_col = square_col + kick[1]
-            if (0 <= new_square_col < num_of_cols) and (0 <= new_square_row < num_of_rows): #if square checking is on board
-                square_checking = board[new_square_row][new_square_col] #get the square to check if empty
-                if (square_checking != empty_square) and ([new_square_row, new_square_col] not in old_shape_pos): #if square is not empty / won't be when other parts of shape have moved
-                    #shape doesn't fit
-                    new_shape_pos = [] #reset new_shape
+            new_square_row = square[0] + kick[0]
+            new_square_col = square[1] + kick[1]
+            if (0 <= new_square_col < NUM_OF_COLS) and (0 <= new_square_row < NUM_OF_ROWS):
+                square_checking = board[new_square_row][new_square_col]
+                if (square_checking != EMPTY_SQUARE) and ([new_square_row, new_square_col] not in old_shape_pos):
+                    new_shape_pos = []
                     break
-                else: #shape does fit
-                    new_shape_pos.append([new_square_row, new_square_col]) #store pos
-                    print('New shape: ' + str(new_shape_pos))
+                else:
+                    new_shape_pos.append([new_square_row, new_square_col])
                     if len(new_shape_pos) == 4:
-                        print('Returned new shape after doing kicks')
-                        return new_shape_pos #return shape with kicks added
+                        return new_shape_pos
             else:
-                #shape doesn't fit
-                new_shape_pos = [] #reset new_shape
+                new_shape_pos = []
                 break
-
-    print('Returned old, unrotated shape')
-    return old_shape_pos #return shape without rotation
-
+    return old_shape_pos
 
 def rotate_shape(shape, direction, rotation_point_index, shape_colour):
-    rotation_point = shape[rotation_point_index] #coords of rotation point
-    new_shape = [] #to store coords of rotated shape
-
-    #Rotate shape
+    rotation_point = shape[rotation_point_index]
+    new_shape = []
     for square in shape:
-        square_row = square[0]
-        square_col = square[1]
         if direction == 'clockwise':
-            new_square_row = (square_col - rotation_point[1]) + rotation_point[0] + rot_adjustments.get(shape_colour)[rotation_pos-1][0]
-            print('Adjustment made: ' + str(rot_adjustments.get(shape_colour)[rotation_pos-1][0]))
-            new_square_col = -(square_row - rotation_point[0]) + rotation_point[1] + rot_adjustments.get(shape_colour)[rotation_pos-1][1]
-            print('Adjustment made: ' + str(rot_adjustments.get(shape_colour)[rotation_pos-1][1]))
-        elif direction == 'anticlockwise': #currently not a thing
-            new_square_row = -(square_col - rotation_point[1]) + rotation_point[0]
-            new_square_col = (square_row - rotation_point[0]) + rotation_point[1]
-        new_shape.append([new_square_row, new_square_col]) #store pos of rotated square
-        if (0 <= square_col < num_of_cols) and (0 <= square_row < num_of_rows): #if on board
-            board[square_row][square_col] = empty_square #make empty old square pos
-
-    new_shape = do_wall_kicks(new_shape, shape, shape_colour, 0) #offset shape
-
-    new_shape = sorted(new_shape, key=lambda l:l[0], reverse=True) #sort so that bottom squares are first in list
-    print('Rotated shape: ' + str(new_shape))
-
-    #Place rotated shape (in case can't move down)
-    if new_shape != shape: #if not same as old unrotated shape (in case places at start pos)
+            new_square_row = (square[1] - rotation_point[1]) + rotation_point[0] + rot_adjustments[shape_colour][rotation_pos-1][0]
+            new_square_col = -(square[0] - rotation_point[0]) + rotation_point[1] + rot_adjustments[shape_colour][rotation_pos-1][1]
+        else:
+            new_square_row = -(square[1] - rotation_point[1]) + rotation_point[0]
+            new_square_col = (square[0] - rotation_point[0]) + rotation_point[1]
+        new_shape.append([new_square_row, new_square_col])
+        if (0 <= square[1] < NUM_OF_COLS) and (0 <= square[0] < NUM_OF_ROWS):
+            board[square[0]][square[1]] = EMPTY_SQUARE
+    new_shape = do_wall_kicks(new_shape, shape, shape_colour, 0)
+    new_shape.sort(key=lambda l: l[0], reverse=True)
+    if new_shape != shape:
         for square in new_shape:
-            square_row = square[0]
-            square_col = square[1]
-            board[square_row][square_col] = shape_colour
-
+            board[square[0]][square[1]] = shape_colour
     return new_shape
 
 def clear_lines():
-    global board
-    global points
-    global lines
+    global board, points, lines
     lines_to_clear = 0
-    for row in range(num_of_rows):
-        row_full = True #assume line is full
-        for col in range(num_of_cols):
-            if board[row][col] == empty_square:
-                row_full = False
-                break #don't clear this row
-        if row_full: #if line to clear
+    for row in range(NUM_OF_ROWS):
+        if all(board[row][col] != EMPTY_SQUARE for col in range(NUM_OF_COLS)):
             lines_to_clear += 1
-            #bring all lines above down
-            board2 = board[:] #clone board
-            for r in range(row, 0, -1): #for every row above row
-                if r == 0: #if top row
-                    for c in range(num_of_cols):
-                        board2[r][c] = empty_square #make each spot empty
-                else:
-                    for c in range(num_of_cols):
-                        board2[r][c] = board[r - 1][c] #make each spot the one above
-            board = board2[:]
-    if lines_to_clear == 1:
-        points += 100
-        lines += 1
-    elif lines_to_clear == 2:
-        points += 300
-        lines += 2
-    elif lines_to_clear == 3:
-        points += 500
-        lines += 3
-    elif lines_to_clear == 4:
-        points += 800
-        lines += 4
-
+            board = [[EMPTY_SQUARE] * NUM_OF_COLS] + board[:row] + board[row+1:]
+    points += [0, 100, 300, 500, 800][lines_to_clear]
+    lines += lines_to_clear
 
 def get_next_pos(cur_shape_pos):
-    global h_movement
-    global start_higher
-    global game_over
-
-    #Check if new pos for whole shape is available
-    movement_amnt = 1
-
-    if down_pressed == False:
-        amnt_to_check = 1 #check space one below
-    else:
-        amnt_to_check = num_of_rows #check all rows until furthest available space
-
-    for i in range(amnt_to_check):
-        square_num_in_shape = -1
+    global h_movement, start_higher, game_over
+    movement_amnt = 1 if not down_pressed else NUM_OF_ROWS
+    for i in range(movement_amnt):
         for square in cur_shape_pos:
-            next_space_free = True
-            square_num_in_shape += 1
-            square_row = square[0]
-            square_col = square[1]
-            if (0 <= square_col < num_of_cols): #if current column spot will fit
-                if not (0 <= square_col + h_movement < num_of_cols): #if spot with column position changed won't fit
-                    h_movement = 0 #just change row position
-                if (0 <= square_row + movement_amnt < num_of_rows): #if new square row pos is on board
-                    square_checking = board[square_row + movement_amnt][square_col + h_movement] #get the square to check if empty
-                    if (square_checking != empty_square) and ([square_row + movement_amnt, square_col + h_movement] not in cur_shape_pos): #if square is not empty / won't be when other parts of shape have moved
-                        #check if space free if not moving horizontally (in case going into wall) but still going down
-                        h_movement = 0
-                        square_checking = board[square_row + movement_amnt][square_col + h_movement]
-                        if (square_checking != empty_square) and ([square_row + movement_amnt, square_col + h_movement] not in cur_shape_pos):
-                            if movement_amnt == 1:
-                                next_space_free = False #can't put shape there
-                                print('Detected a space that isnt free')
-                                print('Square checking: ' + str(square_row + movement_amnt) + ', ' + str(square_col + h_movement))
-                                if is_new_shape: #if can't place new shape
-                                    if start_higher == True:
-                                        game_over = True
-                                    else:
-                                        start_higher = True
-                            elif movement_amnt > 1: #if sending down
-                                movement_amnt -= 1 #accomodate for extra 1 added to check if its free
-                            return [movement_amnt, next_space_free] #stop checking
-                    elif down_pressed == True:
-                        if square_num_in_shape == 3: #only on last square in shape
-                            movement_amnt += 1 #increase amount to move shape by
-                elif square_row + movement_amnt >= num_of_rows: #new square row isn't on board
-                    if movement_amnt == 1:
-                        next_space_free = False #can't put shape there
-                        print('Detected a space that isnt free')
-                    elif movement_amnt > 1: #if sending down
-                        movement_amnt -= 1 #accomodate for extra 1 added to check if its free
-                    return [movement_amnt, next_space_free] #stop checking
-                elif down_pressed == True:
-                    if square_num_in_shape == 3: #only on last square in shape
-                        movement_amnt += 1 #increase amount to move shape by
-
-    return [movement_amnt, next_space_free]
-
+            square_row, square_col = square
+            if not (0 <= square_col + h_movement < NUM_OF_COLS):
+                h_movement = 0
+            if (0 <= square_row + movement_amnt < NUM_OF_ROWS):
+                square_checking = board[square_row + movement_amnt][square_col + h_movement]
+                if (square_checking != EMPTY_SQUARE) and ([square_row + movement_amnt, square_col + h_movement] not in cur_shape_pos):
+                    h_movement = 0
+                    square_checking = board[square_row + movement_amnt][square_col + h_movement]
+                    if (square_checking != EMPTY_SQUARE) and ([square_row + movement_amnt, square_col + h_movement] not in cur_shape_pos):
+                        if is_new_shape:
+                            if start_higher:
+                                game_over = True
+                            else:
+                                start_higher = True
+                        elif movement_amnt > 1:
+                            movement_amnt -= 1
+                        return [movement_amnt, False]
+                    elif down_pressed and square == cur_shape_pos[-1]:
+                        movement_amnt += 1
+            elif square_row + movement_amnt >= NUM_OF_ROWS:
+                if movement_amnt > 1:
+                    movement_amnt -= 1
+                return [movement_amnt, False]
+            elif down_pressed and square == cur_shape_pos[-1]:
+                movement_amnt += 1
+    return [movement_amnt, True]
 
 async def run_game(msg, cur_shape, interaction):
-    global is_new_shape
-    global h_movement
-    global rotate_clockwise
-    global rotation_pos
-
-    cur_shape_pos = cur_shape[0]
-    cur_shape_colour = cur_shape[1]
-
-    if rotate_clockwise == True and cur_shape_colour != yellow_square:
-        cur_shape_pos = rotate_shape(cur_shape_pos, 'clockwise', cur_shape[2][rotation_pos], cur_shape_colour) #rotate shape
-        cur_shape = [cur_shape_pos, cur_shape_colour, cur_shape[2]] #update shape
-
-    next_pos = get_next_pos(cur_shape_pos)[:]
-    movement_amnt = next_pos[0]
-    next_space_free = next_pos[1]
-
-    #move/place shape if pos is available
-    square_num_in_shape = -1
+    global is_new_shape, h_movement, rotate_clockwise, rotation_pos
+    cur_shape_pos, cur_shape_colour, cur_shape_rotation_points = cur_shape
+    if rotate_clockwise and cur_shape_colour != SQUARES['yellow']:
+        cur_shape_pos = rotate_shape(cur_shape_pos, 'clockwise', cur_shape_rotation_points[rotation_pos], cur_shape_colour)
+        cur_shape = [cur_shape_pos, cur_shape_colour, cur_shape_rotation_points]
+    movement_amnt, next_space_free = get_next_pos(cur_shape_pos)
     if next_space_free:
-        for square in cur_shape_pos:
-            square_num_in_shape += 1
-            square_row = square[0]
-            square_col = square[1]
-            if (0 <= square_row + movement_amnt < num_of_rows): #if new square row pos is on board
-                square_changing = board[square_row + movement_amnt][square_col + h_movement] #get square to change
-                board[square_row + movement_amnt][square_col + h_movement] = cur_shape_colour #changes square colour to colour of shape
-                if is_new_shape == True:
-                    is_new_shape = False #has been placed, so not new anymore
-                if square_row > -1: #stops from wrapping around list and changing colour of bottom rows.
-                    board[square_row][square_col] = empty_square #make old square empty again
-                cur_shape_pos[square_num_in_shape] = [square_row + movement_amnt, square_col + h_movement] #store new pos of shape square
-            else: #if new square row pos is not on board
-                cur_shape_pos[square_num_in_shape] = [square_row + movement_amnt, square_col + h_movement] #store new pos of shape square
+        for i, square in enumerate(cur_shape_pos):
+            square_row, square_col = square
+            if (0 <= square_row + movement_amnt < NUM_OF_ROWS):
+                board[square_row + movement_amnt][square_col + h_movement] = cur_shape_colour
+                if is_new_shape:
+                    is_new_shape = False
+                if square_row > -1:
+                    board[square_row][square_col] = EMPTY_SQUARE
+                cur_shape_pos[i] = [square_row + movement_amnt, square_col + h_movement]
+            else:
+                cur_shape_pos[i] = [square_row + movement_amnt, square_col + h_movement]
     else:
         global down_pressed
-        down_pressed = False #reset it
-        clear_lines() #check for full lines and clear them
-        cur_shape = get_random_shape() #change shape
-        rotation_pos = 0 #reset rotation
-        print('Changed shape.')
-
+        down_pressed = False
+        clear_lines()
+        cur_shape = get_random_shape()
+        rotation_pos = 0
     if not game_over:
-        #Update board
-        embed = discord.Embed(description=format_board_as_str(), color=embed_colour)
-        h_movement = 0 #reset horizontal movement
-        rotate_clockwise = False #reset clockwise rotation
+        embed = discord.Embed(description=format_board_as_str(), color=EMBED_COLOUR)
+        h_movement = 0
+        rotate_clockwise = False
         await msg.edit(embed=embed)
         if not is_new_shape:
-            await asyncio.sleep(1) #to keep under api rate limit
+            await asyncio.sleep(1)
         await run_game(msg, cur_shape, interaction)
     else:
-        print('GAME OVER')
-        desc = 'Score: {} \n Lines: {} \n \n Press ▶ to play again.'.format(points, lines)
-        embed = discord.Embed(title='GAME OVER', description=desc, color=embed_colour)
+        desc = f'Score: {points} \n Lines: {lines} \n \n Bạn cũng tốn khá nhiều thời gian để chơi ấy.'
+        embed = discord.Embed(title='GAME OVER', description=desc, color=EMBED_COLOUR)
         await msg.edit(embed=embed)
-        await msg.remove_reaction("⬅", interaction.user) #Left
-        await msg.remove_reaction("⬇", interaction.user) #Down
-        await msg.remove_reaction("➡", interaction.user) #Right
-        await msg.remove_reaction("🔃", client.user) #Rotate
-        await msg.add_reaction("▶") #Play
-
+        await msg.remove_reaction("⬅", interaction.user)
+        await msg.remove_reaction("⬇", interaction.user)
+        await msg.remove_reaction("➡", interaction.user)
+        await msg.remove_reaction("🔃", client.user)
 
 async def reset_game():
-    global down_pressed
-    global rotate_clockwise
-    global rotation_pos
-    global h_movement
-    global is_new_shape
-    global start_higher
-    global game_over
-    global points
-    global lines
-    fill_board(empty_square)
+    global down_pressed, rotate_clockwise, rotation_pos, h_movement, is_new_shape, start_higher, game_over, points, lines
+    fill_board(EMPTY_SQUARE)
     down_pressed = False
     rotate_clockwise = False
     rotation_pos = 0
-    h_movement = 0 #amount to move left or right
+    h_movement = 0
     is_new_shape = False
     start_higher = False
     game_over = False
-    next_space_free = True
     points = 0
     lines = 0
 
 make_empty_board()
 
-
-class tetrisSlash(commands.Cog):
-
+class TetrisSlash(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -407,12 +244,10 @@ class tetrisSlash(commands.Cog):
     async def tetrisSlash(self, interaction: discord.Interaction):
         await interaction.response.defer()
         await reset_game()
-        embed = discord.Embed(description=format_board_as_str(), color=embed_colour)
+        embed = discord.Embed(description=format_board_as_str(), color=EMBED_COLOUR)
         msg = await interaction.followup.send(embed=embed)
-        await msg.add_reaction("⬅") # Left
-        await msg.add_reaction("⬇") # Down
-        await msg.add_reaction("➡") # Right
-        await msg.add_reaction("🔃") # Rotate
+        for emoji in ["⬅", "⬇", "➡", "🔃"]:
+            await msg.add_reaction(emoji)
         cur_shape = get_random_shape()
         await run_game(msg, cur_shape, interaction)
 
@@ -420,11 +255,7 @@ class tetrisSlash(commands.Cog):
     async def on_reaction_add(self, reaction, user):
         if user.bot:
             return
-
-        global h_movement
-        global down_pressed
-        global rotate_clockwise
-
+        global h_movement, down_pressed, rotate_clockwise
         if reaction.emoji == "⬅":
             h_movement = -1
         elif reaction.emoji == "➡":
@@ -433,8 +264,7 @@ class tetrisSlash(commands.Cog):
             down_pressed = True
         elif reaction.emoji == "🔃":
             rotate_clockwise = True
-
         await reaction.message.remove_reaction(reaction.emoji, user)
 
 async def setup(bot):
-    await bot.add_cog(tetrisSlash(bot))
+    await bot.add_cog(TetrisSlash(bot))
