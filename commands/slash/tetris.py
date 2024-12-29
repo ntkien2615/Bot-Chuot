@@ -211,6 +211,8 @@ async def run_game(msg, cur_shape, interaction):
         await msg.edit(embed=embed)
         if not is_new_shape:
             await asyncio.sleep(1)
+        else:
+            await asyncio.sleep(0.1)
         await run_game(msg, cur_shape, interaction)
     else:
         desc = f'Score: {points} \n Lines: {lines} \n \n Bạn cũng tốn khá nhiều thời gian để chơi ấy.'
