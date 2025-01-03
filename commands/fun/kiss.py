@@ -24,9 +24,10 @@ class kissSlash(commands.Cog):
                                     description=f"{interaction.user.mention} đã hôn {user.mention} 😘",
                                     color=discord.Colour.random())
                 embed.set_image(url=self.random_file_read())
+                await interaction.response.send_message(embed=embed)
             except Exception as e:
                 print(e)
-
+                await interaction.response.send_message('Đã xảy ra lỗi khi thực hiện lệnh.', ephemeral=True)
 
 async def setup(bot):
     await bot.add_cog(kissSlash(bot))
