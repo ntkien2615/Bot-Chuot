@@ -53,5 +53,8 @@ async def main():
     discord_token = os.getenv("discord_token")
     await bot.start(discord_token)
 
-
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
+else:
+    # If the script is imported, use await instead of asyncio.run()
+    asyncio.get_event_loop().create_task(main())
