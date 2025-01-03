@@ -4,6 +4,7 @@ import os
 import keep_alive
 import asyncio
 from dotenv import load_dotenv, find_dotenv
+import random
 
 keep_alive.awake(
     "https://bot-chuot-uw6x.onrender.com",
@@ -21,31 +22,30 @@ bot = commands.Bot(command_prefix='+',
                    help_command=None,
                    case_insensitive=True)
 
+def random_file_read(file_path):
+    try:
+        with open(file_path, "r") as f:
+            lines = f.readlines()
+        if lines:
+            return random.choice(lines).strip()
+    except (IndexError, FileNotFoundError) as e:
+        return None
 
 async def load():
-    for filename in os.listdir('./commands/non-slash'):
-        if filename.endswith('.py'):
-            await bot.load_extension(f'commands.non-slash.{filename[:-3]}')
-
-    for filename in os.listdir('./commands/fun'):
-        if filename.endswith('.py'):
-            await bot.load_extension(f'commands.fun.{filename[:-3]}')
-
-    for filename in os.listdir('./commands/slash'):
-        if filename.endswith('.py'):
-            await bot.load_extension(f'commands.slash.{filename[:-3]}')
-
-    for filename in os.listdir('./commands/general'):
-        if filename.endswith('.py'):
-            await bot.load_extension(f'commands.general.{filename[:-3]}')
-
-    for filename in os.listdir('./status'):
-        if filename.endswith('.py'):
-            await bot.load_extension(f'status.{filename[:-3]}')
-
-    for filename in os.listdir('./message'):
-        if filename.endswith('.py'):
-            await bot.load_extension(f'message.{filename[:-3]}')
+    directories = [
+        './commands/non-slash',
+        './commands/fun',
+        './commands/slash',
+        './commands/general',
+        './status',
+        './message'
+    ]
+    
+    for directory in directories:
+        files = [f for f in os.listdir(directory) if f.endswith('.py')]
+        random.shuffle(files)
+        for filename in files:
+            await bot.load_extension(f'{directory.replace("./", "").replace("/", ".")}.{filename[:-3]}')
 
 async def main():
     await load()

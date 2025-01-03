@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 import random
+from main import random_file_read
 
 
 class Lgbt(commands.Cog):
@@ -9,13 +10,7 @@ class Lgbt(commands.Cog):
         self.bot = bot
 
     def random_file_read(self, file_path):
-            try:
-                with open(file_path, "r") as f:
-                    lines = f.readlines()
-                if lines:
-                    return random.choice(lines).strip()
-            except (IndexError, FileNotFoundError) as e:
-                return None
+        return random_file_read(file_path)
     
     @app_commands.command(name='lgbt',description='lgbt?') 
     @app_commands.describe(user='Người bạn nghi là gay')
