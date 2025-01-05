@@ -71,7 +71,8 @@ class on_message(commands.Cog):
                 elif key == 'link':
                     await message.reply('https://media.discordapp.net/attachments/883268139922636820/1287350064276045824/278755226_745698233463800_1291647474017004061_n.png?ex=66f139ad&is=66efe82d&hm=691315948a3b26a3d54e02820608b560bba49b35bf5b5c7b6812774e01660bd5&=&format=webp&quality=lossless&width=200&height=252')
                 elif key == 'thai_land':
-                    await message.reply('Ăn lẩu cay 5-3')
+                    thai_land_ans = ['Ăn lẩu cay 5-3',"thai lan tuon loi","đá ngu như bò bày đặt kêu thủ môn lên"]
+                    await message.reply(random.choice(thai_land_ans))
 
 async def setup(bot):
     await bot.add_cog(on_message(bot))
