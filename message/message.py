@@ -31,14 +31,17 @@ class on_message(commands.Cog):
             "thai_land": ["thailand", "thái lan", "thai land", "thái land", "thái lan", "thailand đất nước của nụ cười", "thai land đất nước của nụ cười", "thái land đất nước của nụ cười"]
         }
 
+        sent_response = False
         for key, words in responses.items():
             if any(word in message.content.lower() for word in words):
                 response = self.get_response(key, message)
                 if response:
                     await message.channel.send(response)
+                    sent_response = True
                 break
 
-        await self.bot.process_commands(message)
+        if not sent_response:
+            await self.bot.process_commands(message)
 
     def get_response(self, key, message):
         if key == 'hi':
