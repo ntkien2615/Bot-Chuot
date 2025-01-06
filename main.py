@@ -31,6 +31,17 @@ def random_file_read(file_path):
     except (IndexError, FileNotFoundError) as e:
         return None
 
+@bot.event
+async def on_ready():
+    print(f'Logged in as {bot.user}')
+
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        await ctx.send(f'This command is on cooldown. Try again in {error.retry_after:.2f} seconds.')
+    else:
+        raise error
+
 async def load():
     directories = [
         './commands/non-slash',
