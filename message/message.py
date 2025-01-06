@@ -6,6 +6,7 @@ class on_message(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.processed_messages = set()
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -13,14 +14,14 @@ class on_message(commands.Cog):
             return
 
         # Check if the message has already been processed
-        if hasattr(message, 'processed') and message.processed:
+        if message.id in self.processed_messages:
             return
-        message.processed = True
+        self.processed_messages.add(message.id)
 
         responses = {
-            'hi': ['chào', 'hi', 'hello', 'chao', 'xin chào', 'xin chao'],
+            'hi': ['chào', 'hi', 'hello', 'chao'],
             'bye': ['bye'],
-            'dead_chat': ['dead chat', 'dead chat xd', 'dead chat guys'],
+            'dead_chat': ['dead chat'],
             'russian': ['russian'],
             'ukrainian': ['ukrainian'],
             'sui': ['sui', 'sủi'],
