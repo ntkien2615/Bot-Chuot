@@ -11,7 +11,6 @@ class on_message(commands.Cog):
     async def on_message(self, message):
         if message.author.bot:
             return
-        await self.bot.process_commands(message)
 
         responses = {
             'hi': ['chào', 'hi', 'hello', 'chao', 'xin chào', 'xin chao'],
@@ -38,6 +37,8 @@ class on_message(commands.Cog):
                 if response:
                     await message.channel.send(response)
                 break
+
+        await self.bot.process_commands(message)
 
     def get_response(self, key, message):
         if key == 'hi':
