@@ -12,6 +12,11 @@ class on_message(commands.Cog):
         if message.author.bot:
             return
 
+        # Check if the message has already been processed
+        if hasattr(message, 'processed') and message.processed:
+            return
+        message.processed = True
+
         responses = {
             'hi': ['chào', 'hi', 'hello', 'chao', 'xin chào', 'xin chao'],
             'bye': ['bye'],
@@ -35,7 +40,7 @@ class on_message(commands.Cog):
         for key, words in responses.items():
             if any(word in message.content.lower() for word in words):
                 response = self.get_response(key, message)
-                if not(sent_response) and response:
+                if response:
                     await message.channel.send(response)
                     sent_response = True
                 break  # Exit the loop after sending one response
