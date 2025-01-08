@@ -37,11 +37,13 @@ class on_message(commands.Cog):
             "thai_land": ["thailand", "thái lan", "thai land", "thái land", "thái lan", "thailand đất nước của nụ cười", "thai land đất nước của nụ cười", "thái land đất nước của nụ cười"]
         }
 
+        response_sent = False
         for key, words in responses.items():
             if any(word in message.content.lower() for word in words):
                 response = self.get_response(key, message)
                 if response:
                     await message.channel.send(response)
+                    response_sent = True
                 break  # Exit the loop after sending one response
 
         await self.bot.process_commands(message)
