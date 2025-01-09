@@ -42,7 +42,8 @@ class MessageCog(commands.Cog):  # Renamed class to avoid conflict with method n
                 if any(keyword in message.content.lower() for keyword in keywords):
                     response = self.get_response(key, message)
                     if response:
-                        await message.channel.send(response)
+                        bot_message = await message.channel.send(response)
+                        await bot_message.delete(delay=10)  # Delete the bot's message after 10 seconds
                     break
             
             await self.bot.process_commands(message)  # Ensure bot processes commands
