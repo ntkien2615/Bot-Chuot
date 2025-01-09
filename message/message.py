@@ -41,7 +41,10 @@ class on_message(commands.Cog):
             if any(keyword in message.content.lower() for keyword in keywords):
                 response = self.get_response(key, message)
                 if response:
-                    await message.channel.send(response)
+                    # Check if the message has already been processed before sending the response
+                    if message.id not in self.processed_messages:
+                        await message.channel.send(response)
+                        self.processed_messages.add(message.id)
                 break
         
         await self.bot.process_commands(message)
