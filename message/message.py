@@ -39,7 +39,7 @@ class on_message(commands.Cog):
 
         response_sent = False
         for key, words in responses.items():
-            if any(word in message.content.lower() for word in words):
+            if (word in message.content.lower() for word in words):
                 response = self.get_response(key, message)
                 if response:
                     await message.channel.send(response)
