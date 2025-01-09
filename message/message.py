@@ -2,7 +2,7 @@ from discord.ext import commands
 import random
 import discord
 
-class on_message(commands.Cog):
+class MessageCog(commands.Cog):  # Renamed class to avoid conflict with method name
 
     def __init__(self, bot):
         self.bot = bot
@@ -48,7 +48,7 @@ class on_message(commands.Cog):
                             self.processed_messages.add(message.id)
                     break
             
-            await self.bot.process_commands(message)
+            await self.bot.process_commands(message)  # Ensure bot processes commands
         except Exception as e:
             print(f"Error processing message: {e}")
 
@@ -98,5 +98,5 @@ class on_message(commands.Cog):
         return None
 
 async def setup(bot):
-    await bot.add_cog(on_message(bot))
+    await bot.add_cog(MessageCog(bot))  # Updated to match the new class name
 
