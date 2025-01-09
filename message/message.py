@@ -10,44 +10,47 @@ class on_message(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if message.author.bot:
-            return
+        try:
+            if message.author.bot:
+                return
 
-        # Check if the message has already been processed
-        if message.id in self.processed_messages:
-            return
-        self.processed_messages.add(message.id)
+            # Check if the message has already been processed
+            if message.id in self.processed_messages:
+                return
+            self.processed_messages.add(message.id)
 
-        responses = {
-            'hi': ['chào', 'hi', 'hello', 'chao'],
-            'bye': ['bye'],
-            'dead_chat': ['dead chat'],
-            'russian': ['russian'],
-            'ukrainian': ['ukrainian'],
-            'sui': ['sui', 'sủi'],
-            'dmcs': ['dmcs', 'đmcs'],
-            'non': ['non'],
-            'ngot': ['ngọt', 'ngot'],
-            'overthinking': ['overthinking'],
-            'about': ['về bot chuột', 'about "chuot" bot'],
-            'kevin': ['kevin', 'kê vin'],
-            'pholotino': ['florentino', 'fo lon ti no', 'pholotino'],
-            'jack': ['jack', 'trịnh trần phương tuấn', 'j97', 'trinh tran phuong tuan', 'meo meo', '5 củ', 'jack bến tre'],
-            'link': ['link'],
-            "thai_land": ["thailand", "thái lan", "thai land", "thái land", "thái lan", "thailand đất nước của nụ cười", "thai land đất nước của nụ cười", "thái land đất nước của nụ cười"]
-        }
+            responses = {
+                'hi': ['chào', 'hi', 'hello', 'chao'],
+                'bye': ['bye'],
+                'dead_chat': ['dead chat'],
+                'russian': ['russian'],
+                'ukrainian': ['ukrainian'],
+                'sui': ['sui', 'sủi'],
+                'dmcs': ['dmcs', 'đmcs'],
+                'non': ['non'],
+                'ngot': ['ngọt', 'ngot'],
+                'overthinking': ['overthinking'],
+                'about': ['về bot chuột', 'about "chuot" bot'],
+                'kevin': ['kevin', 'kê vin'],
+                'pholotino': ['florentino', 'fo lon ti no', 'pholotino'],
+                'jack': ['jack', 'trịnh trần phương tuấn', 'j97', 'trinh tran phuong tuan', 'meo meo', '5 củ', 'jack bến tre'],
+                'link': ['link'],
+                "thai_land": ["thailand", "thái lan", "thai land", "thái land", "thái lan", "thailand đất nước của nụ cười", "thai land đất nước của nụ cười", "thái land đất nước của nụ cười"]
+            }
 
-        for key, keywords in responses.items():
-            if any(keyword in message.content.lower() for keyword in keywords):
-                response = self.get_response(key, message)
-                if response:
-                    # Check if the message has already been processed before sending the response
-                    if message.id not in self.processed_messages:
-                        await message.channel.send(response)
-                        self.processed_messages.add(message.id)
-                break
-        
-        await self.bot.process_commands(message)
+            for key, keywords in responses.items():
+                if any(keyword in message.content.lower() for keyword in keywords):
+                    response = self.get_response(key, message)
+                    if response:
+                        # Check if the message has already been processed before sending the response
+                        if message.id not in self.processed_messages:
+                            await message.channel.send(response)
+                            self.processed_messages.add(message.id)
+                    break
+            
+            await self.bot.process_commands(message)
+        except Exception as e:
+            print(f"Error processing message: {e}")
 
     def get_response(self, key, message):
         if key == 'hi':
