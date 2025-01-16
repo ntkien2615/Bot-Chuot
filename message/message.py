@@ -89,8 +89,7 @@ class MessageCog(commands.Cog):
                 if any(keyword in message_words if ' ' not in keyword else keyword in message.content.lower() for keyword in keywords):
                     response = self.get_response(key, message)
                     if response:
-                        bot_message = await message.channel.send(response)
-                        await bot_message.delete(delay=10)
+                        await message.channel.send(response)
                     break
 
             # Reset the counter if a different message is sent
