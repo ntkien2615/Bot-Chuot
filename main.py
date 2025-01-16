@@ -67,10 +67,3 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-else:
-    # If the script is imported, use await instead of asyncio.run()
-    asyncio.get_event_loop().create_task(main())
-    # Check if this causes messages to be duplicated
-    # If it does, you might want to remove or modify this part
-    # await main()  # Uncomment this line if needed and comment the line above
-

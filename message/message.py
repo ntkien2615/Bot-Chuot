@@ -1,6 +1,5 @@
 from discord.ext import commands
 import random
-import discord
 import time
 
 class MessageCog(commands.Cog):
