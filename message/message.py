@@ -1,12 +1,14 @@
 from discord.ext import commands
 import random
 import discord
+import time
 
 class MessageCog(commands.Cog):  # Renamed class to avoid conflict with method name
 
     def __init__(self, bot):
         self.bot = bot
         self.processed_messages = set()
+        self.message_timestamps = {}
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -18,6 +20,14 @@ class MessageCog(commands.Cog):  # Renamed class to avoid conflict with method n
             if message.id in self.processed_messages:
                 return
             self.processed_messages.add(message.id)
+
+            # Check for duplicate messages within the last 5 seconds
+            current_time = time.time()
+            if message.content in self.message_timestamps:
+                last_time = self.message_timestamps[message.content]
+                if current_time - last_time < 5:
+                    return
+            self.message_timestamps[message.content] = current_time
 
             responses = {
                 'hi': ['chào', 'hi', 'hello', 'chao'],
