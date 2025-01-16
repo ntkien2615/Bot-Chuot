@@ -11,6 +11,7 @@ class MessageCog(commands.Cog):
         self.message_timestamps = {}
         self.cleanup_interval = 3600  # 1 hour
         self.last_cleanup = time.time()
+        self.consecutive_message_count = {}
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -30,6 +31,14 @@ class MessageCog(commands.Cog):
                 return
 
             self.message_timestamps[message_key] = current_time
+
+            # Track consecutive messages
+            if message_key not in self.consecutive_message_count:
+                self.consecutive_message_count[message_key] = 0
+            self.consecutive_message_count[message_key] += 1
+
+            if self.consecutive_message_count[message_key] > 4:
+                return
 
             responses = {
                 'hi': ['chào', 'hi', 'hello', 'chao'],
@@ -57,6 +66,10 @@ class MessageCog(commands.Cog):
                         bot_message = await message.channel.send(response)
                         await bot_message.delete(delay=10)
                     break
+
+            # Reset the counter if a different message is sent
+            self.consecutive_message_count[message_key] = 0
+
         except Exception as e:
             print(f"Error processing message: {e}")
 
@@ -64,6 +77,7 @@ class MessageCog(commands.Cog):
         current_time = time.time()
         self.processed_messages = {msg_id for msg_id in self.processed_messages if current_time - self.message_timestamps.get(msg_id, 0) < self.cleanup_interval}
         self.message_timestamps = {key: timestamp for key, timestamp in self.message_timestamps.items() if current_time - timestamp < self.cleanup_interval}
+        self.consecutive_message_count = {key: count for key, count in self.consecutive_message_count.items() if current_time - self.message_timestamps.get(key, 0) < self.cleanup_interval}
 
     def get_response(self, key, message):
         responses = {
