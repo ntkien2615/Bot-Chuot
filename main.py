@@ -15,7 +15,8 @@ intents.typing = False
 intents.message_content = True
 intents.members = True
 
-bot = discord.Client(intents=intents)
+# Remove the first instantiation of discord.Client
+# bot = discord.Client(intents=intents)
 
 bot = commands.Bot(command_prefix='+',
                    intents=intents,

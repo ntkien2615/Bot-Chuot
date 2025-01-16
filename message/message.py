@@ -46,7 +46,8 @@ class MessageCog(commands.Cog):  # Renamed class to avoid conflict with method n
                         await bot_message.delete(delay=10)  # Delete the bot's message after 10 seconds
                     break
             
-            await self.bot.process_commands(message)  # Ensure bot processes commands
+            # Removed redundant call to process commands
+            # await self.bot.process_commands(message)
         except Exception as e:
             print(f"Error processing message: {e}")
 
