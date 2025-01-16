@@ -9,6 +9,8 @@ class MessageCog(commands.Cog):  # Renamed class to avoid conflict with method n
         self.bot = bot
         self.processed_messages = set()
         self.message_timestamps = {}
+        self.cleanup_interval = 3600  # 1 hour
+        self.last_cleanup = time.time()
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -21,13 +23,19 @@ class MessageCog(commands.Cog):  # Renamed class to avoid conflict with method n
                 return
             self.processed_messages.add(message.id)
 
-            # Check for duplicate messages within the last 5 seconds
+            # Cleanup old processed messages
             current_time = time.time()
-            if message.content in self.message_timestamps:
-                last_time = self.message_timestamps[message.content]
+            if current_time - self.last_cleanup > self.cleanup_interval:
+                self.cleanup_processed_messages()
+                self.last_cleanup = current_time
+
+            # Check for duplicate messages within the last 5 seconds
+            message_key = (message.channel.id, message.author.id, message.content)
+            if message_key in self.message_timestamps:
+                last_time = self.message_timestamps[message_key]
                 if current_time - last_time < 5:
                     return
-            self.message_timestamps[message.content] = current_time
+            self.message_timestamps[message_key] = current_time
 
             responses = {
                 'hi': ['chào', 'hi', 'hello', 'chao'],
@@ -60,6 +68,11 @@ class MessageCog(commands.Cog):  # Renamed class to avoid conflict with method n
             # await self.bot.process_commands(message)
         except Exception as e:
             print(f"Error processing message: {e}")
+
+    def cleanup_processed_messages(self):
+        current_time = time.time()
+        self.processed_messages = {msg_id for msg_id in self.processed_messages if current_time - self.message_timestamps.get(msg_id, 0) < self.cleanup_interval}
+        self.message_timestamps = {key: timestamp for key, timestamp in self.message_timestamps.items() if current_time - timestamp < self.cleanup_interval}
 
     def get_response(self, key, message):
         if key == 'hi':
