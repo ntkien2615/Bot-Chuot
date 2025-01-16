@@ -84,8 +84,9 @@ class MessageCog(commands.Cog):
                 "thai_land": ["thailand", "thái lan", "thai land", "thái land", "thái lan", "thailand đất nước của nụ cười", "thai land đất nước của nụ cười", "thái land đất nước của nụ cười"]
             }
 
+            message_words = message.content.lower().split()
             for key, keywords in responses.items():
-                if any(keyword in message.content.lower() for keyword in keywords):
+                if any(keyword in message_words if ' ' not in keyword else keyword in message.content.lower() for keyword in keywords):
                     response = self.get_response(key, message)
                     if response:
                         bot_message = await message.channel.send(response)
