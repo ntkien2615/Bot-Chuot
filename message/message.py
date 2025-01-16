@@ -52,7 +52,7 @@ class MessageCog(commands.Cog):
                 self.last_cleanup = current_time
 
             message_key = (message.channel.id, message.author.id, message.content)
-            if message_key in self.message_timestamps and current_time - self.message_timestamps[message_key] < 5:
+            if message_key in self.message_timestamps and current_time - self.message_timestamps[message_key] < 2:
                 return
 
             self.message_timestamps[message_key] = current_time
