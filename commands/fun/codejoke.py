@@ -17,6 +17,6 @@ class codejoke(commands.Cog):
                       value=pyjokes.get_joke(
                           language='en', category='neutral'),
                       inline=False)
-        await interaction.response.send_message(embed=embed)
+        await interaction.response.send_message(embed=msg)
 async def setup(bot):
     await bot.add_cog(codejoke(bot))

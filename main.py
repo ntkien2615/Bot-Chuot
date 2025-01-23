@@ -32,6 +32,15 @@ def random_file_read(file_path):
     except (IndexError, FileNotFoundError) as e:
         return None
 
+def file_read_with_line(file_path, line):
+    try:
+        with open(file_path, "r") as f:
+            lines = f.readlines()
+        if lines:
+            return lines[line].strip()
+    except (IndexError, FileNotFoundError) as e:
+        return None
+
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user}')
