@@ -12,7 +12,7 @@ class roi(commands.Cog):
     async def roi(self, interaction: discord.Interaction, rule_number: str):
         try:
             rule_index = int(rule_number) - 1  # Convert to 0-based index
-            rules = file_read_with_line('/d:/Coding/Bot-Chuot/txt_files/100_rules_of_internet.txt', rule_index)
+            rules = file_read_with_line('./txt_files/100_rules_of_internet.txt', rule_index)
             
             if rules is None:
                 await interaction.response.send_message(f"Không tìm thấy luật số {rule_number}")
