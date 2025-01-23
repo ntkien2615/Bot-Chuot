@@ -10,32 +10,31 @@ class roi(commands.Cog):
     @app_commands.command(name='100_rules_of_internet',description='100 rules of internet')
     @app_commands.describe(rule_number='Số thứ tự của các luật')
     async def roi(self, interaction: discord.Interaction, rule_number: str):
-        rules = file_read_with_line('/d:/Coding/Bot-Chuot/txt_files/100_rules_of_internet.txt')
-        found_rule = None
+        try:
+            rule_index = int(rule_number) - 1  # Convert to 0-based index
+            rules = file_read_with_line('/d:/Coding/Bot-Chuot/txt_files/100_rules_of_internet.txt', rule_index)
+            
+            if rules is None:
+                await interaction.response.send_message(f"Không tìm thấy luật số {rule_number}")
+                return
 
-        # Convert special rule numbers for comparison
-        special_numbers = {
-            "3.141592653589793238462643383279502884197169399573105": "pi",
-            "6.241592653589793238462643383279502888394338799146210": "plank"
-        }
+            # Special number handling
+            special_numbers = {
+                "3.141592653589793238462643383279502884197169399573105": "pi",
+                "6.241592653589793238462643383279502888394338799146210": "plank"
+            }
 
-        # Search for the rule
-        for rule in rules:
-            rule_text = rule.strip()
-            if rule_text.startswith(f"{rule_number}."):
-                found_rule = rule_text
-                break
-            # Check for special number rules
-            for special_num, symbol in special_numbers.items():
-                if rule_text.startswith(special_num):
-                    if rule_number in [symbol, special_num[:5]]:  # Match either symbol or first few digits
-                        found_rule = f"{symbol}: {rule_text}"
-                        break
+            # Check for special numbers
+            if rule_number in ["pi", "plank"]:
+                for special_num, symbol in special_numbers.items():
+                    if rule_number == symbol and rules.startswith(special_num):
+                        await interaction.response.send_message(f"{symbol}: {rules}")
+                        return
 
-        if found_rule:
-            await interaction.response.send_message(found_rule)
-        else:
-            await interaction.response.send_message(f"Không tìm thấy luật số {rule_number}")
+            await interaction.response.send_message(rules)
+            
+        except ValueError:
+            await interaction.response.send_message(f"Vui lòng nhập số hợp lệ")
 
 async def setup(bot):
     await bot.add_cog(roi(bot))
