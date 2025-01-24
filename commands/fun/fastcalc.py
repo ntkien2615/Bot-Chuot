@@ -40,6 +40,7 @@ class fastcalc(commands.Cog):
             await interaction.followup.send('Hết giờ! Thì ra nhiều người cũng lạm dụng máy tính cầm tay quá. Đáp án: {result}')
         else:
             if self.check_message_answer(message, result):
-                await interaction.followup.send(f'{interaction.user.mention} trả lời nhanh nhất sau {message.created_at - interaction.created_at} giây!')
+                time_taken = (message.created_at - interaction.created_at).total_seconds()
+                await interaction.followup.send(f'{interaction.user.mention} trả lời nhanh nhất sau {time_taken:.1f} giây!')
 async def setup(bot):
     await bot.add_cog(fastcalc(bot))
