@@ -33,14 +33,21 @@ class fastcalc(commands.Cog):
     @app_commands.command(name='fast_calc', description='ai tính nhanh hơn')
     async def fastcalc(self, interaction: discord.Interaction):
         problem, result = self.generate_simple_math_problem_and_result()
-        await interaction.response.send_message(f'Tính bài toán này trong 20s: **{problem}**:')
+        await interaction.response.send_message(f'Tính bài toán này trong 20s: **{problem}**')
+        
+        def check(m):
+            return m.channel == interaction.channel
+        
         try:
-            message = await self.bot.wait_for('message', check=lambda m: m.author == interaction.user, timeout=20)
+            while True:
+                message = await self.bot.wait_for('message', check=check, timeout=20.0)
+                if self.check_message_answer(message, result):
+                    time_taken = (message.created_at - interaction.created_at).total_seconds()
+                    await interaction.followup.send(f'{message.author.mention} trả lời đúng sau {time_taken:.1f} giây!')
+                    break
+                    
         except asyncio.TimeoutError:
-            await interaction.followup.send('Hết giờ! Thì ra nhiều người cũng lạm dụng máy tính cầm tay quá. Đáp án: {result}')
-        else:
-            if self.check_message_answer(message, result):
-                time_taken = (message.created_at - interaction.created_at).total_seconds()
-                await interaction.followup.send(f'{interaction.user.mention} trả lời nhanh nhất sau {time_taken:.1f} giây!')
+            await interaction.followup.send(f'Hết giờ! Không ai trả lời đúng. Đáp án: {result}')
+
 async def setup(bot):
     await bot.add_cog(fastcalc(bot))
