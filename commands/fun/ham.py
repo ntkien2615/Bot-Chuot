@@ -4,13 +4,13 @@ from discord import app_commands
 import random
 
 
-class match(commands.Cog):
+class ham(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
     
     @app_commands.command(name='ham', description='ham')
     @app_commands.describe(user='Người thứ nhất')
-    async def match(self, interaction: discord.Interaction, user:discord.Member):
+    async def ham(self, interaction: discord.Interaction, user:discord.Member):
         if user == None:
             interaction.user = user
         match = random.randint(0,100)
@@ -19,4 +19,4 @@ class match(commands.Cog):
         await interaction.response.send_message(embed=embed)
 
 async def setup(bot):
-    await bot.add_cog(match(bot))
+    await bot.add_cog(ham(bot))
