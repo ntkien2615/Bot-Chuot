@@ -15,7 +15,7 @@ class ham(commands.Cog):
             interaction.user = user
         match = random.randint(0,100)
         embed = discord.Embed(title="ham", description=f'🔥 {user.mention}', color=discord.Color.random())
-        embed.set_image(url="https://th.bing.com/th/id/OIP.3I9zIQg4SUu9pMO9vZcosQHaEK?rs=1&pid=ImgDetMain")
+        embed.set_image(url="https://cdn.discordapp.com/emojis/1029699276953100298.webp?size=128&animated=true")
         await interaction.response.send_message(embed=embed)
 
 async def setup(bot):
