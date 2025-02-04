@@ -17,9 +17,9 @@ class taixiuslash(commands.Cog):
 
     def check_win(self,res):
         if res < 11:
-            return 'tài'
-        else:
             return 'xỉu'
+        else:
+            return 'tài'
 
     def get_data(self):
         if not hasattr(self, 'predictions'):
