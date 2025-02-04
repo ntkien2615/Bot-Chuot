@@ -54,6 +54,7 @@ class taixiuslash(commands.Cog):
                 prediction = self.is_valid_prediction(message.content)
                 if prediction:
                     self.predictions[message.author.id] = prediction
+                    await message.add_reaction('✔️')  # Add checkmark reaction for valid predictions
                     
         except asyncio.TimeoutError:
             winners = []
