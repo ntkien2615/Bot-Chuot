@@ -241,6 +241,8 @@ make_empty_board()
 class TetrisSlash(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.client = bot  # Add client reference
+        self.active_games = {}  # Track active games
 
     @app_commands.command(name='tetris', description='chơi tetris với bot')
     async def tetrisSlash(self, interaction: discord.Interaction):
@@ -255,18 +257,24 @@ class TetrisSlash(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
-        if user.bot:
+        if user.bot or not hasattr(reaction.message, 'author') or reaction.message.author.id != self.bot.user.id:
             return
-        global h_movement, down_pressed, rotate_clockwise
-        if reaction.emoji == "⬅":
-            h_movement = -1
-        elif reaction.emoji == "➡":
-            h_movement = 1
-        elif reaction.emoji == "⬇":
-            down_pressed = True
-        elif reaction.emoji == "🔃":
-            rotate_clockwise = True
-        await reaction.message.remove_reaction(reaction.emoji, user)
+
+        try:
+            global h_movement, down_pressed, rotate_clockwise, rotation_pos
+            if reaction.emoji == "⬅":
+                h_movement = -1
+            elif reaction.emoji == "➡":
+                h_movement = 1
+            elif reaction.emoji == "⬇":
+                down_pressed = True
+            elif reaction.emoji == "🔃":
+                rotate_clockwise = True
+                rotation_pos = (rotation_pos + 1) % 4  # Update rotation position
+            
+            await reaction.message.remove_reaction(reaction.emoji, user)
+        except Exception as e:
+            print(f"Error handling reaction: {e}")
 
 async def setup(bot):
     await bot.add_cog(TetrisSlash(bot))
