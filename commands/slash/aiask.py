@@ -4,37 +4,52 @@ import google.generativeai as genai
 from discord import app_commands
 from dotenv import load_dotenv, find_dotenv
 
-
 class aiask(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        # Initialize AI configuration once during startup
+        load_dotenv(find_dotenv())
+        self.ai_api_key = os.getenv("ai_api_key")
+        if self.ai_api_key:
+            genai.configure(api_key=self.ai_api_key)
+            self.model = genai.GenerativeModel('gemini-pro', safety_settings=[
+                {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
+                {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
+                {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},
+                {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"},
+            ])
     
     @app_commands.command(name='aiask', description='Hỏi AI')
     @app_commands.describe(question='bạn hỏi cái gì')
     async def aiask(self, interaction:discord.Interaction, question:str):      
-        if not question or len(question) > 200:
-            await interaction.response.send_message("Câu hỏi không hợp lệ.")
+        if not question:
+            await interaction.response.send_message("Vui lòng nhập câu hỏi.")
+            return
+            
+        if len(question) > 200:
+            await interaction.response.send_message("Câu hỏi không được vượt quá 200 ký tự.")
             return
         
-        load_dotenv(find_dotenv())
-        ai_api_key = os.getenv("ai_api_key")
-        genai.configure(api_key=ai_api_key)
-        model = genai.GenerativeModel('gemini-pro',safety_settings=[
-            {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
-            {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
-            {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},
-            {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"},
-        ])
-
-        try:
-            reply = model.generate_content(question)
-            reply = reply.text
-        except Exception as e:
-            print(f"Lỗi khi gọi API: {e}")
-            await interaction.response.send_message("Lỗi hệ thống. Vui lòng thử lại sau.")
+        if not self.ai_api_key:
+            await interaction.response.send_message("API key chưa được cấu hình.")
             return
 
-        await interaction.response.send_message(f'{reply}')
+        # Show typing indicator while processing
+        await interaction.response.defer()
+
+        try:
+            reply = self.model.generate_content(question)
+            reply_text = reply.text
+
+            # Handle long responses
+            if len(reply_text) > 2000:
+                reply_text = reply_text[:1997] + "..."
+
+            await interaction.followup.send(reply_text)
+            
+        except Exception as e:
+            print(f"Lỗi khi gọi API: {e}")
+            await interaction.followup.send("Có lỗi xảy ra khi xử lý câu hỏi. Vui lòng thử lại sau.")
 
 async def setup(bot):
-  await bot.add_cog(aiask(bot))
+    await bot.add_cog(aiask(bot))
