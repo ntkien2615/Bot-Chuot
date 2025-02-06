@@ -38,7 +38,7 @@ class MessageCog(commands.Cog):
             ],
             'lien_quan': ['game 3 chiêu rác ok?', 'game trẻ con qua vương giả chơi đi', 'có cái skin thôi cũng bị cuỗm mất hiệu ứng','cho bàn cổ solo flo flo tắt mõm','mấy bé trẩu tre ảo nak qua múa hàn tín giùm cái',
                           ],
-            'gay': ["Thằng vừa nhắn là gay và rất thích xem kumalala, thug hunter, ambatukam, boku no pico, và các thể loại khác"]
+            'gay': ['Thằng vừa nhắn "Gay" là gay và rất thích xem kumalala, thug hunter, ambatukam, boku no pico, và các thể loại khác']
         }
 
     @commands.Cog.listener()
