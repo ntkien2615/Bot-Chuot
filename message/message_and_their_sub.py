@@ -2,7 +2,7 @@ from discord.ext import commands
 import random
 import time
 
-class MessageCog(commands.Cog):
+class SubMessageCog(commands.Cog):  # Changed class name
 
     def __init__(self, bot):
         self.bot = bot
@@ -75,4 +75,4 @@ class MessageCog(commands.Cog):
         return response
 
 async def setup(bot):
-    await bot.add_cog(MessageCog(bot))
+    await bot.add_cog(SubMessageCog(bot))  # Updated to use new class name
