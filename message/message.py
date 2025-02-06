@@ -37,8 +37,7 @@ class MessageCog(commands.Cog):
                 "https://media.discordapp.net/attachments/882972000585388042/1325482803709743124/472357483_1876023823201095_175475186867281871_n.png?ex=677bf38e&is=677aa20e&hm=2cfb45bcb451705ddacbabb4dd447ca2cf0dc92885b9eb25e9d59bf41476ac95&=&format=webp&quality=lossless&width=400&height=225"
             ],
             'lien_quan': ['game 3 chiêu rác ok?', 'game trẻ con qua vương giả chơi đi', 'có cái skin thôi cũng bị cuỗm mất hiệu ứng','cho bàn cổ solo flo flo tắt mõm','mấy bé trẩu tre ảo nak qua múa hàn tín giùm cái',
-                          ],
-            'gay': ['Thằng vừa nhắn "Gay" là gay và rất thích xem kumalala, thug hunter, ambatukam, boku no pico, và các thể loại khác']
+                          ]
         }
 
     @commands.Cog.listener()
@@ -85,8 +84,7 @@ class MessageCog(commands.Cog):
                 'jack': ['jack', 'trịnh trần phương tuấn', 'j97', 'trinh tran phuong tuan', 'meo meo', '5 củ', 'jack bến tre'],
                 'link': ['link'],
                 "thai_land": ["thailand", "thái lan", "thai land", "thái land", "thái lan"],
-                "lien_quan": ["lien quan", "liên quân", "lienquan", "liên quân","liqi","lq"],
-                "gay": ['gay']
+                "lien_quan": ["lien quan", "liên quân", "lienquan", "liên quân","liqi","lq"]
             }
 
             message_words = message.content.lower().split()
