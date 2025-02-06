@@ -15,6 +15,7 @@ class fiveCardPoker(commands.Cog):
         for suit in suits:
             for value in values:
                 deck.append(f'{value} of {suit}')
+        return deck  # Add return statement
     
     def shuffleDeck(self):
         deck = self.deck()
@@ -124,4 +125,4 @@ class fiveCardPoker(commands.Cog):
             )
 
 async def setup(bot):
-    bot.add_cog(fiveCardPoker)
+    await bot.add_cog(fiveCardPoker(bot))  # Fix cog addition
