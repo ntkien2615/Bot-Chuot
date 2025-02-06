@@ -107,10 +107,23 @@ class fiveCardPoker(commands.Cog):
         for _ in range(len(members)):
             hands.append(self.dealHand(deck))
         
-        # Show each player's hand
+        # Show each player's hand one card at a time
         for member, hand in zip(members, hands):
-            await interaction.channel.send(f"{member.mention}: {', '.join(hand)} - {self.handValue(hand)}")
-        
+            reveal_message = await interaction.channel.send(f"{member.mention}'s hand:")
+            displayed_cards = []
+            
+            for card in hand:
+                displayed_cards.append(card)
+                await reveal_message.edit(content=f"{member.mention}: {', '.join(displayed_cards)}")
+                await asyncio.sleep(1)  # 1 second delay between each card
+            
+            # After all cards are revealed, show the hand value
+            await asyncio.sleep(0.5)
+            await reveal_message.edit(
+                content=f"{member.mention}: {', '.join(hand)} - {self.handValue(hand)}"
+            )
+            await asyncio.sleep(1)  # Pause before next player's reveal
+
         # Determine winner(s)
         winners = self.determine_winner(hands)
         if len(winners) == 1:
