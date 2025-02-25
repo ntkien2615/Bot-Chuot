@@ -45,7 +45,7 @@ def file_read_with_line(file_path, line):
 async def on_ready():
     print(f'Logged in as {bot.user}')
 
-@tasks.loop(minutes=3)
+@tasks.loop(minutes=random.randint(3,5))
 async def background_task():
     channel = bot.get_channel(1077151202040614988)
     if channel:
