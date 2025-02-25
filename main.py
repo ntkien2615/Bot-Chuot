@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands,tasks
 import os
 import keep_alive
 import asyncio
@@ -44,6 +44,12 @@ def file_read_with_line(file_path, line):
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user}')
+
+@tasks.loop(minutes=3)
+async def background_task():
+    channel = bot.get_channel(1077151202040614988)
+    if channel:
+        await channel.send("I'm still alive")
 
 @bot.event
 async def on_command_error(ctx, error):
