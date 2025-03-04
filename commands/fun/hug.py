@@ -18,4 +18,4 @@ class hug(commands.Cog):
 
 
 async def setup(bot):
-    bot.add_cog(hug(bot))
+    await bot.add_cog(hug(bot))
