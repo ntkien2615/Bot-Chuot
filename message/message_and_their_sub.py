@@ -43,7 +43,7 @@ class SubMessageCog(commands.Cog):  # Changed class name
                 return
 
             responses = {
-                "gay": ['gay', 'gаy']
+                "gay": ['gay', 'gаy', 'ɡay', 'ɢay', 'ɡаy', 'ɢаy', 'ɡау', 'ɢау']
             }
 
             message_content = message.content.lower()
