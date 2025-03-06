@@ -4,6 +4,8 @@ from discord import app_commands
 import random
 import asyncio
 
+
+# Chương trình giả lập lại trò chơi poker 5 lá ở project cơ sở lập trình, trông nó khá xàm nhưng giả lập lại cho nhớ
 class fiveCardPoker(commands.Cog):
     def __init__(self,bot):
         self.bot = bot

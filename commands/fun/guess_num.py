@@ -26,11 +26,9 @@ class GuessNumCog(commands.Cog):
     
     @app_commands.command(name = 'guess_num', description='Đoán số')
     async def guess(self, interaction: discord.Interaction):
-        self.resert_data()
+        self.reset_data()  # Fixed typo here
         self.number = self.random_number()
         await interaction.response.send_message('Đoán số từ 1 đến 100')
-        
-        number = self.random_number()
 
         try:
             def check(m):
