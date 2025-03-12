@@ -4,6 +4,8 @@ from discord import app_commands
 import random
 import asyncio
 
+# Code copy, chỉ dùng để tham khảo
+
 # Constants
 NUM_OF_ROWS = 18
 NUM_OF_COLS = 10
@@ -221,7 +223,7 @@ async def run_game(msg, cur_shape, interaction):
         await msg.remove_reaction("⬅", interaction.user)
         await msg.remove_reaction("⬇", interaction.user)
         await msg.remove_reaction("➡", interaction.user)
-        await msg.remove_reaction("🔃", client.user)
+        await msg.remove_reaction("🔃", self.bot.user)  # Fix client reference
 
 async def reset_game():
     global down_pressed, rotate_clockwise, rotation_pos, h_movement, is_new_shape, start_higher, game_over, points, lines

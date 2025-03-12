@@ -11,7 +11,8 @@ class GuessNumCog(commands.Cog):
         self.guesses = 0
     
     def reset_data(self):
-        self.predictions.clear()
+        self.number = self.random_number()
+        self.guesses = 0
     
     def random_number(self):
         return random.randint(1, 100)
@@ -26,8 +27,7 @@ class GuessNumCog(commands.Cog):
     
     @app_commands.command(name = 'guess_num', description='Đoán số')
     async def guess(self, interaction: discord.Interaction):
-        self.reset_data()  # Fixed typo here
-        self.number = self.random_number()
+        self.reset_data()
         await interaction.response.send_message('Đoán số từ 1 đến 100')
 
         try:
@@ -36,17 +36,25 @@ class GuessNumCog(commands.Cog):
 
             while True:
                 message = await self.bot.wait_for('message', check=check, timeout=20.0)
-                guess = int(message.content)
-                result = self.check_win(guess)
-                if result == 'win':
-                    await interaction.followup.send(f'Chúc mừng {message.author.mention}, bạn đã đoán đúng số {self.number}!')
-                    break
-                elif result == 'low':
-                    await interaction.followup.send(f'{message.author.mention}, số bạn đoán nhỏ hơn số cần đoán')
-                else:
-                    await interaction.followup.send(f'{message.author.mention}, số bạn đoán lớn hơn số cần đoán')
+                try:
+                    guess = int(message.content)
+                    if guess < 1 or guess > 100:
+                        await interaction.followup.send(f'{message.author.mention}, vui lòng đoán số từ 1 đến 100')
+                        continue
+                        
+                    result = self.check_win(guess)
+                    if result == 'win':
+                        await interaction.followup.send(f'Chúc mừng {message.author.mention}, bạn đã đoán đúng số {self.number}!')
+                        break
+                    elif result == 'low':
+                        await interaction.followup.send(f'{message.author.mention}, số bạn đoán nhỏ hơn số cần đoán')
+                    else:
+                        await interaction.followup.send(f'{message.author.mention}, số bạn đoán lớn hơn số cần đoán')
+                except ValueError:
+                    await interaction.followup.send(f'{message.author.mention}, vui lòng nhập một số hợp lệ')
+                    
         except asyncio.TimeoutError:
-            await message.channel.send(f'Hết giờ! Số cần đoán là {self.number}')
+            await interaction.channel.send(f'Hết giờ! Số cần đoán là {self.number}')
             self.reset_data()
 
 async def setup(bot):
