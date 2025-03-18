@@ -57,9 +57,9 @@ class GuessNumCog(commands.Cog):
                             self.reset_data(channel_id)
                             break
                         elif result == 'low':
-                            await interaction.channel.send(f'{message.author.mention}, số bạn đoán nhỏ hơn số cần đoán')
+                            await message.add_reaction('🔼')
                         else:
-                            await interaction.channel.send(f'{message.author.mention}, số bạn đoán lớn hơn số cần đoán')
+                            await message.add_reaction('🔽')
                     except ValueError:
                         await interaction.channel.send(f'{message.author.mention}, vui lòng nhập một số hợp lệ')
                         
