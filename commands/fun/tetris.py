@@ -149,7 +149,7 @@ def clear_lines():
 
 def get_next_pos(cur_shape_pos):
     global h_movement, start_higher, game_over
-    movement_amnt = 1 if not down_pressed else NUM_OF_ROWS
+    movement_amnt = 1 if not down_pressed else 1  # Change to move one step at a time
     for i in range(movement_amnt):
         for square in cur_shape_pos:
             square_row, square_col = square
@@ -187,7 +187,7 @@ async def run_game(msg, cur_shape, interaction):
         cur_shape = [cur_shape_pos, cur_shape_colour, cur_shape_rotation_points]
     movement_amnt, next_space_free = get_next_pos(cur_shape_pos)
     if next_space_free:
-        for i, square in cur_shape_pos:
+        for i, square in enumerate(cur_shape_pos):  # Fix enumerate usage
             square_row, square_col = square
             if (0 <= square_row + movement_amnt < NUM_OF_ROWS):
                 board[square_row + movement_amnt][square_col + h_movement] = cur_shape_colour
