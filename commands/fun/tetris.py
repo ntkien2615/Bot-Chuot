@@ -270,6 +270,8 @@ class TetrisSlash(commands.Cog):
                 h_movement = 1
             elif reaction.emoji == "⬇":
                 down_pressed = True
+                await asyncio.sleep(0.1)  # Allow time for the shape to move down
+                down_pressed = False  # Reset down_pressed after processing
             elif reaction.emoji == "🔃":
                 rotate_clockwise = True
                 rotation_pos = (rotation_pos + 1) % 4  # Update rotation position
