@@ -148,8 +148,8 @@ def clear_lines():
     lines += lines_to_clear
 
 def get_next_pos(cur_shape_pos):
-    global h_movement, start_higher, game_over
-    movement_amnt = 1 if not down_pressed else 1  # Change to move one step at a time
+    global h_movement, start_higher, game_over, down_pressed
+    movement_amnt = 1 if not down_pressed else 2  # Change to move two steps when down_pressed
     for i in range(movement_amnt):
         for square in cur_shape_pos:
             square_row, square_col = square
@@ -268,7 +268,7 @@ class TetrisSlash(commands.Cog):
                 h_movement = 1
             elif reaction.emoji == "⬇":
                 down_pressed = True
-                await asyncio.sleep(0.1)  # Allow time for the shape to move down
+                await asyncio.sleep(0.3)  # Allow time for the shape to move down
                 down_pressed = False  # Reset down_pressed after processing
             elif reaction.emoji == "🔃":
                 rotate_clockwise = True
