@@ -4,8 +4,6 @@ from discord import app_commands
 import random
 import asyncio
 
-# Code copy, chỉ dùng để tham khảo
-
 # Constants
 NUM_OF_ROWS = 18
 NUM_OF_COLS = 10
@@ -189,7 +187,7 @@ async def run_game(msg, cur_shape, interaction):
         cur_shape = [cur_shape_pos, cur_shape_colour, cur_shape_rotation_points]
     movement_amnt, next_space_free = get_next_pos(cur_shape_pos)
     if next_space_free:
-        for i, square in enumerate(cur_shape_pos):
+        for i, square in cur_shape_pos:
             square_row, square_col = square
             if (0 <= square_row + movement_amnt < NUM_OF_ROWS):
                 board[square_row + movement_amnt][square_col + h_movement] = cur_shape_colour
@@ -223,7 +221,7 @@ async def run_game(msg, cur_shape, interaction):
         await msg.remove_reaction("⬅", interaction.user)
         await msg.remove_reaction("⬇", interaction.user)
         await msg.remove_reaction("➡", interaction.user)
-        await msg.remove_reaction("🔃", self.bot.user)  # Fix client reference
+        await msg.remove_reaction("🔃", interaction.user)  # Fix client reference
 
 async def reset_game():
     global down_pressed, rotate_clockwise, rotation_pos, h_movement, is_new_shape, start_higher, game_over, points, lines
