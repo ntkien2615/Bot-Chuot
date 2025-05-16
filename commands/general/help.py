@@ -1,26 +1,71 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-import json
-import os
 from commands.base_command import GeneralCommand
 
+
 class CommandInfoHandler:
-    def __init__(self):
-        self.categories = {
-            "1": {"name": "General commands", "description": "Các lệnh chung", "commands": {}},
-            "2": {"name": "Fun commands", "description": "Các lệnh giải trí", "commands": {}},
-            "3": {"name": "Unclassified commands", "description": "Lệnh này không biết phân loại ra sao", "commands": {}}
-        }
-        self.load_commands()
+    """Handler for command information and categories."""
     
-    def load_commands(self):
-        commands_dir = "./commands_info"
-        for category_id in self.categories:
-            file_path = os.path.join(commands_dir, f"category_{category_id}.json")
-            if os.path.exists(file_path):
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    self.categories[category_id]["commands"] = json.load(f)
+    def __init__(self):
+        # Định nghĩa trực tiếp các categories và commands thay vì đọc từ file
+        self.categories = {
+            "1": {
+                "name": "General commands", 
+                "description": "Các lệnh chung", 
+                "commands": {
+                    "avatar": "Xem avatar của người dùng",
+                    "help": "Hiển thị menu trợ giúp",
+                    "info": "Xem thông tin bot",
+                    "banner": "Xem banner của người dùng",
+                    "ping": "Kiểm tra độ trễ của bot"
+                }
+            },
+            "2": {
+                "name": "Fun commands", 
+                "description": "Các lệnh giải trí", 
+                "commands": {
+                    "codejoke": "Xem joke về lập trình",
+                    "dice": "Tung xúc xắc",
+                    "fakemsg": "Tạo tin nhắn giả",
+                    "im": "Lệnh im",
+                    "mp5_leg": "Lệnh mp5_leg",
+                    "phenis": "Lệnh phenis"
+                }
+            },
+            "3": {
+                "name": "Unclassified commands", 
+                "description": "Lệnh này không biết phân loại ra sao", 
+                "commands": {
+                    "search": "Tìm kiếm trên Google",
+                    "aiask": "Hỏi AI assistant"
+                }
+            }
+        }
+    
+    def get_all_commands(self):
+        """Get all commands from all categories."""
+        all_commands = {}
+        for category in self.categories.values():
+            all_commands.update(category["commands"])
+        return all_commands
+    
+    def get_category(self, category_id):
+        """Get a specific category by ID."""
+        return self.categories.get(category_id)
+    
+    def get_command_info(self, command_name):
+        """Get information about a specific command."""
+        all_commands = self.get_all_commands()
+        return all_commands.get(command_name.lower())
+    
+    def add_command(self, category_id, command_name, command_description):
+        """Add a new command to a category."""
+        if category_id in self.categories:
+            self.categories[category_id]["commands"][command_name.lower()] = command_description
+            return True
+        return False
+
 
 class SelectDropdown(discord.ui.Select):
     def __init__(self, commands_handler):
@@ -50,10 +95,12 @@ class SelectDropdown(discord.ui.Select):
                         icon_url=interaction.user.avatar)
         await interaction.response.edit_message(embed=embed)
 
+
 class DropdownMenu(discord.ui.View):
     def __init__(self, commands_handler):
         super().__init__()
         self.add_item(SelectDropdown(commands_handler))
+
 
 class HelpCommand(GeneralCommand):
     """Command to display help menu with all available commands."""
@@ -87,6 +134,7 @@ class HelpCommand(GeneralCommand):
     @app_commands.command(name='help', description='Hiển thị trợ giúp về các lệnh')
     async def help(self, interaction: discord.Interaction):
         await self.execute(interaction)
+
 
 async def setup(bot):
     await bot.add_cog(HelpCommand(bot))
