@@ -1,21 +1,33 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
+from commands.base_command import GeneralCommand
 
 
-class pingslash(commands.Cog):
-
+class PingCommand(GeneralCommand):
+    """Command to check the bot's latency."""
+    
     def __init__(self, bot):
-        self.bot = bot
-
-    @app_commands.command(name='ping', description='ping xem thử bot chết chưa')
-    async def pingslash(self, interaction: discord.Interaction):
+        super().__init__(bot)
+        self.name = "ping"
+        self.description = "Kiểm tra độ trễ của bot"
+    
+    async def register_slash_command(self):
+        """Register the ping slash command."""
+        pass  # Handled by Discord.py's decorator system
+    
+    async def execute(self, interaction):
+        """Execute the ping command."""
         try:
             await interaction.response.send_message(
                 f'Bang, Headshot in {round(self.bot.latency*1000)} ms')
         except Exception as e:
             print(e)
+    
+    @app_commands.command(name='ping', description='Ping xem thử bot chết chưa')
+    async def ping(self, interaction: discord.Interaction):
+        await self.execute(interaction)
 
 
 async def setup(bot):
-    await bot.add_cog(pingslash(bot))
+    await bot.add_cog(PingCommand(bot))

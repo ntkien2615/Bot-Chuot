@@ -3,10 +3,11 @@ from discord.ext import commands
 import os
 import keep_alive
 import asyncio
-from dotenv import load_dotenv, find_dotenv
 import random
 from commands.command_manager import CommandManager
 import constants
+from error_handler import ErrorHandler
+from config import Config
 
 
 class FileHandler:
@@ -33,6 +34,9 @@ class FileHandler:
 
 class DiscordBot:
     def __init__(self):
+        # Load config
+        self.config = Config()
+        
         # Setup intents
         self.intents = discord.Intents.default()
         self.intents.typing = False
@@ -54,6 +58,9 @@ class DiscordBot:
         # Initialize file handler
         self.file_handler = FileHandler()
         
+        # Initialize error handler
+        self.error_handler = ErrorHandler(self.bot)
+        
         # Register event handlers
         self.register_events()
         
@@ -62,6 +69,9 @@ class DiscordBot:
         async def on_ready():
             print(f'Logged in as {self.bot.user}')
             print(f'Bot version: {constants.BOT_VERSION}')
+            
+            if self.config.is_debug_mode():
+                print('Running in debug mode')
         
         @self.bot.event
         async def on_command_error(ctx, error):
@@ -85,15 +95,17 @@ class DiscordBot:
         # Keep the bot alive
         keep_alive.awake(
             constants.KEEPALIVE_URL,
-            debug=False
+            debug=self.config.is_debug_mode()
         )
         
         # Load extensions
         await self.load_extensions()
         
         # Start the bot
-        load_dotenv(find_dotenv())
-        discord_token = os.getenv("discord_token")
+        discord_token = self.config.get_token()
+        if not discord_token:
+            raise ValueError("Discord token is not set in environment variables")
+            
         await self.bot.start(discord_token)
 
 

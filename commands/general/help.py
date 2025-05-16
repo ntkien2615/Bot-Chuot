@@ -3,8 +3,9 @@ from discord.ext import commands
 from discord import app_commands
 import json
 import os
+from commands.base_command import GeneralCommand
 
-class Commands:
+class CommandInfoHandler:
     def __init__(self):
         self.categories = {
             "1": {"name": "General commands", "description": "Các lệnh chung", "commands": {}},
@@ -54,13 +55,21 @@ class DropdownMenu(discord.ui.View):
         super().__init__()
         self.add_item(SelectDropdown(commands_handler))
 
-class HelpCog(commands.Cog):
+class HelpCommand(GeneralCommand):
+    """Command to display help menu with all available commands."""
+    
     def __init__(self, bot):
-        self.bot = bot
-        self.commands_handler = Commands()
-
-    @app_commands.command(name='help', description='trợ giúp')
-    async def menu(self, interaction: discord.Interaction):
+        super().__init__(bot)
+        self.name = "help"
+        self.description = "Hiển thị trợ giúp về các lệnh"
+        self.commands_handler = CommandInfoHandler()
+    
+    async def register_slash_command(self):
+        """Register the help slash command."""
+        pass  # Handled by Discord.py's decorator system
+    
+    async def execute(self, interaction):
+        """Execute the help command."""
         view = DropdownMenu(self.commands_handler)
         embed_msg = discord.Embed(
             title="HELP COMMAND",
@@ -74,6 +83,10 @@ class HelpCog(commands.Cog):
 
         await interaction.response.send_message(
             embed=embed_msg, view=view)
+    
+    @app_commands.command(name='help', description='Hiển thị trợ giúp về các lệnh')
+    async def help(self, interaction: discord.Interaction):
+        await self.execute(interaction)
 
 async def setup(bot):
-    await bot.add_cog(HelpCog(bot))
+    await bot.add_cog(HelpCommand(bot))
