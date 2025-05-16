@@ -3,10 +3,18 @@ from discord.ext import commands
 import google.generativeai as genai
 from discord import app_commands
 from dotenv import load_dotenv, find_dotenv
+from commands.base_command import SlashCommand
 
-class aiask(commands.Cog):
+class AiAskCommand(SlashCommand):
+    """Command to ask questions to AI assistant."""
+    
+    category = "utility"  # This will be used by the help command
+    
     def __init__(self, bot):
-        self.bot = bot
+        super().__init__(bot)
+        self.name = "aiask"
+        self.description = "Hỏi AI assistant"
+        
         # Initialize AI configuration once during startup
         load_dotenv(find_dotenv())
         self.ai_api_key = os.getenv("ai_api_key")
@@ -19,9 +27,8 @@ class aiask(commands.Cog):
                 {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"},
             ])
     
-    @app_commands.command(name='aiask', description='Hỏi AI')
-    @app_commands.describe(question='bạn hỏi cái gì')
-    async def aiask(self, interaction:discord.Interaction, question:str):      
+    async def execute(self, interaction, question):
+        """Execute the aiask command."""
         if not question:
             await interaction.response.send_message("Vui lòng nhập câu hỏi.")
             return
@@ -50,6 +57,15 @@ class aiask(commands.Cog):
         except Exception as e:
             print(f"Lỗi khi gọi API: {e}")
             await interaction.followup.send("Có lỗi xảy ra khi xử lý câu hỏi. Vui lòng thử lại sau.")
+    
+    async def register_slash_command(self):
+        """Register the aiask slash command."""
+        pass  # Handled by Discord.py's decorator system
+    
+    @app_commands.command(name='aiask', description='Hỏi AI assistant')
+    @app_commands.describe(question='bạn hỏi cái gì')
+    async def aiask(self, interaction: discord.Interaction, question: str):
+        await self.execute(interaction, question)
 
 async def setup(bot):
-    await bot.add_cog(aiask(bot))
+    await bot.add_cog(AiAskCommand(bot))

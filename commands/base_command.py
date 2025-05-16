@@ -1,10 +1,10 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
 
-class BaseCommand(ABC, commands.Cog):
+class BaseCommand(commands.Cog):
     """Base class for all commands to inherit from."""
     
     def __init__(self, bot):
