@@ -2,46 +2,73 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 from commands.base_command import GeneralCommand
+import constants
 
 
 class CommandInfoHandler:
     """Handler for command information and categories."""
     
-    def __init__(self):
-        # Định nghĩa trực tiếp các categories và commands thay vì đọc từ file
+    def __init__(self, bot=None):
+        self.bot = bot
         self.categories = {
             "1": {
                 "name": "General commands", 
                 "description": "Các lệnh chung", 
-                "commands": {
-                    "avatar": "Xem avatar của người dùng",
-                    "help": "Hiển thị menu trợ giúp",
-                    "info": "Xem thông tin bot",
-                    "banner": "Xem banner của người dùng",
-                    "ping": "Kiểm tra độ trễ của bot"
-                }
+                "commands": {}
             },
             "2": {
                 "name": "Fun commands", 
                 "description": "Các lệnh giải trí", 
-                "commands": {
-                    "codejoke": "Xem joke về lập trình",
-                    "dice": "Tung xúc xắc",
-                    "fakemsg": "Tạo tin nhắn giả",
-                    "im": "Lệnh im",
-                    "mp5_leg": "Lệnh mp5_leg",
-                    "phenis": "Lệnh phenis"
-                }
+                "commands": {}
             },
             "3": {
                 "name": "Unclassified commands", 
                 "description": "Lệnh này không biết phân loại ra sao", 
-                "commands": {
-                    "search": "Tìm kiếm trên Google",
-                    "aiask": "Hỏi AI assistant"
-                }
+                "commands": {}
             }
         }
+        
+        if bot:
+            self.update_commands()
+    
+    def update_commands(self):
+        """Update commands from bot's command list."""
+        if not self.bot:
+            return
+            
+        # Clear existing commands
+        for category in self.categories.values():
+            category["commands"] = {}
+            
+        # Map category names to category IDs
+        category_mapping = {
+            constants.CATEGORY_GENERAL: "1",
+            constants.CATEGORY_FUN: "2",
+        }
+        
+        # Get all registered slash commands from the bot
+        for command in self.bot.tree.get_commands():
+            command_name = command.name
+            command_desc = command.description or "No description available"
+            
+            # Find the cog that owns this command
+            cog = None
+            for cog_instance in self.bot.cogs.values():
+                for cmd in cog_instance.get_app_commands():
+                    if cmd.name == command_name:
+                        cog = cog_instance
+                        break
+                if cog:
+                    break
+            
+            # Determine category based on cog
+            category_id = "3"  # Default to Unclassified
+            if cog and hasattr(cog, 'category'):
+                cog_category = cog.category
+                category_id = category_mapping.get(cog_category, "3")
+            
+            # Add command to appropriate category
+            self.categories[category_id]["commands"][command_name] = command_desc
     
     def get_all_commands(self):
         """Get all commands from all categories."""
@@ -109,7 +136,7 @@ class HelpCommand(GeneralCommand):
         super().__init__(bot)
         self.name = "help"
         self.description = "Hiển thị trợ giúp về các lệnh"
-        self.commands_handler = CommandInfoHandler()
+        self.commands_handler = CommandInfoHandler(bot)
     
     async def register_slash_command(self):
         """Register the help slash command."""
@@ -117,6 +144,9 @@ class HelpCommand(GeneralCommand):
     
     async def execute(self, interaction):
         """Execute the help command."""
+        # Update commands before displaying help
+        self.commands_handler.update_commands()
+        
         view = DropdownMenu(self.commands_handler)
         embed_msg = discord.Embed(
             title="HELP COMMAND",
