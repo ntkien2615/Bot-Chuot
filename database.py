@@ -1,5 +1,9 @@
 import re
 from abc import ABC, abstractmethod
+import pymongo
+from pymongo.server_api import ServerApi
+import os
+from dotenv import load_dotenv
 
 
 class Database(ABC):
@@ -77,6 +81,112 @@ class FileDatabase(Database):
     def _format_data_for_save(self):
         """Format the data for saving to file."""
         pass
+
+
+class MongoDatabase(Database):
+    """Database implementation for MongoDB."""
+    
+    def __init__(self, collection_name, database_name="botchuot"):
+        super().__init__()
+        load_dotenv()
+        self.mongo_uri = os.getenv("MONGODB_URI")
+        if not self.mongo_uri:
+            raise ValueError("MONGODB_URI environment variable not set")
+        
+        self.client = None
+        self.db = None
+        self.collection = None
+        self.database_name = database_name
+        self.collection_name = collection_name
+        self.is_loaded = False
+    
+    def load(self):
+        """Connect to MongoDB and load collection."""
+        try:
+            # Create a new client and connect to the server using Server API version 1
+            self.client = pymongo.MongoClient(self.mongo_uri, server_api=ServerApi('1'))
+            
+            # Send a ping to confirm a successful connection
+            self.client.admin.command('ping')
+            print("Successfully connected to MongoDB Atlas!")
+            
+            self.db = self.client[self.database_name]
+            self.collection = self.db[self.collection_name]
+            self.is_loaded = True
+            return True
+        except Exception as e:
+            print(f"Error connecting to MongoDB: {e}")
+            self.is_loaded = False
+            return False
+    
+    def save(self):
+        """Not used for MongoDB as changes are saved directly via insert/update methods."""
+        return True
+    
+    def get(self, key):
+        """Get a document by its _id field."""
+        if not self.is_loaded:
+            self.load()
+        return self.collection.find_one({"_id": str(key)})
+    
+    def set(self, key, value):
+        """Insert or update a document."""
+        if not self.is_loaded:
+            self.load()
+            
+        data = value
+        if isinstance(data, dict):
+            data["_id"] = str(key)
+        else:
+            data = {"_id": str(key), "value": value}
+            
+        return self.collection.replace_one(
+            {"_id": str(key)}, 
+            data, 
+            upsert=True
+        )
+    
+    def delete(self, key):
+        """Delete a document by its _id field."""
+        if not self.is_loaded:
+            self.load()
+        return self.collection.delete_one({"_id": str(key)})
+    
+    def search(self, query):
+        """Search for documents containing the query in any field."""
+        if not self.is_loaded:
+            self.load()
+        
+        # Convert query to regex pattern
+        pattern = re.compile(f".*{re.escape(query)}.*", re.IGNORECASE)
+        
+        # For simpler search, just search in all string fields
+        results = []
+        for doc in self.collection.find():
+            for key, value in doc.items():
+                if isinstance(value, str) and re.search(pattern, value):
+                    results.append(doc)
+                    break
+        
+        return results
+    
+    def find(self, query_dict):
+        """Find documents matching the query dictionary."""
+        if not self.is_loaded:
+            self.load()
+        return list(self.collection.find(query_dict))
+    
+    def insert_many(self, documents):
+        """Insert multiple documents."""
+        if not self.is_loaded:
+            self.load()
+        return self.collection.insert_many(documents)
+    
+    def close(self):
+        """Close the MongoDB connection."""
+        if self.client:
+            self.client.close()
+            self.is_loaded = False
 
 
 class RuleDatabase(FileDatabase):

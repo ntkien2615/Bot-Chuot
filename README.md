@@ -45,7 +45,7 @@ Các lớp cụ thể cho từng loại lệnh, kế thừa từ SlashCommand.
 Quản lý việc tải và đăng ký các lệnh.
 
 ### Lớp Database
-Lớp cơ sở cho cơ sở dữ liệu, với các lớp con như FileDatabase và RuleDatabase.
+Lớp cơ sở cho cơ sở dữ liệu, với các lớp con như FileDatabase, MongoDatabase và RuleDatabase.
 
 ### Lớp Config
 Quản lý cấu hình bot, sử dụng mẫu Singleton để đảm bảo chỉ có một phiên bản.
@@ -63,16 +63,56 @@ Các lớp như EmbedBuilder, MessageUtils, FileUtils, TimeUtils cung cấp các
 pip install -r requirements.txt
 ```
 
-2. Tạo file .env với token Discord:
+2. Tạo file .env với token Discord và MongoDB:
 ```
+# Discord Bot Settings
 discord_token=your_token_here
 bot_owner_id=your_id_here
 debug_mode=False
+
+# MongoDB Settings
+MONGODB_URI=mongodb+srv://username:password@clustername.mongodb.net/?retryWrites=true&w=majority
+MONGODB_DATABASE=botchuot
 ```
 
 3. Chạy bot:
 ```
 python main.py
+```
+
+## Sử dụng MongoDB
+
+Bot này có tích hợp MongoDB để lưu trữ dữ liệu. Để sử dụng MongoDB:
+
+1. Tạo tài khoản miễn phí trên [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
+2. Tạo một Cluster miễn phí
+3. Tạo một Database User với quyền đọc và ghi
+4. Lấy Connection String từ MongoDB Atlas
+5. Thêm Connection String vào file .env như mẫu trên
+
+Lớp MongoDatabase được thiết kế để hoạt động với MongoDB Atlas:
+
+```python
+from database import MongoDatabase
+
+# Tạo một instance của MongoDatabase với collection cụ thể
+db = MongoDatabase(collection_name="my_collection")
+
+# Đảm bảo db đã được kết nối
+db.load()
+
+# Lưu dữ liệu
+db.set("key1", "value1")
+db.set("key2", {"name": "User", "age": 25})
+
+# Lấy dữ liệu
+result = db.get("key1")
+
+# Tìm kiếm dữ liệu
+results = db.search("user")
+
+# Xóa dữ liệu
+db.delete("key1")
 ```
 
 ## Thêm lệnh mới

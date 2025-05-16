@@ -30,6 +30,10 @@ class Config:
         self.discord_token = os.getenv("discord_token")
         self.bot_owner_id = os.getenv("bot_owner_id")
         self.debug_mode = os.getenv("debug_mode", "False").lower() == "true"
+        
+        # MongoDB configuration
+        self.mongodb_uri = os.getenv("MONGODB_URI")
+        self.mongodb_database = os.getenv("MONGODB_DATABASE", "botchuot")
     
     def load_config(self):
         """Load configuration from config.json if exists."""
@@ -72,4 +76,12 @@ class Config:
     
     def is_debug_mode(self):
         """Check if debug mode is enabled."""
-        return self.debug_mode 
+        return self.debug_mode
+    
+    def get_mongodb_uri(self):
+        """Get the MongoDB URI."""
+        return self.mongodb_uri
+    
+    def get_mongodb_database(self):
+        """Get the MongoDB database name."""
+        return self.mongodb_database 
