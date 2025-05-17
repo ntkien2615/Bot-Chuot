@@ -24,10 +24,7 @@ class CommandManager:
         try:
             # Get all Python files in the directory
             files = [f for f in os.listdir(directory) if f.endswith('.py')]
-            
-            # Randomize load order for variety
-            random.shuffle(files)
-            
+
             for filename in files:
                 module_path = f'{directory.replace("./", "").replace("/", ".")}.{filename[:-3]}'
                 await self.bot.load_extension(module_path)
