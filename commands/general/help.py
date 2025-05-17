@@ -22,8 +22,18 @@ class CommandInfoHandler:
                 "commands": {}
             },
             "3": {
-                "name": "Unclassified commands", 
-                "description": "Lệnh này không biết phân loại ra sao", 
+                "name": "Slash commands", 
+                "description": "Các lệnh slash", 
+                "commands": {}
+            },
+            "4": {
+                "name": "Non-slash commands", 
+                "description": "Các lệnh non-slash", 
+                "commands": {}
+            },
+            "5": {
+                "name": "Economy commands", 
+                "description": "Các lệnh kinh tế", 
                 "commands": {}
             }
         }
@@ -44,6 +54,17 @@ class CommandInfoHandler:
         category_mapping = {
             constants.CATEGORY_GENERAL: "1",
             constants.CATEGORY_FUN: "2",
+            constants.CATEGORY_SLASH: "3",
+            constants.CATEGORY_NONSLASH: "4",
+        }
+        
+        # Add subfolder-based category mapping
+        folder_category_mapping = {
+            "general": "1",
+            "fun": "2",
+            "slash": "3",
+            "non-slash": "4",
+            "ecomony": "5"
         }
         
         # Get all registered slash commands from the bot
@@ -62,10 +83,20 @@ class CommandInfoHandler:
                     break
             
             # Determine category based on cog
-            category_id = "3"  # Default to Unclassified
-            if cog and hasattr(cog, 'category'):
+            category_id = "1"  # Default to General
+            
+            # First try to identify from the module path (subfolder)
+            if cog:
+                module_path = cog.__module__
+                for folder, cat_id in folder_category_mapping.items():
+                    if folder in module_path:
+                        category_id = cat_id
+                        break
+            
+            # If no match found by folder, use cog category attribute
+            if category_id == "1" and cog and hasattr(cog, 'category'):
                 cog_category = cog.category
-                category_id = category_mapping.get(cog_category, "3")
+                category_id = category_mapping.get(cog_category, "1")
             
             # Add command to appropriate category
             self.categories[category_id]["commands"][command_name] = command_desc
