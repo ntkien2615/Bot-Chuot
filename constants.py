@@ -28,11 +28,25 @@ COMMAND_DIRECTORIES = [
     './commands/general',
 ]
 
+# Required Commands (only these will be loaded)
+REQUIRED_COMMANDS = {
+    'fun': ['joke', 'meme', 'random'],
+    'general': ['help', 'ping', 'info'],
+    'slash': ['profile', 'echo'],
+    'non-slash': ['say', 'rule', 'clear']
+}
+
 # Other Extension Directories
 OTHER_EXTENSION_DIRECTORIES = [
     './status',
     './message'
 ]
+
+# Required Extensions (only these will be loaded)
+REQUIRED_EXTENSIONS = {
+    'status': ['activity'],
+    'message': ['response']
+}
 
 # Embed Colors
 DEFAULT_EMBED_COLOR = 0x3498db  # Blue

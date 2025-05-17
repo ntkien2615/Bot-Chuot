@@ -30,6 +30,7 @@ class Config:
         self.discord_token = os.getenv("discord_token")
         self.bot_owner_id = os.getenv("bot_owner_id")
         self.debug_mode = os.getenv("debug_mode", "False").lower() == "true"
+        self.test_guild_id = os.getenv("test_guild_id")
         
         # MongoDB configuration
         self.mongodb_uri = os.getenv("MONGODB_URI")
@@ -84,4 +85,8 @@ class Config:
     
     def get_mongodb_database(self):
         """Get the MongoDB database name."""
-        return self.mongodb_database 
+        return self.mongodb_database
+        
+    def get_test_guild_id(self):
+        """Get the test guild ID for guild-specific command syncing."""
+        return self.test_guild_id 

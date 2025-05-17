@@ -1,0 +1,40 @@
+BOT CHUOT - DANH SÁCH LỆNH
+==========================
+
+LỆNH SLASH (/)
+-------------
+
+Fun Commands:
+- /dice - Tung xúc sắc theo các loại xúc sắc
+- /guess_num - Đoán số
+- /ham - ham
+- /mp5_leg - cần thận cặp giò của m đấy
+- /rate - rate thử bạn trông như thế nào?
+- /rps - rock,paper,scissors aka kéo, búa, bao
+- /tetris - chơi tetris với bot
+- /codejoke - Tạo code joke (chỉ hỗ trợ tiếng anh)
+
+General Commands:
+- /help - Hiển thị trợ giúp về các lệnh
+- /banner - lấy banner của bạn hoặc người khác
+
+Utility Commands:
+- /search - tìm ảnh trên mạng
+- /aiask - Hỏi AI assistant
+
+LỆNH PREFIX (+)
+-------------
+- +ping - Kiểm tra độ trễ của bot
+
+CÁC LỆNH ĐANG BỊ TẮT
+------------------
+- pvp (trong thư mục disabled)
+
+LƯU Ý
+-----
+Nếu có lệnh không hiển thị trong Discord, có thể do:
+1. Lệnh chưa được đồng bộ với API của Discord
+2. Bot không có quyền applications.commands
+3. Lệnh đang bị lỗi khi tải
+
+Khởi động lại bot sẽ tự động đồng bộ lại tất cả các lệnh. 

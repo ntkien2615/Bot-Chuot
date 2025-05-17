@@ -1,0 +1,53 @@
+DISCORD BOT SETUP INSTRUCTIONS
+============================
+
+1. ENVIRONMENT VARIABLES
+-----------------------
+Make sure your .env file contains the following:
+
+discord_token=YOUR_DISCORD_BOT_TOKEN
+bot_owner_id=YOUR_DISCORD_USER_ID
+debug_mode=true
+test_guild_id=YOUR_GUILD_ID_HERE
+
+Replace YOUR_GUILD_ID_HERE with your Discord server ID to enable faster command syncing.
+
+2. COMMAND SYNCING
+----------------
+Commands are now set up to sync automatically when the bot starts.
+- Global commands may take up to an hour to appear in Discord
+- Guild-specific commands will appear immediately in your test guild
+
+3. AVAILABLE COMMANDS
+-------------------
+The following command categories are available:
+
+Fun Commands:
+- /dice - Tung xúc sắc theo các loại xúc sắc
+- /guess_num - Đoán số
+- /ham - ham
+- /help - Hiển thị trợ giúp về các lệnh
+- /mp5_leg - cần thận cặp giò của m đấy
+- /rate - rate thử bạn trông như thế nào?
+- /rps - rock,paper,scissors aka kéo, búa, bao
+- /tetris - chơi tetris với bot
+- /codejoke - Tạo code joke (chỉ hỗ trợ tiếng anh)
+- /search - tìm ảnh trên mạng
+- /banner - lấy banner của bạn hoặc người khác
+- /aiask - Hỏi AI assistant
+
+4. TROUBLESHOOTING
+----------------
+If commands are not appearing:
+- Check the bot console for any error messages
+- Verify that your bot has the applications.commands scope
+- Try restarting the bot
+- Check if the test_guild_id is correct
+
+5. ADDING NEW COMMANDS
+--------------------
+Place new command files in the appropriate directory:
+- Fun commands: commands/fun/
+- General commands: commands/general/
+- Slash commands: commands/slash/
+- Non-slash commands: commands/non-slash/ 

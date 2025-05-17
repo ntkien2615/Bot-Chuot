@@ -72,6 +72,22 @@ class DiscordBot:
             
             if self.config.is_debug_mode():
                 print('Running in debug mode')
+                
+            # Sync commands with Discord
+            print("Syncing commands...")
+            try:
+                # Sync commands globally - may take up to an hour to propagate
+                await self.bot.tree.sync()
+                print("Successfully synced global commands")
+                
+                # For immediate testing in a specific guild, you can sync to a specific guild
+                if self.config.get_test_guild_id():
+                    test_guild = discord.Object(id=self.config.get_test_guild_id())
+                    self.bot.tree.copy_global_to(guild=test_guild)
+                    await self.bot.tree.sync(guild=test_guild)
+                    print(f"Successfully synced commands to test guild {self.config.get_test_guild_id()}")
+            except Exception as e:
+                print(f"Failed to sync commands: {e}")
         
         @self.bot.event
         async def on_command_error(ctx, error):
@@ -85,11 +101,20 @@ class DiscordBot:
         await self.command_manager.load_all_commands()
         
         # Load other extensions
+        required_extensions = getattr(constants, 'REQUIRED_EXTENSIONS', {})
         for directory in constants.OTHER_EXTENSION_DIRECTORIES:
             files = [f for f in os.listdir(directory) if f.endswith('.py')]
+            category = directory.split('/')[-1]
+            
+            # Filter files if required extensions are specified
+            if category in required_extensions:
+                files = [f for f in files if f[:-3] in required_extensions[category]]
+                
             random.shuffle(files)
             for filename in files:
-                await self.bot.load_extension(f'{directory.replace("./", "").replace("/", ".")}.{filename[:-3]}')
+                module_path = f'{directory.replace("./", "").replace("/", ".")}.{filename[:-3]}'
+                await self.bot.load_extension(module_path)
+                print(f"Loaded extension: {module_path}")
     
     async def start(self):
         # Keep the bot alive
@@ -114,5 +139,6 @@ async def main():
     await bot.start()
 
 
-if __name__ == "__main__":
+# Run the bot
+if __name__ == '__main__':
     asyncio.run(main())
