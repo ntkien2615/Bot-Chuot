@@ -30,10 +30,10 @@ COMMAND_DIRECTORIES = [
 
 # Required Commands (only these will be loaded)
 REQUIRED_COMMANDS = {
-    'fun': ['joke', 'meme', 'random'],
-    'general': ['help', 'ping', 'info'],
-    'slash': ['profile', 'echo'],
-    'non-slash': ['say', 'rule', 'clear']
+    'fun': [],
+    'general': [],
+    'slash': [],
+    'non-slash': []
 }
 
 # Other Extension Directories

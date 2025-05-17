@@ -13,7 +13,6 @@ class CommandManager:
         self.bot = bot
         self.commands = []
         self.command_directories = constants.COMMAND_DIRECTORIES
-        self.required_commands = constants.REQUIRED_COMMANDS
         
     async def load_all_commands(self):
         """Load all commands from the command directories."""
@@ -25,12 +24,6 @@ class CommandManager:
         try:
             # Get all Python files in the directory
             files = [f for f in os.listdir(directory) if f.endswith('.py')]
-            
-            # Filter files to only include required commands if specified
-            category = directory.split('/')[-1]
-            if category in self.required_commands:
-                required_files = self.required_commands[category]
-                files = [f for f in files if f[:-3] in required_files]
             
             # Randomize load order for variety
             random.shuffle(files)
