@@ -64,12 +64,21 @@ class CommandInfoHandler:
             "fun": "2",
             "slash": "3",
             "non-slash": "4",
-            "ecomony": "5"
+            "economy": "5"  # Fixed typo from "ecomony" to "economy"
         }
+        
+        # Track processed commands to avoid duplicates
+        processed_commands = set()
         
         # Get all registered slash commands from the bot
         for command in self.bot.tree.get_commands():
             command_name = command.name
+            
+            # Skip if this command has already been processed
+            if command_name in processed_commands:
+                continue
+                
+            processed_commands.add(command_name)
             command_desc = command.description or "No description available"
             
             # Find the cog that owns this command
