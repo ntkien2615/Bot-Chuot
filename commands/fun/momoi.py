@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 import random
-from main import random_file_read
 
 
 class momoi(commands.Cog):
@@ -21,8 +20,8 @@ class momoi(commands.Cog):
 
     @app_commands.command(name='momoi',description='momoi ní...') 
     @app_commands.describe(user='Người muốn được đua xe')
-    async def moimoi(self, interaction: discord.Interaction, user:discord.Member):
-        if (user == None) or (user == interaction.user):
+    async def moimoi(self, interaction: discord.Interaction, user:discord.Member = None):
+        if user is None:
             await interaction.response.send_message('Nhập người nào vào đi',ephemeral=True)
             return
         else:      

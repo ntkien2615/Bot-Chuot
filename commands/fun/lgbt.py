@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 import random
-from main import random_file_read
 
 
 class Lgbt(commands.Cog):
@@ -21,8 +20,8 @@ class Lgbt(commands.Cog):
     
     @app_commands.command(name='lgbt',description='lgbt?') 
     @app_commands.describe(user='Người bạn nghi là gay')
-    async def moimoi(self, interaction: discord.Interaction, user:discord.Member):
-        if (user == None) or (user == interaction.user):
+    async def lgbt_command(self, interaction: discord.Interaction, user:discord.Member = None):
+        if user is None:
             await interaction.response.send_message('Nhập người nào vào đi',ephemeral=True)
             return
         else:      
@@ -31,8 +30,6 @@ class Lgbt(commands.Cog):
             embed.set_image(url=lgbt)
 
         await interaction.response.send_message(f"<@{user.id}>, 🏳️‍🌈?!?!",embed=embed)
-
-    
 
 async def setup(bot):
     await bot.add_cog(Lgbt(bot))

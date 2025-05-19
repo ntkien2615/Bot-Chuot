@@ -11,7 +11,7 @@ class rateslash(commands.Cog):
 
     @app_commands.command(name='rate',
                           description='rate thử bạn trông như thế nào?')
-    @app_commands.describe(type='chọn các phương châm để đánh giá')
+    @app_commands.describe(member='Người bạn muốn đánh giá', type='chọn các phương châm để đánh giá')
     @app_commands.choices(type=[
         discord.app_commands.Choice(name="Gay", value="Gay"),
         discord.app_commands.Choice(name="Độ best toán", value="Toán"),
@@ -23,10 +23,11 @@ class rateslash(commands.Cog):
         discord.app_commands.Choice(name="Simp", value="Simp"),
         discord.app_commands.Choice(name="Nerd", value="Nerd")
     ])
-    async def rate_command(self, interaction: discord.Interaction,
-                        member: discord.Member, type: str):
-        if member == None:
+    async def rate(self, interaction: discord.Interaction,
+                        member: discord.Member = None, type: str = None):
+        if member is None:
             member = interaction.user
+        
         embed_msg = discord.Embed(
             title="RATE r43 BETA", color=discord.Color.random())
 
@@ -109,6 +110,10 @@ class rateslash(commands.Cog):
                         url='https://media.discordapp.net/attachments/883268139922636820/1144988661105053768/371459651_323564320152104_2701977404234363223_n.png')
                 embed_msg.set_footer(text=f"Rated by {interaction.user}",
                                     icon_url=interaction.user.avatar)
+            case _:
+                embed_msg.add_field(name="",
+                                   value=f"Vui lòng chọn loại đánh giá",
+                                   inline=False)
 
         await interaction.response.send_message(embed=embed_msg)
 

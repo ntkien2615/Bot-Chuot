@@ -3,14 +3,21 @@ from discord.ext import commands
 from discord import app_commands
 import asyncio
 import random
-from main import random_file_read
+
 
 class Hack(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    def random_file_read(self, file_path):    
-        return random_file_read(file_path)
+    def random_file_read(self, file_path):
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                lines = f.readlines()
+            if lines:
+                return random.choice(lines).strip()
+        except (IndexError, FileNotFoundError) as e:
+            print(f"Error in random_file_read: {e}")
+            return None
 
     async def countdown(self, interaction, message, seconds):
         for i in range(seconds, 0, -1):
@@ -19,13 +26,18 @@ class Hack(commands.Cog):
 
     @app_commands.command(name='hack', description='hack vào máy ai đó (beta)')
     @app_commands.describe(user='máy tính của ai')
-    async def hack(self, interaction: discord.Interaction, user: discord.Member):
+    async def hack(self, interaction: discord.Interaction, user: discord.Member = None):
+        if user is None:
+            await interaction.response.send_message("Hãy chọn người để hack", ephemeral=True)
+            return
+            
         if user == interaction.user:
             await interaction.response.send_message("Ông không thể hack chính ông đc, thử đứa khác đi")
             return
 
         if user.id == 1042729081088778272:
             await interaction.response.send_message('Làm sao t hack chính tôi đc, thử ai đó đi')
+            return
 
         await interaction.response.send_message(f"Bắt đầu thực hiện việc hack nguy hiểm vào máy tính của <@{user.id}>...")
         await asyncio.sleep(1)

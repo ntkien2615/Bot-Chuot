@@ -1,7 +1,23 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-from database import RuleDatabase
+
+# Simple rule database implementation
+class RuleDatabase:
+    def __init__(self):
+        self.rules = {
+            "1": "Do not talk about /b/",
+            "2": "Do NOT talk about /b/",
+            # Add more rules here
+            "34": "If it exists, there is porn of it. No exceptions.",
+            "35": "The exception to rule #34 is the citation of rule #34.",
+            # Special rules
+            "3.141592653589793238462643383279502884197169399573105": "Pi is exactly 3",
+            "6.241592653589793238462643383279502888394338799146210": "Planck's constant is exactly 6"
+        }
+    
+    def get_rule(self, rule_number):
+        return self.rules.get(str(rule_number), None)
 
 class roi(commands.Cog):
     def __init__(self, bot):

@@ -9,8 +9,7 @@ class codejoke(commands.Cog):
         self.bot = bot
 
     @app_commands.command(name='codejoke',description='Tạo code joke (chỉ hỗ trợ tiếng anh)') 
-    @app_commands.describe()
-    async def codejoke(self, interaction:discord.Interaction):
+    async def codejoke_command(self, interaction:discord.Interaction):
         msg = discord.Embed(title="Coder Joke v1.ABC",
                             color=discord.Colour.random())
         msg.add_field(name="",
@@ -18,5 +17,6 @@ class codejoke(commands.Cog):
                           language='en', category='neutral'),
                       inline=False)
         await interaction.response.send_message(embed=msg)
+        
 async def setup(bot):
     await bot.add_cog(codejoke(bot))

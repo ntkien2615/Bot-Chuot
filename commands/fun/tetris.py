@@ -241,7 +241,6 @@ make_empty_board()
 class TetrisSlash(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.client = bot  # Add client reference
         self.active_games = {}  # Track active games
 
     @app_commands.command(name='tetris', description='chơi tetris với bot')
@@ -251,7 +250,10 @@ class TetrisSlash(commands.Cog):
         embed = discord.Embed(description=format_board_as_str(), color=EMBED_COLOUR)
         msg = await interaction.followup.send(embed=embed)
         for emoji in ["⬅", "⬇", "➡", "🔃"]:
-            await msg.add_reaction(emoji)
+            try:
+                await msg.add_reaction(emoji)
+            except Exception as e:
+                print(f"Error adding reaction {emoji}: {e}")
         cur_shape = get_random_shape()
         await run_game(msg, cur_shape, interaction)
 
@@ -274,7 +276,7 @@ class TetrisSlash(commands.Cog):
                 rotate_clockwise = True
                 rotation_pos = (rotation_pos + 1) % 4  # Update rotation position
             
-            await reaction.message.remove_reaction(reaction.emoji, user)
+            await reaction.remove(user)
         except Exception as e:
             print(f"Error handling reaction: {e}")
 

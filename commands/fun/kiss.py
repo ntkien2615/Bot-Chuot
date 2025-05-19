@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 import random
-from main import random_file_read
+
 
 class kissSlash(commands.Cog):
 
@@ -23,8 +23,8 @@ class kissSlash(commands.Cog):
 
     @app_commands.command(name='kiss', description='Hôn đứa bạn của bạn')
     @app_commands.describe(user='Người bạn muốn hôn')
-    async def kissSlash(self, interaction: discord.Interaction, user: discord.Member):
-        if (user == None) or (user == interaction.user):
+    async def kiss_command(self, interaction: discord.Interaction, user: discord.Member = None):
+        if user is None or user == interaction.user:
             await interaction.response.send_message('Nhập người nào vào đi', ephemeral=True)
             return
         else:
