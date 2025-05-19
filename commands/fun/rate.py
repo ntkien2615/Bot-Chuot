@@ -23,7 +23,7 @@ class rateslash(commands.Cog):
         discord.app_commands.Choice(name="Simp", value="Simp"),
         discord.app_commands.Choice(name="Nerd", value="Nerd")
     ])
-    async def pingslash(self, interaction: discord.Interaction,
+    async def rate_command(self, interaction: discord.Interaction,
                         member: discord.Member, type: str):
         if member == None:
             member = interaction.user

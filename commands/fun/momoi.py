@@ -10,7 +10,14 @@ class momoi(commands.Cog):
         self.bot = bot
     
     def random_file_read(self, file_path):
-        return random_file_read(file_path)
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                lines = f.readlines()
+            if lines:
+                return random.choice(lines).strip()
+        except (IndexError, FileNotFoundError) as e:
+            print(f"Error in random_file_read: {e}")
+            return None
 
     @app_commands.command(name='momoi',description='momoi ní...') 
     @app_commands.describe(user='Người muốn được đua xe')

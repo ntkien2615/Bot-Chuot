@@ -9,8 +9,17 @@ class kissSlash(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    def random_file_read(self):
-        return random_file_read("./txt_files/kiss.txt")
+    def random_file_read(self, file_path=None):
+        if not file_path:
+            file_path = "./txt_files/kiss.txt"
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                lines = f.readlines()
+            if lines:
+                return random.choice(lines).strip()
+        except (IndexError, FileNotFoundError) as e:
+            print(f"Error in random_file_read: {e}")
+            return None
 
     @app_commands.command(name='kiss', description='Hôn đứa bạn của bạn')
     @app_commands.describe(user='Người bạn muốn hôn')
@@ -23,7 +32,7 @@ class kissSlash(commands.Cog):
                 embed = discord.Embed(title="",
                                     description=f"{interaction.user.mention} đã hôn {user.mention} 😘",
                                     color=discord.Colour.random())
-                embed.set_image(url=self.random_file_read())
+                embed.set_image(url=self.random_file_read("./txt_files/kiss.txt"))
                 await interaction.response.send_message(embed=embed)
             except Exception as e:
                 print(e)

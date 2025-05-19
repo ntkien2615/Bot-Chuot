@@ -10,7 +10,7 @@ class legslash(commands.Cog):
 
     @app_commands.command(name='mp5_leg', description='cẩn thận cặp giò của m đấy')
     @app_commands.describe(member='Chọn cái đứa nào ây')
-    async def leg(self, interaction: discord.Interaction, member: discord.Member):
+    async def leg(self, interaction: discord.Interaction, member: discord.Member = None):
         if member == None:
             await interaction.response.send_message('Well, ko có ai làm sao có cặp giò', ephemeral=True)
             return

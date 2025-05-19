@@ -44,7 +44,10 @@ class wibi(commands.Cog):
         if isinstance(error, commands.CommandOnCooldown):
             await ctx.message.delete()
             msg = f'<@{ctx.author.id}> Cay lắm đúng không, ĐỪNG SPAM NỮA, ĐỢI SAU : {error.retry_after:.2f} s.'
-        await ctx.send(msg, delete_after=2.0)
+            await ctx.send(msg, delete_after=2.0)
+        else:
+            # Xử lý các lỗi khác nếu cần
+            pass
 
 
 async def setup(bot):
