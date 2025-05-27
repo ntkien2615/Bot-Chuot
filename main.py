@@ -8,6 +8,7 @@ from commands.command_manager import CommandManager
 import constants
 from error_handler import ErrorHandler
 from config import Config
+from database import MongoDatabase
 
 
 class FileHandler:
@@ -57,13 +58,14 @@ class DiscordBot:
         
         # Initialize file handler
         self.file_handler = FileHandler()
-        
-        # Initialize error handler
+          # Initialize error handler
         self.error_handler = ErrorHandler(self.bot)
         
-        # Register event handlers
-        self.register_events()
+        # Initialize database handler
+        self.database = MongoDatabase(collection_name="botdata")
         
+        # Register event handlers        self.register_events()
+    
     def register_events(self):
         @self.bot.event
         async def on_ready():
@@ -72,6 +74,13 @@ class DiscordBot:
             
             if self.config.is_debug_mode():
                 print('Running in debug mode')
+                
+            # Initialize MongoDB connection
+            print("Connecting to MongoDB...")
+            if self.database.load():
+                print("Successfully connected to MongoDB!")
+            else:
+                print("Failed to connect to MongoDB - some features may not work")
                 
             # Sync commands with Discord
             print("Syncing commands...")

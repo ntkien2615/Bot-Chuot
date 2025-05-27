@@ -86,12 +86,16 @@ class FileDatabase(Database):
 class MongoDatabase(Database):
     """Database implementation for MongoDB."""
     
-    def __init__(self, collection_name, database_name="botchuot"):
+    def __init__(self, collection_name="botdata", database_name=None):
         super().__init__()
         load_dotenv()
         self.mongo_uri = os.getenv("MONGODB_URI")
         if not self.mongo_uri:
             raise ValueError("MONGODB_URI environment variable not set")
+        
+        # Use environment variable for database name if not provided
+        if database_name is None:
+            database_name = os.getenv("MONGODB_DATABASE", "botchuot")
         
         self.client = None
         self.db = None
