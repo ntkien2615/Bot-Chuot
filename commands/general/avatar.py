@@ -12,7 +12,7 @@ class avatarslash(commands.Cog):
         discord.app_commands.Choice(name="Global", value="global", description="Avatar toàn cầu của người dùng"),
         discord.app_commands.Choice(name="Local", value="local", description="Avatar cục bộ của người dùng trong máy chủ")
     ])
-    async def avtslash(self, interaction: discord.Interaction, options: str, member: discord.Member = None):
+    async def avtslash(self, interaction: discord.Interaction, member: discord.Member = None, options: str = 'global'):
         if member == None:
             member = interaction.user
 
