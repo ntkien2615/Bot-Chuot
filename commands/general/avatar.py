@@ -22,30 +22,32 @@ class AvatarCommand(GeneralCommand):
             if member is None:
                 member = interaction.user
 
+            # Fetch the full user object to get all avatar data
+            user = await self.bot.fetch_user(member.id)
+            
             if options == 'global':
-                avatar_url = member.avatar.url if member.avatar else member.default_avatar.url
-                embed_msg = discord.Embed(title=f"Avatar global của {member}",
+                avatar_url = user.display_avatar.url
+                embed_msg = discord.Embed(title=f"Avatar global của {user.display_name}",
                                         color=discord.Color.random())
-                embed_msg.set_author(name=f"{member}",
+                embed_msg.set_author(name=f"{user.display_name}",
                                     icon_url=avatar_url)
                 embed_msg.set_image(url=avatar_url)
-                embed_msg.set_footer(text=f"Bởi {interaction.user}",
-                                    icon_url=interaction.user.avatar.url if interaction.user.avatar else interaction.user.default_avatar.url)
+                embed_msg.set_footer(text=f"Bởi {interaction.user.display_name}",
+                                    icon_url=interaction.user.display_avatar.url)
                 await interaction.response.send_message(embed=embed_msg)
             
             elif options == 'local':
-                if member.guild_avatar is None:
+                if not hasattr(member, 'guild_avatar') or member.guild_avatar is None:
                     await interaction.response.send_message("Người này không có avatar trong máy chủ, có thể người này quá nghèo để có nitro", ephemeral=True)
                     return
                 
-                avatar_url = member.avatar.url if member.avatar else member.default_avatar.url
-                embed_msg = discord.Embed(title=f"Avatar local của {member}",
+                embed_msg = discord.Embed(title=f"Avatar local của {member.display_name}",
                                         color=discord.Color.random())
-                embed_msg.set_author(name=f"{member}",
-                                    icon_url=avatar_url)
+                embed_msg.set_author(name=f"{member.display_name}",
+                                    icon_url=member.display_avatar.url)
                 embed_msg.set_image(url=member.guild_avatar.url)
-                embed_msg.set_footer(text=f"Bởi {interaction.user}",
-                                    icon_url=interaction.user.avatar.url if interaction.user.avatar else interaction.user.default_avatar.url)
+                embed_msg.set_footer(text=f"Bởi {interaction.user.display_name}",
+                                    icon_url=interaction.user.display_avatar.url)
                 await interaction.response.send_message(embed=embed_msg)
         except Exception as e:
             await interaction.response.send_message("Có lỗi xảy ra khi lấy avatar", ephemeral=True)

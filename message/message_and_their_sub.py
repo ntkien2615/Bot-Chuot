@@ -12,7 +12,7 @@ class SubMessageCog(commands.Cog):  # Changed class name
         self.last_cleanup = time.time()
         self.consecutive_message_count = {}
         self.responses_dict = {
-            'gay': ['Thằng vừa nhắn "Gay" là gay và rất thích xem kumalala, thug hunter, ambatukam, boku no pico, và các thể loại khác']
+            'test': ['Bot đang hoạt động bình thường! 🤖']
         }
 
     @commands.Cog.listener()
@@ -43,7 +43,7 @@ class SubMessageCog(commands.Cog):  # Changed class name
                 return
 
             responses = {
-                "gay": ['gay', 'gаy', 'ɡay', 'ɢay', 'ɡаy', 'ɢаy', 'ɡау', 'ɢау']
+                "test": ['test', 'TEST', 'Test']
             }
 
             message_content = message.content.lower()

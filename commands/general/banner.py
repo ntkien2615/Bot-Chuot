@@ -18,28 +18,29 @@ class BannerCommand(GeneralCommand):
             if member is None:
                 member = interaction.user
             
-            member = await self.bot.fetch_user(member.id)
+            # Fetch the full user object to get banner data
+            user = await self.bot.fetch_user(member.id)
             
-            if member.banner is None:
-                if member.accent_color:
-                    embed_msg = discord.Embed(title=f"{member} không có banner",
-                                description=f"Có mã màu banner: {member.accent_color}",
-                                color=member.accent_color)
-                    embed_msg.set_author(name=f"{member}",
-                                icon_url=member.avatar)
-                    embed_msg.set_footer(text=f"Bởi {interaction.user}",
-                                icon_url=interaction.user.avatar)
+            if user.banner is None:
+                if user.accent_color:
+                    embed_msg = discord.Embed(title=f"{user.display_name} không có banner",
+                                description=f"Có mã màu banner: {user.accent_color}",
+                                color=user.accent_color)
+                    embed_msg.set_author(name=f"{user.display_name}",
+                                icon_url=user.display_avatar.url)
+                    embed_msg.set_footer(text=f"Bởi {interaction.user.display_name}",
+                                icon_url=interaction.user.display_avatar.url)
                     await interaction.response.send_message(embed=embed_msg)
                 else:
-                    await interaction.response.send_message(f"{member} không có banner và không có mã màu banner")
+                    await interaction.response.send_message(f"{user.display_name} không có banner và không có mã màu banner")
             else:
-                embed_msg = discord.Embed(title=f"Banner của {member}",
+                embed_msg = discord.Embed(title=f"Banner của {user.display_name}",
                                             color=discord.Color.random())
-                embed_msg.set_author(name=f"{member}",
-                                        icon_url=member.avatar)
-                embed_msg.set_image(url=member.banner.url)
-                embed_msg.set_footer(text=f"Bởi {interaction.user}",
-                                        icon_url=interaction.user.avatar)
+                embed_msg.set_author(name=f"{user.display_name}",
+                                        icon_url=user.display_avatar.url)
+                embed_msg.set_image(url=user.banner.url)
+                embed_msg.set_footer(text=f"Bởi {interaction.user.display_name}",
+                                        icon_url=interaction.user.display_avatar.url)
                 await interaction.response.send_message(embed=embed_msg)
         except Exception as e:
             await interaction.response.send_message("Có lỗi xảy ra khi lấy banner", ephemeral=True)
