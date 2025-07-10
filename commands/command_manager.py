@@ -20,18 +20,33 @@ class CommandManager:
             await self._load_commands_from_directory(directory)
     
     async def _load_commands_from_directory(self, directory):
-        """Load all command modules from a specific directory."""
+        """Load all command modules from a specific directory and register commands."""
         try:
-            # Get all Python files in the directory
-            files = [f for f in os.listdir(directory) if f.endswith('.py')]
+            files = [f for f in os.listdir(directory) if f.endswith('.py') and not f.startswith('__')]
 
             for filename in files:
-                module_path = f'{directory.replace("./", "").replace("/", ".")}.{filename[:-3]}'
-                await self.bot.load_extension(module_path)
-                print(f"Loaded extension: {module_path}")
+                module_name = filename[:-3]
+                module_path = f'{directory.replace("./", "").replace("/", ".")}.{module_name}'
+                
+                try:
+                    # Import the module
+                    module = importlib.import_module(module_path)
+                    
+                    # Find command classes within the module
+                    for name, obj in inspect.getmembers(module):
+                        # Check if it's a class, a subclass of BaseCommand, and not one of the base classes themselves
+                        if inspect.isclass(obj) and issubclass(obj, BaseCommand) and obj not in [BaseCommand, SlashCommand, PrefixCommand, FunCommand, GeneralCommand, UtilityCommand]:
+                            # Instantiate the command and add as cog
+                            command_instance = obj(self.bot)
+                            await self.bot.add_cog(command_instance)
+                            self.register_command(command_instance) # Register with CommandManager
+                            print(f"Loaded and registered command: {module_path}.{name}")
+                            break # Assuming one main command class per file
+                except Exception as e:
+                    print(f"Failed to load and register command from {module_path}: {e}")
                 
         except Exception as e:
-            print(f"Failed to load commands from {directory}: {e}")
+            print(f"Failed to process directory {directory}: {e}")
     
     def register_command(self, command):
         """Register a command instance."""
