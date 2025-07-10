@@ -26,7 +26,13 @@ class Config:
     
     def load_env_vars(self):
         """Load environment variables."""
-        load_dotenv(find_dotenv())
+        # Check for .env in Render's secret file location first
+        render_env_path = "/etc/secrets/.env"
+        if os.path.exists(render_env_path):
+            load_dotenv(dotenv_path=render_env_path)
+        else:
+            # Fallback for local development
+            load_dotenv(find_dotenv())
         self.discord_token = os.getenv("discord_token")
         self.bot_owner_id = os.getenv("bot_owner_id")
         self.debug_mode = os.getenv("debug_mode", "False").lower() == "true"
