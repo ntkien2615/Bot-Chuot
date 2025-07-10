@@ -5,9 +5,12 @@ import asyncio
 import random
 
 
-class Hack(commands.Cog):
+from commands.base_command import FunCommand
+
+
+class Hack(FunCommand):
     def __init__(self, bot):
-        self.bot = bot
+        super().__init__(bot)
     
     def random_file_read(self, file_path):
         try:
@@ -135,7 +138,11 @@ class Hack(commands.Cog):
             await asyncio.sleep(1)
             await interaction.edit_original_response(content='Đăng đăng lên bán...')
             await asyncio.sleep(3)
-            await interaction.edit_original_response(content='Bán thành công! Tôi được 10$')
+            await interaction.edit_original_response(content='Bán thành công! Tôi được 10
+
+async def setup(bot):
+    await bot.add_cog(Hack(bot))
+)
             await asyncio.sleep(1)
             await interaction.edit_original_response(content='Tạo backdoor và xóa sạch dấu vết:...')
             await asyncio.sleep(3)

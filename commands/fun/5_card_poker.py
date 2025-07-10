@@ -6,9 +6,13 @@ import asyncio
 
 
 # Chương trình giả lập lại trò chơi poker 5 lá ở project cơ sở lập trình, trông nó khá xàm nhưng giả lập lại cho nhớ
-class fiveCardPoker(commands.Cog):
+from commands.base_command import FunCommand
+
+
+# Chương trình giả lập lại trò chơi poker 5 lá ở project cơ sở lập trình, trông nó khá xàm nhưng giả lập lại cho nhớ
+class fiveCardPoker(FunCommand):
     def __init__(self, bot):
-        self.bot = bot
+        super().__init__(bot)
         # Card emojis for visual appeal
         self.suit_emojis = {
             'Hearts': '♥️',

@@ -4,7 +4,10 @@ from discord import app_commands
 import random
 import asyncio
 
-class taixiuslash(commands.Cog):
+from commands.base_command import FunCommand
+
+
+class taixiuslash(FunCommand):
     def __init__(self,bot):
         self.bot = bot
         self.predictions = {}  # Store user predictions

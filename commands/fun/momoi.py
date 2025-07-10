@@ -4,9 +4,12 @@ from discord import app_commands
 import random
 
 
-class momoi(commands.Cog):
+from commands.base_command import FunCommand
+
+
+class momoi(FunCommand):
     def __init__(self, bot):
-        self.bot = bot
+        super().__init__(bot)
     
     def random_file_read(self, file_path):
         try:

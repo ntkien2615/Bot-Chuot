@@ -19,9 +19,12 @@ class RuleDatabase:
     def get_rule(self, rule_number):
         return self.rules.get(str(rule_number), None)
 
-class roi(commands.Cog):
+from commands.base_command import FunCommand
+
+
+class roi(FunCommand):
     def __init__(self, bot):
-        self.bot = bot
+        super().__init__(bot)
         self.rule_db = RuleDatabase()
 
     @app_commands.command(name='100_rules_of_internet', description='100 rules of internet')

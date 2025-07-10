@@ -3,7 +3,10 @@ import random
 from discord.ext import commands
 
 
-class wibi(commands.Cog):
+from commands.base_command import PrefixCommand
+
+
+class wibi(PrefixCommand):
     def __init__(self, bot):
         self.bot = bot
 

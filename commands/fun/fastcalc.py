@@ -5,9 +5,12 @@ import random
 import asyncio
 
 
-class fastcalc(commands.Cog):
+from commands.base_command import FunCommand
+
+
+class fastcalc(FunCommand):
     def __init__(self, bot):
-        self.bot = bot
+        super().__init__(bot)
 
     def generate_simple_math_problem_and_result(self):
         operators = ['+', '-', '*', '/']

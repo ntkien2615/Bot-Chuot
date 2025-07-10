@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-from abc import abstractmethod
 
 
 class BaseCommand(commands.Cog):
@@ -9,29 +8,18 @@ class BaseCommand(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
-        
-    @abstractmethod
-    async def execute(self, *args, **kwargs):
-        """The main execution method that all command subclasses must implement."""
-        pass
 
 
 class SlashCommand(BaseCommand):
     """Base class for slash commands."""
     
-    @abstractmethod
-    async def register_slash_command(self):
-        """Register the slash command."""
-        pass
+    pass
 
 
 class PrefixCommand(BaseCommand):
     """Base class for prefix commands."""
     
-    @abstractmethod
-    async def register_prefix_command(self):
-        """Register the prefix command."""
-        pass
+    pass
 
 
 class FunCommand(SlashCommand):

@@ -238,7 +238,10 @@ async def reset_game():
 
 make_empty_board()
 
-class TetrisSlash(commands.Cog):
+from commands.base_command import FunCommand
+
+
+class TetrisSlash(FunCommand):
     def __init__(self, bot):
         self.bot = bot
         self.active_games = {}  # Track active games

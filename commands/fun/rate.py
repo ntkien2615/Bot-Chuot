@@ -4,7 +4,10 @@ from discord import app_commands
 import random
 
 
-class rateslash(commands.Cog):
+from commands.base_command import FunCommand
+
+
+class rateslash(FunCommand):
 
     def __init__(self, bot):
         self.bot = bot

@@ -3,9 +3,12 @@ from discord.ext import commands
 from discord import app_commands
 import random
 
-class Kill(commands.Cog):
+from commands.base_command import FunCommand
+
+
+class Kill(FunCommand):
     def __init__(self, bot):
-        self.bot = bot
+        super().__init__(bot)
 
     @app_commands.command(name='kill',description='kill ai đó')
     @app_commands.describe(user='tên người bạn muốn kill')
@@ -19,7 +22,7 @@ class Kill(commands.Cog):
             'c^m khi xem sẽ quá nhiều',
             'lỡ đập Bạc Fluminat trong khi tưởng là đá', 'xem nhầm acn cosplay',
             'dùng meth quá mức', 'bị mẹ gank', 'đơn giản là bị đánh',
-            'không rõ lí do :))))', 'FBI bắt', '"em yêu thằng bạn thân của anh"',
+            'không rõ lí do :))))', 'FBI bắt', '"em yêu thằng bạn thân của anh"' ,
             'bị trùm trường túm đầu', 'máy tính mới build nổ sấp mặt',
             'mở nhầm bài tập về nhà trước mặt phụ huynh',
             'bị một thằng rat bắn chết khi đang qwerty trong nhà',

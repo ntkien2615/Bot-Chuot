@@ -4,9 +4,12 @@ from discord import app_commands
 import random
 
 
-class match(commands.Cog):
+from commands.base_command import FunCommand
+
+
+class match(FunCommand):
     def __init__(self,bot):
-        self.bot = bot
+        super().__init__(bot)
     
     @app_commands.command(name='match', description='kiểm tra 2 người có hợp nhau không')
     @app_commands.describe(user1='Người thứ nhất', user2='Người thứ hai')

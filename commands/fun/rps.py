@@ -4,7 +4,10 @@ from discord import app_commands
 import random
 
 
-class rpsslash(commands.Cog):
+from commands.base_command import FunCommand
+
+
+class rpsslash(FunCommand):
 
     def __init__(self, bot):
         self.bot = bot

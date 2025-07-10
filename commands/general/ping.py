@@ -7,14 +7,12 @@ from commands.base_command import GeneralCommand
 class PingCommand(GeneralCommand):
     """Command to check the bot's latency."""
     
+    category = "general"
+    
     def __init__(self, bot):
         super().__init__(bot)
         self.name = "ping"
         self.description = "Kiểm tra độ trễ của bot"
-    
-    async def register_slash_command(self):
-        """Register the ping slash command."""
-        pass  # Handled by Discord.py's decorator system
     
     async def execute(self, interaction):
         """Execute the ping command."""

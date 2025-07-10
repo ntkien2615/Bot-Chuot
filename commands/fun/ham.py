@@ -4,9 +4,12 @@ from discord import app_commands
 import random
 
 
-class ham(commands.Cog):
+from commands.base_command import FunCommand
+
+
+class ham(FunCommand):
     def __init__(self,bot):
-        self.bot = bot
+        super().__init__(bot)
     
     @app_commands.command(name='ham', description='ham')
     @app_commands.describe(user='Người muốn ham')

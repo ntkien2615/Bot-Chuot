@@ -3,10 +3,13 @@ from discord.ext import commands
 from discord import app_commands
 
 
-class legslash(commands.Cog):
+from commands.base_command import FunCommand
+
+
+class legslash(FunCommand):
 
     def __init__(self, bot):
-        self.bot = bot
+        super().__init__(bot)
 
     @app_commands.command(name='mp5_leg', description='cẩn thận cặp giò của m đấy')
     @app_commands.describe(member='Chọn cái đứa nào ây')

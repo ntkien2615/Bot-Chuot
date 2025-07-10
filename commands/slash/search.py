@@ -5,7 +5,12 @@ import random
 from googleapiclient.discovery import build
 from dotenv import load_dotenv, find_dotenv
 
-class searchslash(commands.Cog):
+from commands.base_command import SlashCommand
+
+
+class searchslash(SlashCommand):
+
+    category = "utility"
 
     def __init__(self, bot):
         self.bot = bot

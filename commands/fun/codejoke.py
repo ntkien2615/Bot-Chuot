@@ -4,9 +4,12 @@ from discord import app_commands
 import pyjokes
 
 
-class codejoke(commands.Cog):
+from commands.base_command import FunCommand
+
+
+class codejoke(FunCommand):
     def __init__(self, bot):
-        self.bot = bot
+        super().__init__(bot)
 
     @app_commands.command(name='codejoke',description='Tạo code joke (chỉ hỗ trợ tiếng anh)') 
     async def codejoke_command(self, interaction:discord.Interaction):

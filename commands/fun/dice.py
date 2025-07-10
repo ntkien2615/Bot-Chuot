@@ -13,11 +13,7 @@ class DiceCommand(FunCommand):
         self.name = "dice"
         self.description = "Tung xúc sắc theo các loại xúc sắc"
         
-    async def register_slash_command(self):
-        """Register the dice slash command."""
-        pass  # This is handled by Discord.py's decorator system
-    
-    async def execute(self, interaction, number):
+    async def execute(self, interaction: discord.Interaction, number: int):
         """Execute the dice roll command."""
         number_random = random.randint(1, number)
         await interaction.response.send_message(f'Kết quả từ xúc sắc {number} mặt: {number_random}')

@@ -5,9 +5,12 @@ import random
 import asyncio
 
 
-class gun(commands.Cog):
+from commands.base_command import FunCommand
+
+
+class gun(FunCommand):
     def __init__(self, bot):
-        self.bot = bot
+        super().__init__(bot)
 
         
     @app_commands.command(name='gun_lỏ',description='Có cơ hội đưa bản thân lên bảng điểm số hoặc bắn ai đó cũng được') 

@@ -4,9 +4,12 @@ from discord import app_commands
 import random
 import asyncio
 
-class GuessNumCog(commands.Cog):
+from commands.base_command import FunCommand
+
+
+class GuessNumCog(FunCommand):
     def __init__(self, bot):
-        self.bot = bot
+        super().__init__(bot)
         self.number = random.randint(1, 100)
         self.guesses = 0
         self.game_in_progress = {}  # Track games by channel

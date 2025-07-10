@@ -3,7 +3,10 @@ from discord.ext import commands
 from discord import app_commands
 
 
-class Trongtruonghop(commands.Cog):
+from commands.base_command import FunCommand
+
+
+class Trongtruonghop(FunCommand):
     def __init__(self, bot):
         self.bot = bot
     

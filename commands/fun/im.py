@@ -3,9 +3,12 @@ from discord.ext import commands
 from discord import app_commands
 
 
-class Im(commands.Cog):
+from commands.base_command import FunCommand
+
+
+class Im(FunCommand):
     def __init__(self, bot):
-        self.bot = bot
+        super().__init__(bot)
 
     @app_commands.command(name="im",description="im nao co be")
     @app_commands.describe(member="Nhập tên người bạn muốn bắt im")

@@ -4,10 +4,13 @@ from discord import app_commands
 import random
 
 
-class phenis(commands.Cog):
+from commands.base_command import FunCommand
+
+
+class phenis(FunCommand):
 
     def __init__(self, bot):
-        self.bot = bot
+        super().__init__(bot)
 
     @app_commands.command(name='phenis', description='xem cái của bạn bao nhiêu')
     @app_commands.describe(member='Người bạn muốn xem')

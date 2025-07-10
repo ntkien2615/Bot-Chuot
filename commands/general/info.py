@@ -56,7 +56,10 @@ class DropdownMenu(discord.ui.View):
 
 
 
-class InfoCog(commands.Cog):
+from commands.base_command import GeneralCommand
+
+
+class InfoCog(GeneralCommand):
     def __init__(self, bot):
         self.bot = bot
     
