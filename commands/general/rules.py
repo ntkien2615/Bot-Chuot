@@ -13,7 +13,7 @@ class RulesCommand(GeneralCommand):
         super().__init__(bot)
         self.name = "rules"
         self.description = "Xem các quy tắc của Internet"
-        self.rules_file_path = r"d:\Coding\Bot-Chuot\txt_files\100_rules_of_internet.txt"
+        self.rules_file_path = "txt_files/100_rules_of_internet.txt"
 
     def load_rules(self):
         """Load rules from the text file."""

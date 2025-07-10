@@ -61,6 +61,7 @@ from commands.base_command import GeneralCommand
 
 class InfoCog(GeneralCommand):
     def __init__(self, bot):
+        super().__init__(bot)
         self.bot = bot
     
     def file_read(self, file_path, line_number):

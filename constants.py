@@ -28,13 +28,7 @@ COMMAND_DIRECTORIES = [
     './commands/general',
 ]
 
-# Required Commands (only these will be loaded)
-REQUIRED_COMMANDS = {
-    'fun': [],
-    'general': [],
-    'slash': [],
-    'non-slash': []
-}
+
 
 # Other Extension Directories
 OTHER_EXTENSION_DIRECTORIES = [
