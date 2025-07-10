@@ -22,6 +22,7 @@ class AvatarCommand(GeneralCommand):
         discord.app_commands.Choice(name="Local", value="local")
     ])
     async def avatar(self, interaction: discord.Interaction, member: discord.Member = None, scope: str = 'global'):
+        await interaction.response.defer()
         try:
             if member is None:
                 member = interaction.user

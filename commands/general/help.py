@@ -93,19 +93,20 @@ class CommandInfoHandler:
             
             # Determine category based on cog
             category_id = "1"  # Default to General
-            
-            # First try to identify from the module path (subfolder)
-            if cog:
-                module_path = cog.__module__
-                for folder, cat_id in folder_category_mapping.items():
-                    if folder in module_path:
-                        category_id = cat_id
-                        break
-            
-            # If no match found by folder, use cog category attribute
-            if category_id == "1" and cog and hasattr(cog, 'category'):
+
+            # First, try to use the cog's 'category' attribute
+            if cog and hasattr(cog, 'category'):
                 cog_category = cog.category
+                # Use the category_mapping to get the ID
                 category_id = category_mapping.get(cog_category, "1")
+            else:
+                # Fallback: If no 'category' attribute, try to identify from the module path (subfolder)
+                if cog:
+                    module_path = cog.__module__
+                    for folder, cat_id in folder_category_mapping.items():
+                        if folder in module_path:
+                            category_id = cat_id
+                            break
             
             # Add command to appropriate category
             self.categories[category_id]["commands"][command_name] = command_desc
