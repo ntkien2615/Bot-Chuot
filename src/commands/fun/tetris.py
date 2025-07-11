@@ -210,9 +210,9 @@ async def run_game(msg, cur_shape, interaction):
         rotate_clockwise = False
         await msg.edit(embed=embed)
         if not is_new_shape:
-            await asyncio.sleep(1)
+            await asyncio.sleep(1.5)
         else:
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.5)
         await run_game(msg, cur_shape, interaction)
     else:
         desc = f'Score: {points} \n Lines: {lines} \n \n Bạn cũng tốn khá nhiều thời gian để chơi ấy.'

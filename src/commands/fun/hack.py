@@ -43,12 +43,12 @@ class Hack(FunCommand):
             return
 
         await interaction.response.send_message(f"Bắt đầu thực hiện việc hack nguy hiểm vào máy tính của <@{user.id}>...")
-        await asyncio.sleep(1)
+        await asyncio.sleep(2)
         
         # Fake attacking Wifi
         await self.countdown(interaction, f"Tìm kiếm wifi của <@{user.id}>:", 5)
         await interaction.edit_original_response(content=f'Phát hiện wifi của <@{user.id}>')
-        await asyncio.sleep(1)
+        await asyncio.sleep(2)
 
                 wifi_name = self.random_file_read('src/txt_files/hack/1a_wifiname.txt')
         number_connected = random.randint(1, 9)
@@ -68,20 +68,20 @@ class Hack(FunCommand):
         await self.countdown(interaction, f"Bắt đầu tìm kiếm máy tính của {user}:", 5)
         computer_username = self.random_file_read('src/txt_files/hack/2a_computer_name.txt')
         await interaction.edit_original_response(content=f'Thành công, tên đăng nhập là: {computer_username}')
-        await asyncio.sleep(1)
+        await asyncio.sleep(2)
         await interaction.edit_original_response(content=f'Đang bẻ khóa...')
         await self.countdown(interaction, "Đang bẻ khóa...", 5)
         computer_pass = self.random_file_read('./txt_files/hack/2c_computer_pass.txt')
         await interaction.edit_original_response(content=f'Thành công: pass là {computer_pass}')
         opr = self.random_file_read('./txt_files/hack/2b_computer_opr.txt')
-        await asyncio.sleep(1)
+        await asyncio.sleep(2)
         await interaction.edit_original_response(content=f'Đăng nhập thành công, máy tính {user} đang chạy trên hệ điều hành: {opr}')
-        await asyncio.sleep(1)
+        await asyncio.sleep(2)
         # End fake attacking computer
 
         # Fake sending image
         await interaction.edit_original_response(content=f'Đang truy cập vào thư mục ảnh...')
-        await asyncio.sleep(1)
+        await asyncio.sleep(2)
         anh = self.random_file_read('./txt_files/hack/3a_img.txt')
         anh_embed = discord.Embed(title="", description="", color=discord.Color.red())
         anh_embed.set_image(url=anh)
@@ -90,38 +90,38 @@ class Hack(FunCommand):
 
         # Discord
         await interaction.edit_original_response(content=f'Đang truy cập vào discord:...', embed=None)
-        await asyncio.sleep(1)
+        await asyncio.sleep(2)
         discord_message = self.random_file_read('./txt_files/hack/3b_discord_message.txt')
         await interaction.edit_original_response(content=f'Phát hiện tin nhắn gần đây nhất của {user}: {discord_message}', embed=None)
-        await asyncio.sleep(1)
+        await asyncio.sleep(2)
 
         # Facebook
         await interaction.edit_original_response(content=f'Đang truy cập vào Facebook:...', embed=None)
-        await asyncio.sleep(1)
+        await asyncio.sleep(2)
         await interaction.edit_original_response(content=f'Đang tìm kiếm bình luận gần đây...')
-        await asyncio.sleep(1)
+        await asyncio.sleep(2)
         await interaction.edit_original_response(content='Phát hiện bình luận')
         facebook_comment = self.random_file_read('./txt_files/hack/3c_facebook_comment.txt')
         await interaction.edit_original_response(content=f'Nội dung: {facebook_comment}')
-        await asyncio.sleep(1)
+        await asyncio.sleep(2)
 
         # Messenger
         await interaction.edit_original_response(content='Đang truy cập vào Messenger...')
-        await asyncio.sleep(1)
+        await asyncio.sleep(2)
         await self.countdown(interaction, "Đang tìm tin nhắn có theme của setlove...", 5)
         a = random.randint(1, 2)
         if a == 1:
             await interaction.edit_original_response(content="Không phát hiện, có lẽ mục tiêu không có bạn gái")
-            await asyncio.sleep(1)
+            await asyncio.sleep(2)
         else:
             await interaction.edit_original_response(content='Đã phát hiện, tiến hành gửi tin nhắn với nội dung: Cút mẹ mày đi')
-            await asyncio.sleep(2)
+            await asyncio.sleep(3)
             await interaction.edit_original_response(content='Đã spam tin nhắn, tiến hành block các tài khoản')
-            await asyncio.sleep(1)
+            await asyncio.sleep(2)
 
         # Google_search
         await interaction.edit_original_response(content='Đang truy cập vào Google Activity...')
-        await asyncio.sleep(1)
+        await asyncio.sleep(2)
         await interaction.edit_original_response(content='Đang tìm kiếm hoạt động gần đây...')
         await self.countdown(interaction, "Đang tìm lịch sử tin nhắn gần đây...", 3)
         search = self.random_file_read('./txt_files/hack/3d_google_search.txt')
@@ -130,12 +130,12 @@ class Hack(FunCommand):
 
         # Ending
         await interaction.edit_original_response(content='đang thu thập tất cả thông tin tìm được')
-        await asyncio.sleep(1)
+        await asyncio.sleep(2)
 
         b = random.randint(1, 4)
         if b == 1:
             await interaction.edit_original_response(content='Đã thu thập các thông tin cá nhân nhạy cảm')
-            await asyncio.sleep(1)
+            await asyncio.sleep(2)
             await interaction.edit_original_response(content='Đăng đăng lên bán...')
             await asyncio.sleep(3)
             await interaction.edit_original_response(content='Bán thành công! Tôi được 10

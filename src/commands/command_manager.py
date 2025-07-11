@@ -43,7 +43,7 @@ class CommandManager:
                             command_instance = obj(self.discord_bot)
                             await self.bot.add_cog(command_instance)
                             self.register_command(command_instance) # Register with CommandManager
-                            print(f"Loaded and registered command: {module_path}.{name}")
+                            # print(f"Loaded and registered command: {module_path}.{name}")
                             break # Assuming one main command class per file
                 except Exception as e:
                     print(f"Failed to load and register command from {module_path}: {e}")
