@@ -8,7 +8,7 @@ from src.commands.base_command import SlashCommand
 class AiAskCommand(SlashCommand):
     """Command to ask questions to AI assistant."""
     
-    category = "utility"  # This will be used by the help command
+    category = "general"  # This will be used by the help command
     
     def __init__(self, discord_bot):
         super().__init__(discord_bot)

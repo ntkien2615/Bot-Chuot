@@ -33,7 +33,10 @@ class SelectDropdown(discord.ui.Select):
         )
         
         for cmd in commands_in_category:
-            embed.add_field(name=f"/{cmd.name}", value=cmd.description, inline=False)
+            name = getattr(cmd, 'name', None)
+            description = getattr(cmd, 'description', None)
+            if name and description:
+                embed.add_field(name=f"/{name}", value=description, inline=False)
             
         embed.set_footer(text=f"Requested by {interaction.user}",
                         icon_url=interaction.user.avatar)

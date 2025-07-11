@@ -10,7 +10,7 @@ from src.commands.base_command import SlashCommand
 
 class searchslash(SlashCommand):
 
-    category = "utility"
+    category = "general"
 
     def __init__(self, discord_bot):
         super().__init__(discord_bot)
