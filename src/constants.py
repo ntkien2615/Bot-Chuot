@@ -16,7 +16,6 @@ RULES_FILE_PATH = 'src/txt_files/100_rules_of_internet.txt'
 # Command Categories
 CATEGORY_FUN = 'fun'
 CATEGORY_GENERAL = 'general'
-CATEGORY_UTILITY = 'utility'
 CATEGORY_SLASH = 'slash'
 CATEGORY_NONSLASH = 'non-slash'
 

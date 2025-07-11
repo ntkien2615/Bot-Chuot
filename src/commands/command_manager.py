@@ -2,7 +2,7 @@ import os
 import random
 import importlib
 import inspect
-from src.commands.base_command import BaseCommand, SlashCommand, PrefixCommand, FunCommand, GeneralCommand, UtilityCommand
+from src.commands.base_command import BaseCommand, SlashCommand, PrefixCommand, FunCommand, GeneralCommand
 from src import constants
 
 
@@ -38,7 +38,7 @@ class CommandManager:
                     # Find command classes within the module
                     for name, obj in inspect.getmembers(module):
                         # Check if it's a class, a subclass of BaseCommand, and not one of the base classes themselves
-                        if inspect.isclass(obj) and issubclass(obj, BaseCommand) and obj not in [BaseCommand, SlashCommand, PrefixCommand, FunCommand, GeneralCommand, UtilityCommand]:
+                        if inspect.isclass(obj) and issubclass(obj, BaseCommand) and obj not in [BaseCommand, SlashCommand, PrefixCommand, FunCommand, GeneralCommand]:
                             # Instantiate the command and add as cog
                             command_instance = obj(self.discord_bot)
                             await self.bot.add_cog(command_instance)
@@ -69,3 +69,13 @@ class CommandManager:
             if command_name and command_name.lower() == name.lower():
                 return command
         return None 
+
+    def get_all_categories(self):
+        """Return a dict of {category_id: category_name} for all loaded commands."""
+        categories = {}
+        for cmd in self.commands:
+            if hasattr(cmd, 'category'):
+                cat_id = cmd.category
+                cat_name = constants.CATEGORY_NAMES.get(cat_id, cat_id)
+                categories[cat_id] = cat_name
+        return categories 
