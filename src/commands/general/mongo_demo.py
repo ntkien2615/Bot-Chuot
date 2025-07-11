@@ -57,7 +57,7 @@ class MongoDemoCommand(GeneralCommand):
         except Exception as e:
             await interaction.followup.send(f"❌ Lỗi: {str(e)}")
     
-    @app_commands.command(name="search", description="Search data in MongoDB")
+    @app_commands.command(name="db_search", description="Search data in MongoDB")
     @app_commands.describe(query="The search term to look for")
     async def search_command(self, interaction: discord.Interaction, query: str):
         """Search for data in MongoDB."""
