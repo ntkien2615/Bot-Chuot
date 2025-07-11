@@ -1,37 +1,14 @@
 import discord
 from discord.ext import commands
 import os
-import keep_alive
+from src import keep_alive
 import asyncio
 import random
-from commands.command_manager import CommandManager
-import constants
-from error_handler import ErrorHandler
-from config import Config
-from database import MongoDatabase
-
-
-class FileHandler:
-    @staticmethod
-    def random_file_read(file_path):
-        try:
-            with open(file_path, "r") as f:
-                lines = f.readlines()
-            if lines:
-                return random.choice(lines).strip()
-        except (IndexError, FileNotFoundError) as e:
-            return None
-
-    @staticmethod
-    def file_read_with_line(file_path, line):
-        try:
-            with open(file_path, "r") as f:
-                lines = f.readlines()
-            if lines:
-                return lines[line].strip()
-        except (IndexError, FileNotFoundError) as e:
-            return None
-
+from src.commands.command_manager import CommandManager
+from src import constants
+from src.error_handler import ErrorHandler
+from src.config import Config
+from src.database import MongoDatabase
 
 class DiscordBot:
     def __init__(self):
@@ -56,15 +33,14 @@ class DiscordBot:
         # Initialize command manager
         self.command_manager = CommandManager(self.bot)
         
-        # Initialize file handler
-        self.file_handler = FileHandler()
-          # Initialize error handler
+        # Initialize error handler
         self.error_handler = ErrorHandler(self.bot)
         
         # Initialize database handler
         self.database = MongoDatabase(collection_name="botdata")
         
-        # Register event handlers        self.register_events()
+        # Register event handlers
+        self.register_events()
     
     def register_events(self):
         @self.bot.event
@@ -81,22 +57,6 @@ class DiscordBot:
                 print("Successfully connected to MongoDB!")
             else:
                 print("Failed to connect to MongoDB - some features may not work")
-                
-            # Sync commands with Discord
-            print("Syncing commands...")
-            try:
-                # Sync commands globally - may take up to an hour to propagate
-                await self.bot.tree.sync()
-                print("Successfully synced global commands")
-                
-                # For immediate testing in a specific guild, you can sync to a specific guild
-                if self.config.get_test_guild_id():
-                    test_guild = discord.Object(id=self.config.get_test_guild_id())
-                    self.bot.tree.copy_global_to(guild=test_guild)
-                    await self.bot.tree.sync(guild=test_guild)
-                    print(f"Successfully synced commands to test guild {self.config.get_test_guild_id()}")
-            except Exception as e:
-                print(f"Failed to sync commands: {e}")
         
         @self.bot.event
         async def on_command_error(ctx, error):
@@ -112,7 +72,9 @@ class DiscordBot:
         # Load other extensions
         required_extensions = getattr(constants, 'REQUIRED_EXTENSIONS', {})
         for directory in constants.OTHER_EXTENSION_DIRECTORIES:
-            files = [f for f in os.listdir(directory) if f.endswith('.py')]
+            # Correct the path for os.listdir
+            corrected_directory = directory.replace('./', 'src/')
+            files = [f for f in os.listdir(corrected_directory) if f.endswith('.py')]
             category = directory.split('/')[-1]
             
             # Filter files if required extensions are specified
@@ -121,7 +83,7 @@ class DiscordBot:
                 
             random.shuffle(files)
             for filename in files:
-                module_path = f'{directory.replace("./", "").replace("/", ".")}.{filename[:-3]}'
+                module_path = f'{directory.replace("./", "src.").replace("/", ".")}.{filename[:-3]}'
                 await self.bot.load_extension(module_path)
                 print(f"Loaded extension: {module_path}")
     
