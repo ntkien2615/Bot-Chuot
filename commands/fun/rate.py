@@ -119,7 +119,3 @@ class rateslash(FunCommand):
                                    inline=False)
 
         await interaction.response.send_message(embed=embed_msg)
-
-
-async def setup(bot):
-    await bot.add_cog(rateslash(bot))

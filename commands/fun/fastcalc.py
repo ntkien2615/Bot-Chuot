@@ -51,6 +51,3 @@ class fastcalc(FunCommand):
                     
         except asyncio.TimeoutError:
             await interaction.followup.send(f'Hết giờ! Không ai trả lời đúng. Đáp án: {result}')
-
-async def setup(bot):
-    await bot.add_cog(fastcalc(bot))

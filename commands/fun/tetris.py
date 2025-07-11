@@ -282,6 +282,3 @@ class TetrisSlash(FunCommand):
             await reaction.remove(user)
         except Exception as e:
             print(f"Error handling reaction: {e}")
-
-async def setup(bot):
-    await bot.add_cog(TetrisSlash(bot))

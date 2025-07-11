@@ -36,6 +36,4 @@ class Kill(FunCommand):
         ]
         kill_list_random = random.choice(kill_list)
         await interaction.response.send_message(f'<@{user.id}> đã chết bởi lý do: {kill_list_random}')
-async def setup(bot):
-    await bot.add_cog(Kill(bot))
 

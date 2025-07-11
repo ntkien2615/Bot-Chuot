@@ -46,6 +46,3 @@ class gun(FunCommand):
                 await interaction.edit_original_response(content=f'<@{user.id}> {message_prefix_2} {interaction.user} và: TẠCH! {user} đã sống sót, thật may mắn vì {user} đã có giáp mũ tier 9. Luck: 55 <= {luck} < 85')
             else:
                 await interaction.edit_original_response(content=f'<@{user.id}> {message_prefix_2} {interaction.user} và: BÙM!!!!!! khẩu súng trên tay {interaction.user} đã nổ tung!!!! Luck: {luck} >= 85')
-
-async def setup(bot):
-    await bot.add_cog(gun(bot))

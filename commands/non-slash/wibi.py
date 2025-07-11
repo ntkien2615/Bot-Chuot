@@ -51,7 +51,3 @@ class wibi(PrefixCommand):
         else:
             # Xử lý các lỗi khác nếu cần
             pass
-
-
-async def setup(bot):
-    await bot.add_cog(wibi(bot))

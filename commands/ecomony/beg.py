@@ -4,10 +4,11 @@ from discord import app_commands
 from commands.ecomony.economy_manager import economy_manager
 import random
 from datetime import datetime, timedelta
+from commands.base_command import PrefixCommand
 
-class Beg(commands.Cog):
+class Beg(PrefixCommand):
     def __init__(self, bot):
-        self.bot = bot
+        super().__init__(bot)
         
         # Simplified responses
         self.success_responses = [
@@ -60,6 +61,3 @@ class Beg(commands.Cog):
         except Exception as e:
             print(f"Error begging: {e}")
             await interaction.followup.send("❌ Đã xảy ra lỗi khi xin tiền. Vui lòng thử lại sau.")
-
-async def setup(bot):
-    await bot.add_cog(Beg(bot))

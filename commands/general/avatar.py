@@ -76,7 +76,3 @@ class AvatarCommand(GeneralCommand):
                 ephemeral=True
             )
             print(f"Avatar command error: {e}")
-
-
-async def setup(bot):
-    await bot.add_cog(AvatarCommand(bot))

@@ -74,6 +74,3 @@ class GuessNumCog(FunCommand):
         except Exception as e:
             self.reset_data(channel_id)
             await interaction.channel.send('Đã xảy ra lỗi trong trò chơi.')
-
-async def setup(bot):
-    await bot.add_cog(GuessNumCog(bot))

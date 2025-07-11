@@ -2,10 +2,11 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 from commands.ecomony.economy_manager import economy_manager
+from commands.base_command import PrefixCommand
 
-class Balance(commands.Cog):
+class Balance(PrefixCommand):
     def __init__(self, bot):
-        self.bot = bot
+        super().__init__(bot)
 
     def _create_balance_embed(self, user, wallet, bank, title="💰 Số dư tài khoản"):
         """Helper method to create balance embed"""
@@ -80,6 +81,3 @@ class Balance(commands.Cog):
         except Exception as e:
             print(f"Error withdrawing: {e}")
             await interaction.followup.send("❌ Đã xảy ra lỗi. Vui lòng thử lại sau.")
-
-async def setup(bot):
-    await bot.add_cog(Balance(bot))

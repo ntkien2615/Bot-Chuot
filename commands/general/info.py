@@ -83,7 +83,3 @@ class InfoCog(GeneralCommand):
             url='https://images-ext-1.discordapp.net/external/4l1sSRH8ZyOAWjLY9KyMefCCwzKQqbQdZp5-FHo3pKg/%3Fsize%3D1024/https/cdn.discordapp.com/avatars/104272908108.png?format=webp&quality=lossless&width=676&height=676')
         await interaction.response.send_message(
             embed=embed_msg, view=view)
-
-
-async def setup(bot):
-    await bot.add_cog(InfoCog(bot))

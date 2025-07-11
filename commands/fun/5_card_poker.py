@@ -192,6 +192,3 @@ class fiveCardPoker(FunCommand):
             result_embed.description = f"**Hòa!** Những người chơi sau có bài cao nhất (**{winner_hand}**):\n{winner_names}"
         
         await interaction.channel.send(embed=result_embed)
-
-async def setup(bot):
-    await bot.add_cog(fiveCardPoker(bot))

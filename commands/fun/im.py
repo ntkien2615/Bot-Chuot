@@ -20,6 +20,3 @@ class Im(FunCommand):
             embed = discord.Embed(title="", description="", color=discord.Color.random())
             embed.set_image(url="https://media.discordapp.net/attachments/883268139922636820/1125768473595875338/e6328ff4069e2184f8f212fd692ce117.png")
             await interaction.response.send_message(f"<@{member.id}> Im nào cô bé của tui", embed=embed)
-
-async def setup(bot):
-    await bot.add_cog(Im(bot))

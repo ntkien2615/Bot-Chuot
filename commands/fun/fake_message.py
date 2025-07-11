@@ -38,5 +38,3 @@ class fakemsgslash(FunCommand):
         except discord.HTTPException as e:
             print(f"An error occurred while creating a webhook: {e}")
             await interaction.response.send_message("An error occurred while simulating the message. Please try again later.", ephemeral=True)
-async def setup(bot):
-    await bot.add_cog(fakemsgslash(bot))

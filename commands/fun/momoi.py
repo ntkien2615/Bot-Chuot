@@ -33,6 +33,3 @@ class momoi(FunCommand):
             embed.set_image(url=momoi)
 
         await interaction.response.send_message(f"<@{user.id}>",embed=embed)
-
-async def setup(bot):
-    await bot.add_cog(momoi(bot))

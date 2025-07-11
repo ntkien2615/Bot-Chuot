@@ -71,7 +71,3 @@ class HelpCommand(GeneralCommand):
 
         await interaction.response.send_message(
             embed=embed_msg, view=view)
-
-
-async def setup(bot):
-    await bot.add_cog(HelpCommand(bot))

@@ -30,7 +30,3 @@ class HugCommand(FunCommand):
     @app_commands.describe(user='Người bạn muốn ôm')
     async def hug(self, interaction: discord.Interaction, user: discord.Member):
         await self.execute(interaction, user)
-
-
-async def setup(bot):
-    await bot.add_cog(HugCommand(bot))

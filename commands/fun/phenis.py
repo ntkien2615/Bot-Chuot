@@ -28,7 +28,3 @@ class phenis(FunCommand):
         embed = discord.Embed(title= f"Phenis của {member}", color=discord.Color.random())
         embed.add_field(name="", value=f"8{bang}D", inline=True)
         await interaction.response.send_message(embed=embed)
-
-
-async def setup(bot):
-    await bot.add_cog(phenis(bot))

@@ -27,7 +27,3 @@ class searchslash(SlashCommand):
                                searchType="image").execute()
         url = result["items"][ran]["link"]
         await interaction.response.send_message(url)
-
-
-async def setup(bot):
-    await bot.add_cog(searchslash(bot))

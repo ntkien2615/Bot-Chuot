@@ -70,6 +70,3 @@ class taixiuslash(FunCommand):
             winner_text = "Không ai thắng cả!" if not winners else f"Người thắng: {', '.join(winners)}"
             await interaction.followup.send(f'Kết quả 3 xúc sắc: {dice} = {res}, tức là {win}\n{winner_text}')
             self.reset_data()  # Clear predictions after game ends
-
-async def setup(bot):
-    await bot.add_cog(taixiuslash(bot))

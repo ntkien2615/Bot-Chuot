@@ -66,6 +66,3 @@ class AiAskCommand(SlashCommand):
     @app_commands.describe(question='bạn hỏi cái gì')
     async def aiask(self, interaction: discord.Interaction, question: str):
         await self.execute(interaction, question)
-
-async def setup(bot):
-    await bot.add_cog(AiAskCommand(bot))

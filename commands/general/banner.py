@@ -45,7 +45,3 @@ class BannerCommand(GeneralCommand):
         except Exception as e:
             await interaction.response.send_message("Có lỗi xảy ra khi lấy banner", ephemeral=True)
             print(f"Banner command error: {e}")
-
-
-async def setup(bot):
-    await bot.add_cog(BannerCommand(bot))

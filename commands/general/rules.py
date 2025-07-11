@@ -70,7 +70,3 @@ class RulesCommand(GeneralCommand):
         except Exception as e:
             await interaction.response.send_message("Có lỗi xảy ra khi lấy quy tắc", ephemeral=True)
             print(f"Rules command error: {e}")
-
-
-async def setup(bot):
-    await bot.add_cog(RulesCommand(bot))

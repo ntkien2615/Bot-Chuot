@@ -51,6 +51,3 @@ class roi(FunCommand):
 
         except ValueError:
             await interaction.response.send_message("Vui lòng nhập số hợp lệ")
-
-async def setup(bot):
-    await bot.add_cog(roi(bot))

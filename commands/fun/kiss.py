@@ -40,6 +40,3 @@ class kissSlash(FunCommand):
             except Exception as e:
                 print(e)
                 await interaction.response.send_message('Đã xảy ra lỗi khi thực hiện lệnh.', ephemeral=True)
-
-async def setup(bot):
-    await bot.add_cog(kissSlash(bot))

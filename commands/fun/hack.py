@@ -142,38 +142,3 @@ class Hack(FunCommand):
 
 async def setup(bot):
     await bot.add_cog(Hack(bot))
-)
-            await asyncio.sleep(1)
-            await interaction.edit_original_response(content='Tạo backdoor và xóa sạch dấu vết:...')
-            await asyncio.sleep(3)
-            await interaction.edit_original_response(content='Đang thoát...')
-            await asyncio.sleep(1)
-            await interaction.edit_original_response(content='Hoàn thành!')
-        elif b == 2:
-            await interaction.edit_original_response(content='Xóa sạch dữ liệu: ')
-            for i in range(1, 10):
-                await interaction.edit_original_response(content=f'Xóa sạch dữ liệu: {i*10} %') 
-                await asyncio.sleep(0.2)
-            await asyncio.sleep(1)
-            await interaction.edit_original_response(content='BỤP!!!!!!!!!!')
-            await asyncio.sleep(1.5)
-        elif b == 3:
-            await interaction.edit_original_response(content='Gửi đến ở đâu đó ở Trung Đông')
-            await asyncio.sleep(1)
-            await interaction.edit_original_response(content='Có người nhắn lại: "Haram"')
-            await asyncio.sleep(1)
-            await interaction.edit_original_response(content='Có tin nhắn: Đã định vị tên lửa vào vị trí')
-            await asyncio.sleep(1)
-            await interaction.edit_original_response(content='Tạm biệt!')
-            await asyncio.sleep(1)
-        elif b == 4:
-            await interaction.edit_original_response(content='Gửi đến Nga')
-            await asyncio.sleep(1)
-            await interaction.edit_original_response(content='Thôi xong, trốn trước đây')
-            await asyncio.sleep(1)
-            await interaction.edit_original_response(content='Bye!!!!')
-            await asyncio.sleep(1)
-        await interaction.edit_original_response(content=f"Hack complete! Đã thực hiện cuộc tấn công đầy nguy hiểm vào máy tính <@{user.id}>", embed=None)
-
-async def setup(bot):
-    await bot.add_cog(Hack(bot))

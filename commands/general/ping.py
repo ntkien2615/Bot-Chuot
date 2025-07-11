@@ -25,7 +25,3 @@ class PingCommand(GeneralCommand):
     @app_commands.command(name='ping', description='Ping xem thử bot chết chưa')
     async def ping(self, interaction: discord.Interaction):
         await self.execute(interaction)
-
-
-async def setup(bot):
-    await bot.add_cog(PingCommand(bot))

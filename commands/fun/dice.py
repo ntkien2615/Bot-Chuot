@@ -29,7 +29,3 @@ class DiceCommand(FunCommand):
     ])
     async def dice(self, interaction: discord.Interaction, number: int):
         await self.execute(interaction, number)
-
-
-async def setup(bot):
-    await bot.add_cog(DiceCommand(bot))

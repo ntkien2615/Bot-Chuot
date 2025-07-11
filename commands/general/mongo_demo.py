@@ -119,7 +119,3 @@ class MongoDemoCommand(GeneralCommand):
                 await interaction.followup.send("❌ Không thể kết nối MongoDB.")
         except Exception as e:
             await interaction.followup.send(f"❌ Lỗi: {str(e)}")
-
-async def setup(bot):
-    """Set up the Cog for the bot."""
-    await bot.add_cog(MongoDemoCommand(bot))

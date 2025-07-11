@@ -20,6 +20,3 @@ class match(FunCommand):
         match = random.randint(0,100)
         embed = discord.Embed(title="", description=f'🔥 {user1.mention} và {user2.mention} có {match}% hợp nhau 🔥', color=discord.Color.random())
         await interaction.response.send_message(embed=embed)
-
-async def setup(bot):
-    await bot.add_cog(match(bot))

@@ -20,6 +20,3 @@ class codejoke(FunCommand):
                           language='en', category='neutral'),
                       inline=False)
         await interaction.response.send_message(embed=msg)
-        
-async def setup(bot):
-    await bot.add_cog(codejoke(bot))
