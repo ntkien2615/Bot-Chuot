@@ -73,7 +73,7 @@ class DiscordBot:
         required_extensions = getattr(constants, 'REQUIRED_EXTENSIONS', {})
         for directory in constants.OTHER_EXTENSION_DIRECTORIES:
             # Correct the path for os.listdir
-            corrected_directory = directory.replace('./', 'src/')
+            corrected_directory = directory.replace('./', '')
             files = [f for f in os.listdir(corrected_directory) if f.endswith('.py')]
             category = directory.split('/')[-1]
             
@@ -83,7 +83,7 @@ class DiscordBot:
                 
             random.shuffle(files)
             for filename in files:
-                module_path = f'{directory.replace("./", "src.").replace("/", ".")}.{filename[:-3]}'
+                module_path = f'{directory.replace("./", "").replace("/", ".")}.{filename[:-3]}'
                 await self.bot.load_extension(module_path)
                 print(f"Loaded extension: {module_path}")
     
