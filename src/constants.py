@@ -47,3 +47,10 @@ SUCCESS_EMBED_COLOR = 0x2ecc71  # Green
 ERROR_EMBED_COLOR = 0xe74c3c    # Red
 WARNING_EMBED_COLOR = 0xf1c40f  # Yellow
 INFO_EMBED_COLOR = 0x9b59b6     # Purple 
+
+CATEGORY_NAMES = {
+    'fun': 'Fun',
+    'general': 'General',
+    'slash': 'Slash',
+    'non-slash': 'Non-Slash'
+} 
