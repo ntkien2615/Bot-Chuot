@@ -9,8 +9,9 @@ from src import constants
 class CommandManager:
     """Class responsible for loading and managing all commands."""
     
-    def __init__(self, bot):
-        self.bot = bot
+    def __init__(self, discord_bot):
+        self.discord_bot = discord_bot
+        self.bot = discord_bot.bot
         self.commands = []
         self.command_directories = constants.COMMAND_DIRECTORIES
         
@@ -39,7 +40,7 @@ class CommandManager:
                         # Check if it's a class, a subclass of BaseCommand, and not one of the base classes themselves
                         if inspect.isclass(obj) and issubclass(obj, BaseCommand) and obj not in [BaseCommand, SlashCommand, PrefixCommand, FunCommand, GeneralCommand, UtilityCommand]:
                             # Instantiate the command and add as cog
-                            command_instance = obj(self.bot)
+                            command_instance = obj(self.discord_bot)
                             await self.bot.add_cog(command_instance)
                             self.register_command(command_instance) # Register with CommandManager
                             print(f"Loaded and registered command: {module_path}.{name}")

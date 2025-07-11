@@ -57,7 +57,7 @@ class HelpCommand(GeneralCommand):
     @app_commands.command(name='help', description='Hiển thị trợ giúp về các lệnh')
     async def help(self, interaction: discord.Interaction):
         """Execute the help command."""
-        command_manager = self.bot.command_manager
+        command_manager = self.discord_bot.command_manager
         view = DropdownMenu(command_manager)
         embed_msg = discord.Embed(
             title="HELP COMMAND",

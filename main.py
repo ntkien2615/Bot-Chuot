@@ -31,7 +31,7 @@ class DiscordBot:
         )
         
         # Initialize command manager
-        self.command_manager = CommandManager(self.bot)
+        self.command_manager = CommandManager(self)
         
         # Initialize error handler
         self.error_handler = ErrorHandler(self.bot)

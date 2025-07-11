@@ -6,8 +6,9 @@ from discord import app_commands
 class BaseCommand(commands.Cog):
     """Base class for all commands to inherit from."""
     
-    def __init__(self, bot):
-        self.bot = bot
+    def __init__(self, discord_bot):
+        self.discord_bot = discord_bot
+        self.bot = discord_bot.bot
 
 
 class SlashCommand(BaseCommand):
