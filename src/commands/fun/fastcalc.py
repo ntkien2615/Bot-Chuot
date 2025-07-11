@@ -9,8 +9,8 @@ from src.commands.base_command import FunCommand
 
 
 class fastcalc(FunCommand):
-    def __init__(self, bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
 
     def generate_simple_math_problem_and_result(self):
         operators = ['+', '-', '*', '/']

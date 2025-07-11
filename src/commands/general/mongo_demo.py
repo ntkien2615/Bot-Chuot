@@ -7,8 +7,8 @@ from src.database import MongoDatabase
 class MongoDemoCommand(GeneralCommand):
     """Commands to demonstrate MongoDB database usage."""
     
-    def __init__(self, bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
         self.name = "mongodb"
         self.description = "MongoDB database demo commands"
         self.db = MongoDatabase(collection_name="demo_collection")

@@ -8,8 +8,8 @@ from src.commands.base_command import FunCommand
 
 
 class GuessNumCog(FunCommand):
-    def __init__(self, bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
         self.number = random.randint(1, 100)
         self.guesses = 0
         self.game_in_progress = {}  # Track games by channel

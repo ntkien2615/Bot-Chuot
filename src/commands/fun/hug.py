@@ -7,8 +7,8 @@ from src.commands.base_command import FunCommand
 class HugCommand(FunCommand):
     """Command to hug another user."""
     
-    def __init__(self, bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
         self.name = "hug"
         self.description = "Ôm homie của bạn"
         self.hug_image_url = "https://media.discordapp.net/attachments/1077255654512787537/1346371351128051712/images.png?ex=67c7f188&is=67c6a008&hm=89e6adae2479be8138071a3a6fdf9c312daeb6297e5062c9c3a03830782d3135&=&format=webp&quality=lossless&width=376&height=210"

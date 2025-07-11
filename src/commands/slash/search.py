@@ -12,8 +12,9 @@ class searchslash(SlashCommand):
 
     category = "utility"
 
-    def __init__(self, bot):
-        self.bot = bot
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
+        self.bot = discord_bot.bot
 
     @app_commands.command(name='search', description='tìm ảnh trên mạng')
     @app_commands.describe(search='bạn search cái gì')

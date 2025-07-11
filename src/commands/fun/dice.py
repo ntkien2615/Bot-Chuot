@@ -8,8 +8,8 @@ from src.commands.base_command import FunCommand
 class DiceCommand(FunCommand):
     """Command to roll a dice with different faces."""
     
-    def __init__(self, bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
         self.name = "dice"
         self.description = "Tung xúc sắc theo các loại xúc sắc"
         

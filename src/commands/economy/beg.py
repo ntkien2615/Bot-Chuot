@@ -7,8 +7,8 @@ from datetime import datetime, timedelta
 from src.commands.base_command import PrefixCommand
 
 class Beg(PrefixCommand):
-    def __init__(self, bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
         
         # Simplified responses
         self.success_responses = [

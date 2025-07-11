@@ -8,8 +8,9 @@ from src.commands.base_command import FunCommand
 
 
 class taixiuslash(FunCommand):
-    def __init__(self,bot):
-        self.bot = bot
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
+        self.bot = discord_bot.bot
         self.predictions = {}  # Store user predictions
 
     def three_dice_and_res(self):

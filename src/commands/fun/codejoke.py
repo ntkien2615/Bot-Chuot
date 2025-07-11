@@ -8,8 +8,8 @@ from src.commands.base_command import FunCommand
 
 
 class codejoke(FunCommand):
-    def __init__(self, bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
 
     @app_commands.command(name='codejoke',description='Tạo code joke (chỉ hỗ trợ tiếng anh)') 
     async def codejoke_command(self, interaction:discord.Interaction):

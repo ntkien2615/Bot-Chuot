@@ -10,8 +10,8 @@ class AiAskCommand(SlashCommand):
     
     category = "utility"  # This will be used by the help command
     
-    def __init__(self, bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
         self.name = "aiask"
         self.description = "Hỏi AI assistant"
         

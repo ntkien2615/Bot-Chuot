@@ -8,8 +8,8 @@ from src.commands.base_command import FunCommand
 
 class fakemsgslash(FunCommand):
 
-    def __init__(self, bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
 
     @app_commands.command(name='fakemsg', description='gửi tin nhắn giả với tên của người khác')
     @app_commands.describe(member="Người muốn fake tin nhắn")

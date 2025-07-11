@@ -7,8 +7,8 @@ from src.commands.base_command import FunCommand
 
 
 class Im(FunCommand):
-    def __init__(self, bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
 
     @app_commands.command(name="im",description="im nao co be")
     @app_commands.describe(member="Nhập tên người bạn muốn bắt im")

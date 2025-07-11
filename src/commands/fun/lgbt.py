@@ -8,8 +8,8 @@ from src.commands.base_command import FunCommand
 
 
 class Lgbt(FunCommand):
-    def __init__(self, bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
 
     def random_file_read(self, file_path):
         try:

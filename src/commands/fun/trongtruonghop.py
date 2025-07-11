@@ -7,8 +7,9 @@ from src.commands.base_command import FunCommand
 
 
 class Trongtruonghop(FunCommand):
-    def __init__(self, bot):
-        self.bot = bot
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
+        self.bot = discord_bot.bot
     
     @app_commands.command(name='trong_truong_hop', description='trong trường hợp nhóm này')
 

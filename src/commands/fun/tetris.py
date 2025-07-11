@@ -242,8 +242,9 @@ from src.commands.base_command import FunCommand
 
 
 class TetrisSlash(FunCommand):
-    def __init__(self, bot):
-        self.bot = bot
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
+        self.bot = discord_bot.bot
         self.active_games = {}  # Track active games
 
     @app_commands.command(name='tetris', description='chơi tetris với bot')

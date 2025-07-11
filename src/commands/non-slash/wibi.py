@@ -7,8 +7,9 @@ from src.commands.base_command import PrefixCommand
 
 
 class wibi(PrefixCommand):
-    def __init__(self, bot):
-        self.bot = bot
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
+        self.bot = discord_bot.bot
 
     @commands.command()
     @commands.cooldown(1, 5.0, commands.BucketType.user)

@@ -9,8 +9,8 @@ import os
 class RulesCommand(GeneralCommand):
     """Command to get rules from the 100 rules of internet."""
     
-    def __init__(self, bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
         self.name = "rules"
         self.description = "Xem các quy tắc của Internet"
         self.rules_file_path = "src/txt_files/100_rules_of_internet.txt"

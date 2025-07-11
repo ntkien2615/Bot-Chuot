@@ -8,8 +8,8 @@ from src.commands.base_command import FunCommand
 
 class legslash(FunCommand):
 
-    def __init__(self, bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
 
     @app_commands.command(name='mp5_leg', description='cẩn thận cặp giò của m đấy')
     @app_commands.describe(member='Chọn cái đứa nào ây')

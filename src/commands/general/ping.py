@@ -9,8 +9,8 @@ class PingCommand(GeneralCommand):
     
     category = "general"
     
-    def __init__(self, bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
         self.name = "ping"
         self.description = "Kiểm tra độ trễ của bot"
     

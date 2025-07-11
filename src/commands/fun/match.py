@@ -8,8 +8,8 @@ from src.commands.base_command import FunCommand
 
 
 class match(FunCommand):
-    def __init__(self,bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
     
     @app_commands.command(name='match', description='kiểm tra 2 người có hợp nhau không')
     @app_commands.describe(user1='Người thứ nhất', user2='Người thứ hai')

@@ -7,8 +7,8 @@ from src.commands.base_command import FunCommand
 
 
 class Kill(FunCommand):
-    def __init__(self, bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
 
     @app_commands.command(name='kill',description='kill ai đó')
     @app_commands.describe(user='tên người bạn muốn kill')

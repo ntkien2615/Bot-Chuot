@@ -7,8 +7,8 @@ from src.commands.base_command import GeneralCommand
 class UserInfoCommands(GeneralCommand):
     """Commands to get user avatars and banners."""
     
-    def __init__(self, bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
 
     @app_commands.command(name='avatar', description='lấy avatar của bạn hoặc người khác')
     @app_commands.describe(

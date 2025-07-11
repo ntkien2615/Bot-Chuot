@@ -9,8 +9,8 @@ from src.commands.base_command import FunCommand
 
 class phenis(FunCommand):
 
-    def __init__(self, bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
 
     @app_commands.command(name='phenis', description='xem cái của bạn bao nhiêu')
     @app_commands.describe(member='Người bạn muốn xem')

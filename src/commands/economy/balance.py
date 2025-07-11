@@ -5,8 +5,8 @@ from src.commands.economy.economy_manager import economy_manager
 from commands.base_command import PrefixCommand
 
 class Balance(PrefixCommand):
-    def __init__(self, bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
 
     def _create_balance_embed(self, user, wallet, bank, title="💰 Số dư tài khoản"):
         """Helper method to create balance embed"""

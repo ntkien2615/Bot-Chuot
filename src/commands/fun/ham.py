@@ -8,8 +8,8 @@ from src.commands.base_command import FunCommand
 
 
 class ham(FunCommand):
-    def __init__(self,bot):
-        super().__init__(bot)
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
     
     @app_commands.command(name='ham', description='ham')
     @app_commands.describe(user='Người muốn ham')

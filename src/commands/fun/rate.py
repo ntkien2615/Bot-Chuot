@@ -9,8 +9,9 @@ from src.commands.base_command import FunCommand
 
 class rateslash(FunCommand):
 
-    def __init__(self, bot):
-        self.bot = bot
+    def __init__(self, discord_bot):
+        super().__init__(discord_bot)
+        self.bot = discord_bot.bot
 
     @app_commands.command(name='rate',
                           description='rate thử bạn trông như thế nào?')
