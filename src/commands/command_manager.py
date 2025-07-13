@@ -29,6 +29,13 @@ class CommandManager:
                     module_path = os.path.join(root, filename) \
                         .replace(os.sep, '.') \
                         .replace('.py', '')
+                    # Remove leading './' or 'src.' if present
+                    if module_path.startswith('./'):
+                        module_path = module_path[2:]
+                    if module_path.startswith('src.'):
+                        module_path = module_path
+                    elif module_path.startswith('commands.'):
+                        module_path = 'src.' + module_path
 
                     try:
                         # Import the module
