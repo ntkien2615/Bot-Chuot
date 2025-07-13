@@ -21,6 +21,9 @@ class searchslash(SlashCommand):
     async def search(self, interaction: discord.Interaction, search: str):
         load_dotenv(find_dotenv())
         api_key = os.getenv("search_api_key")
+        if not api_key:
+            await interaction.response.send_message("Lỗi: Không tìm thấy `search_api_key` trong file .env của bạn. Vui lòng xem file .env.example để biết thêm chi tiết.")
+            return
         ran = random.randint(0, 9)
         resource = build('customsearch', 'v1', developerKey=api_key).cse()
         result = resource.list(q=f"{search}",

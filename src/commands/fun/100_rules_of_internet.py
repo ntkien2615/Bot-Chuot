@@ -1,21 +1,24 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
+import os
 
 # Simple rule database implementation
 class RuleDatabase:
-    def __init__(self):
-        self.rules = {
-            "1": "Do not talk about /b/",
-            "2": "Do NOT talk about /b/",
-            # Add more rules here
-            "34": "If it exists, there is porn of it. No exceptions.",
-            "35": "The exception to rule #34 is the citation of rule #34.",
-            # Special rules
-            "3.141592653589793238462643383279502884197169399573105": "Pi is exactly 3",
-            "6.241592653589793238462643383279502888394338799146210": "Planck's constant is exactly 6"
-        }
-    
+    def __init__(self, file_path):
+        self.rules = {}
+        self.load_rules(file_path)
+
+    def load_rules(self, file_path):
+        with open(file_path, 'r', encoding='utf-8') as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                parts = line.split('. ', 1)
+                if len(parts) == 2:
+                    self.rules[parts[0]] = parts[1]
+
     def get_rule(self, rule_number):
         return self.rules.get(str(rule_number), None)
 
@@ -25,7 +28,9 @@ from src.commands.base_command import FunCommand
 class roi(FunCommand):
     def __init__(self, discord_bot):
         super().__init__(discord_bot)
-        self.rule_db = RuleDatabase()
+        # Correctly locate the rules file
+        rules_file_path = os.path.join(os.path.dirname(__file__), '..', '..', 'txt_files', '100_rules_of_internet.txt')
+        self.rule_db = RuleDatabase(rules_file_path)
 
     @app_commands.command(name='100_rules_of_internet', description='100 rules of internet')
     @app_commands.describe(rule_number='Số thứ tự của các luật')

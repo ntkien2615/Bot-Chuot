@@ -3,7 +3,7 @@ from discord.ext import commands
 from discord import app_commands
 import asyncio
 import random
-
+import os
 
 from src.commands.base_command import FunCommand
 
@@ -11,8 +11,10 @@ from src.commands.base_command import FunCommand
 class Hack(FunCommand):
     def __init__(self, discord_bot):
         super().__init__(discord_bot)
-    
-    def random_file_read(self, file_path):
+        self.base_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'txt_files', 'hack')
+
+    def random_file_read(self, file_name):
+        file_path = os.path.join(self.base_dir, file_name)
         try:
             with open(file_path, "r", encoding="utf-8") as f:
                 lines = f.readlines()
@@ -50,7 +52,7 @@ class Hack(FunCommand):
         await interaction.edit_original_response(content=f'Phát hiện wifi của <@{user.id}>')
         await asyncio.sleep(2)
 
-                wifi_name = self.random_file_read('src/txt_files/hack/1a_wifiname.txt')
+        wifi_name = self.random_file_read('1a_wifiname.txt')
         number_connected = random.randint(1, 9)
         await interaction.edit_original_response(content=f'Tên wifi: {wifi_name}, có {number_connected} kết nối')
         await asyncio.sleep(3)
@@ -58,7 +60,7 @@ class Hack(FunCommand):
         await interaction.edit_original_response(content=f'Bắt đầu WPA Handshake...')
         await self.countdown(interaction, "Bắt đầu WPA Handshake...", 5)
 
-        wifi_pass = self.random_file_read('src/txt_files/hack/1b_wifipass.txt')
+        wifi_pass = self.random_file_read('1b_wifipass.txt')
         await interaction.edit_original_response(content=f'Thành công, password là: {wifi_pass}')
         await asyncio.sleep(3)
         # End fake attacking Wifi
@@ -66,14 +68,14 @@ class Hack(FunCommand):
         # Fake attacking Computer Password
         await interaction.edit_original_response(content=f'Bắt đầu tìm kiếm máy tính của {user}:')
         await self.countdown(interaction, f"Bắt đầu tìm kiếm máy tính của {user}:", 5)
-        computer_username = self.random_file_read('src/txt_files/hack/2a_computer_name.txt')
+        computer_username = self.random_file_read('2a_computer_name.txt')
         await interaction.edit_original_response(content=f'Thành công, tên đăng nhập là: {computer_username}')
         await asyncio.sleep(2)
         await interaction.edit_original_response(content=f'Đang bẻ khóa...')
         await self.countdown(interaction, "Đang bẻ khóa...", 5)
-        computer_pass = self.random_file_read('./txt_files/hack/2c_computer_pass.txt')
+        computer_pass = self.random_file_read('2c_computer_pass.txt')
         await interaction.edit_original_response(content=f'Thành công: pass là {computer_pass}')
-        opr = self.random_file_read('./txt_files/hack/2b_computer_opr.txt')
+        opr = self.random_file_read('2b_computer_opr.txt')
         await asyncio.sleep(2)
         await interaction.edit_original_response(content=f'Đăng nhập thành công, máy tính {user} đang chạy trên hệ điều hành: {opr}')
         await asyncio.sleep(2)
@@ -82,7 +84,7 @@ class Hack(FunCommand):
         # Fake sending image
         await interaction.edit_original_response(content=f'Đang truy cập vào thư mục ảnh...')
         await asyncio.sleep(2)
-        anh = self.random_file_read('./txt_files/hack/3a_img.txt')
+        anh = self.random_file_read('3a_img.txt')
         anh_embed = discord.Embed(title="", description="", color=discord.Color.red())
         anh_embed.set_image(url=anh)
         await interaction.edit_original_response(content=f'Thành công, hình ảnh gần đây nhất của {user}: ', embed=anh_embed)
@@ -91,7 +93,7 @@ class Hack(FunCommand):
         # Discord
         await interaction.edit_original_response(content=f'Đang truy cập vào discord:...', embed=None)
         await asyncio.sleep(2)
-        discord_message = self.random_file_read('./txt_files/hack/3b_discord_message.txt')
+        discord_message = self.random_file_read('3b_discord_message.txt')
         await interaction.edit_original_response(content=f'Phát hiện tin nhắn gần đây nhất của {user}: {discord_message}', embed=None)
         await asyncio.sleep(2)
 
@@ -101,7 +103,7 @@ class Hack(FunCommand):
         await interaction.edit_original_response(content=f'Đang tìm kiếm bình luận gần đây...')
         await asyncio.sleep(2)
         await interaction.edit_original_response(content='Phát hiện bình luận')
-        facebook_comment = self.random_file_read('./txt_files/hack/3c_facebook_comment.txt')
+        facebook_comment = self.random_file_read('3c_facebook_comment.txt')
         await interaction.edit_original_response(content=f'Nội dung: {facebook_comment}')
         await asyncio.sleep(2)
 
@@ -124,7 +126,7 @@ class Hack(FunCommand):
         await asyncio.sleep(2)
         await interaction.edit_original_response(content='Đang tìm kiếm hoạt động gần đây...')
         await self.countdown(interaction, "Đang tìm lịch sử tin nhắn gần đây...", 3)
-        search = self.random_file_read('./txt_files/hack/3d_google_search.txt')
+        search = self.random_file_read('3d_google_search.txt')
         await interaction.edit_original_response(content=f'Tìm thành công, lần gần đây {user} có đã tìm kiếm: {search}')
         await asyncio.sleep(2)
 

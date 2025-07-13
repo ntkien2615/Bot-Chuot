@@ -20,22 +20,6 @@ class MongoDemoCommand(GeneralCommand):
             return False
         return True
     
-    @app_commands.command(name="save", description="Save data to MongoDB")
-    @app_commands.describe(key="The key to store data under", value="The value to store")
-    async def save_command(self, interaction: discord.Interaction, key: str, value: str):
-        """Save a key-value pair to MongoDB."""
-        await interaction.response.defer(ephemeral=False)
-        
-        if not await self._ensure_connection(interaction):
-            return
-        
-        try:
-            # Save the data
-            self.db.set(key, value)
-            await interaction.followup.send(f"✅ Đã lưu: {key} = {value}")
-        except Exception as e:
-            await interaction.followup.send(f"❌ Lỗi: {str(e)}")
-    
     @app_commands.command(name="get", description="Get data from MongoDB")
     @app_commands.describe(key="The key to retrieve data for")
     async def get_command(self, interaction: discord.Interaction, key: str):
@@ -79,26 +63,6 @@ class MongoDemoCommand(GeneralCommand):
                 await interaction.followup.send(f"🔍 Tìm thấy {len(results)} kết quả:\n{result_text}")
             else:
                 await interaction.followup.send(f"❌ Không tìm thấy kết quả cho '{query}'")
-        except Exception as e:
-            await interaction.followup.send(f"❌ Lỗi: {str(e)}")
-    
-    @app_commands.command(name="delete", description="Delete data from MongoDB")
-    @app_commands.describe(key="The key to delete data for")
-    async def delete_command(self, interaction: discord.Interaction, key: str):
-        """Delete data by key from MongoDB."""
-        await interaction.response.defer(ephemeral=False)
-        
-        if not await self._ensure_connection(interaction):
-            return
-        
-        try:
-            # Delete the data
-            result = self.db.delete(key)
-            
-            if result.deleted_count > 0:
-                await interaction.followup.send(f"✅ Đã xóa '{key}'")
-            else:
-                await interaction.followup.send(f"❌ Không tìm thấy '{key}'")
         except Exception as e:
             await interaction.followup.send(f"❌ Lỗi: {str(e)}")
     

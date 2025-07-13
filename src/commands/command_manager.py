@@ -22,34 +22,28 @@ class CommandManager:
     
     async def _load_commands_from_directory(self, directory):
         """Load all command modules from a specific directory and register commands."""
-        try:
-            # Correct the path for os.listdir
-            corrected_directory = directory.replace('./', '')
-            files = [f for f in os.listdir(corrected_directory) if f.endswith('.py') and not f.startswith('__')]
-
+        for root, _, files in os.walk(directory):
             for filename in files:
-                module_name = filename[:-3]
-                module_path = f'{corrected_directory.replace("/", ".")}.{module_name}'
-                
-                try:
-                    # Import the module
-                    module = importlib.import_module(module_path)
+                if filename.endswith('.py') and not filename.startswith('__'):
+                    module_name = filename[:-3]
+                    module_path = os.path.join(root, module_name).replace(os.sep, '.')
                     
-                    # Find command classes within the module
-                    for name, obj in inspect.getmembers(module):
-                        # Check if it's a class, a subclass of BaseCommand, and not one of the base classes themselves
-                        if inspect.isclass(obj) and issubclass(obj, BaseCommand) and obj not in [BaseCommand, SlashCommand, PrefixCommand, FunCommand, GeneralCommand]:
-                            # Instantiate the command and add as cog
-                            command_instance = obj(self.discord_bot)
-                            await self.bot.add_cog(command_instance)
-                            self.register_command(command_instance) # Register with CommandManager
-                            # print(f"Loaded and registered command: {module_path}.{name}")
-                            break # Assuming one main command class per file
-                except Exception as e:
-                    print(f"Failed to load and register command from {module_path}: {e}")
-                
-        except Exception as e:
-            print(f"Failed to process directory {directory}: {e}")
+                    try:
+                        # Import the module
+                        module = importlib.import_module(module_path)
+                        
+                        # Find command classes within the module
+                        for name, obj in inspect.getmembers(module):
+                            # Check if it's a class, a subclass of BaseCommand, and not one of the base classes themselves
+                            if inspect.isclass(obj) and issubclass(obj, BaseCommand) and obj not in [BaseCommand, SlashCommand, PrefixCommand, FunCommand, GeneralCommand]:
+                                # Instantiate the command and add as cog
+                                command_instance = obj(self.discord_bot)
+                                await self.bot.add_cog(command_instance)
+                                self.register_command(command_instance) # Register with CommandManager
+                                # print(f"Loaded and registered command: {module_path}.{name}")
+                                break # Assuming one main command class per file
+                    except Exception as e:
+                        print(f"Failed to load and register command from {module_path}: {e}")
     
     def register_command(self, command):
         """Register a command instance."""
