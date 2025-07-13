@@ -21,10 +21,7 @@ CATEGORY_NONSLASH = 'non-slash'
 
 # Command Directories
 COMMAND_DIRECTORIES = [
-    './src/commands/non-slash',
-    './src/commands/fun',
-    './src/commands/slash',
-    './src/commands/general',
+    './src/commands'
 ]
 
 

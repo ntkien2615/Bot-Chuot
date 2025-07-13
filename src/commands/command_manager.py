@@ -25,9 +25,11 @@ class CommandManager:
         for root, _, files in os.walk(directory):
             for filename in files:
                 if filename.endswith('.py') and not filename.startswith('__'):
-                    module_name = filename[:-3]
-                    module_path = os.path.join(root, module_name).replace(os.sep, '.')
-                    
+                    # Construct the module path correctly
+                    module_path = os.path.join(root, filename) \
+                        .replace(os.sep, '.') \
+                        .replace('.py', '')
+
                     try:
                         # Import the module
                         module = importlib.import_module(module_path)
