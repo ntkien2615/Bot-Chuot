@@ -20,10 +20,18 @@ class MongoDemoCommand(GeneralCommand):
             return False
         return True
     
+    async def _check_owner(self, interaction):
+        if interaction.user.id != 868475751459094580:
+            await interaction.response.send_message("❌ Bạn không có quyền sử dụng lệnh này.", ephemeral=True)
+            return False
+        return True
+    
     @app_commands.command(name="get", description="Get data from MongoDB")
     @app_commands.describe(key="The key to retrieve data for")
     async def get_command(self, interaction: discord.Interaction, key: str):
         """Retrieve a value by key from MongoDB."""
+        if not await self._check_owner(interaction):
+            return
         await interaction.response.defer(ephemeral=False)
         
         if not await self._ensure_connection(interaction):
@@ -45,6 +53,8 @@ class MongoDemoCommand(GeneralCommand):
     @app_commands.describe(query="The search term to look for")
     async def search_command(self, interaction: discord.Interaction, query: str):
         """Search for data in MongoDB."""
+        if not await self._check_owner(interaction):
+            return
         await interaction.response.defer(ephemeral=False)
         
         if not await self._ensure_connection(interaction):
@@ -69,6 +79,8 @@ class MongoDemoCommand(GeneralCommand):
     @app_commands.command(name="test", description="Test MongoDB connection")
     async def test_command(self, interaction: discord.Interaction):
         """Test the connection to MongoDB."""
+        if not await self._check_owner(interaction):
+            return
         await interaction.response.defer(ephemeral=False)
         
         try:

@@ -43,11 +43,11 @@ class UserInfoCommands(GeneralCommand):
                     text=f"Bởi {interaction.user.display_name}",
                     icon_url=interaction.user.display_avatar.url
                 )
-                await interaction.response.send_message(embed=embed_msg)
+                await interaction.followup.send(embed=embed_msg)
             
             elif scope == 'local':
                 if member.guild_avatar is None:
-                    await interaction.response.send_message(
+                    await interaction.followup.send(
                         "Người này không có avatar trong máy chủ, có thể họ chưa lên Nitro",
                         ephemeral=True
                     )
@@ -67,9 +67,9 @@ class UserInfoCommands(GeneralCommand):
                     text=f"Bởi {interaction.user.display_name}",
                     icon_url=interaction.user.display_avatar.url
                 )
-                await interaction.response.send_message(embed=embed_msg)
+                await interaction.followup.send(embed=embed_msg)
         except Exception as e:
-            await interaction.response.send_message(
+            await interaction.followup.send(
                 "Có lỗi xảy ra khi lấy avatar",
                 ephemeral=True
             )
@@ -77,6 +77,7 @@ class UserInfoCommands(GeneralCommand):
 
     @app_commands.command(name='banner', description='lấy banner của bạn hoặc người khác (nếu bạn muốn khoe nitro)')
     async def banner(self, interaction: discord.Interaction, member: discord.Member = None):
+        await interaction.response.defer()
         try:
             if member is None:
                 member = interaction.user
@@ -93,9 +94,9 @@ class UserInfoCommands(GeneralCommand):
                                 icon_url=user.display_avatar.url)
                     embed_msg.set_footer(text=f"Bởi {interaction.user.display_name}",
                                 icon_url=interaction.user.display_avatar.url)
-                    await interaction.response.send_message(embed=embed_msg)
+                    await interaction.followup.send(embed=embed_msg)
                 else:
-                    await interaction.response.send_message(f"{user.display_name} không có banner và không có mã màu banner")
+                    await interaction.followup.send(f"{user.display_name} không có banner và không có mã màu banner")
             else:
                 embed_msg = discord.Embed(title=f"Banner của {user.display_name}",
                                             color=discord.Color.random())
@@ -104,7 +105,7 @@ class UserInfoCommands(GeneralCommand):
                 embed_msg.set_image(url=user.banner.url)
                 embed_msg.set_footer(text=f"Bởi {interaction.user.display_name}",
                                         icon_url=interaction.user.display_avatar.url)
-                await interaction.response.send_message(embed=embed_msg)
+                await interaction.followup.send(embed=embed_msg)
         except Exception as e:
-            await interaction.response.send_message("Có lỗi xảy ra khi lấy banner", ephemeral=True)
+            await interaction.followup.send("Có lỗi xảy ra khi lấy banner", ephemeral=True)
             print(f"Banner command error: {e}")

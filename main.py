@@ -47,6 +47,13 @@ class DiscordBot:
         async def on_ready():
             print(f'Logged in as {self.bot.user}')
             print(f'Bot version: {constants.BOT_VERSION}')
+
+            # Sync slash commands
+            try:
+                synced = await self.bot.tree.sync()
+                print(f"Synced {len(synced)} commands")
+            except Exception as e:
+                print(f"Failed to sync commands: {e}")
             
             if self.config.is_debug_mode():
                 print('Running in debug mode')
