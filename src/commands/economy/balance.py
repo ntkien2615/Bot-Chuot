@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 from src.commands.economy.economy_manager import economy_manager
-from commands.base_command import PrefixCommand
+from src.commands.base_command import PrefixCommand
 
 class Balance(PrefixCommand):
     def __init__(self, discord_bot):

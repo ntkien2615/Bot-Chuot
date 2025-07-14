@@ -25,7 +25,7 @@ class Beg(PrefixCommand):
         ]
 
     @app_commands.command(name="beg", description="Xin tiền từ người qua đường")
-    @app_commands.cooldown(1, 60, key=lambda i: i.user.id)
+    @app_commands.checks.cooldown(1, 60, key=lambda i: i.user.id)
     async def beg(self, interaction: discord.Interaction):
         await interaction.response.defer(ephemeral=False)
         

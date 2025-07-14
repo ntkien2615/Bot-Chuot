@@ -38,13 +38,4 @@ class GeneralCommand(SlashCommand):
     category = "general"
     
     def __init__(self, bot):
-        super().__init__(bot)
-
-
-class UtilityCommand(SlashCommand):
-    """Base class for utility commands that use slash commands."""
-    
-    category = "utility"
-    
-    def __init__(self, bot):
         super().__init__(bot) 

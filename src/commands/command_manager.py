@@ -26,7 +26,8 @@ class CommandManager:
             for filename in files:
                 if filename.endswith('.py') and not filename.startswith('__'):
                     # Construct the module path correctly
-                    module_path = os.path.join(root, filename) \
+                    # Normalize path separators and construct module path
+                    module_path = os.path.normpath(os.path.join(root, filename)) \
                         .replace(os.sep, '.') \
                         .replace('.py', '')
                     # Remove leading './' or 'src.' if present
@@ -48,8 +49,8 @@ class CommandManager:
                                 # Instantiate the command and add as cog
                                 command_instance = obj(self.discord_bot)
                                 await self.bot.add_cog(command_instance)
-                                self.register_command(command_instance) # Register with CommandManager
-                                # print(f"Loaded and registered command: {module_path}.{name}")
+                                self.register_command(command_instance)
+                                print(f"Loaded and registered command: {module_path}.{name}")
                                 break # Assuming one main command class per file
                     except Exception as e:
                         print(f"Failed to load and register command from {module_path}: {e}")

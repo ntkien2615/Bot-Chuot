@@ -10,8 +10,9 @@ class CommandSyncer(commands.Cog):
   @commands.Cog.listener()
   async def on_ready(self):
     try:
-      synced = await self.bot.tree.sync()
-      print(f'{len(synced)}')
+      guild = discord.Object(id=1077151200182542347)
+      synced = await self.bot.tree.sync(guild=guild)
+      print(f'Synced {len(synced)} commands to test guild 1077151200182542347')
     except Exception as e:
       print(f'Lỗi: {e}')
          

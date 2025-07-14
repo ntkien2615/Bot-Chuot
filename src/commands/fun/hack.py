@@ -140,7 +140,7 @@ class Hack(FunCommand):
             await asyncio.sleep(2)
             await interaction.edit_original_response(content='Đăng đăng lên bán...')
             await asyncio.sleep(3)
-            await interaction.edit_original_response(content='Bán thành công! Tôi được 10
+            await interaction.edit_original_response(content='Bán thành công! Tôi được 10 tỷ VNĐ!')
 
 async def setup(bot):
     await bot.add_cog(Hack(bot))
