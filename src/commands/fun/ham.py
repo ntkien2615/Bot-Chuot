@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 import random
-
+from typing import Optional, Union
 
 from src.commands.base_command import FunCommand
 
@@ -13,7 +13,7 @@ class ham(FunCommand):
     
     @app_commands.command(name='ham', description='ham')
     @app_commands.describe(user='Người muốn ham')
-    async def ham(self, interaction: discord.Interaction, user: discord.Member = None):
+    async def ham(self, interaction: discord.Interaction, user: Optional[Union[discord.Member, discord.User]] = None):
         if user is None:
             user = interaction.user
             

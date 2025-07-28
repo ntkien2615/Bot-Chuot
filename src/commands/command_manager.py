@@ -2,7 +2,7 @@ import os
 import random
 import importlib
 import inspect
-from src.commands.base_command import BaseCommand, SlashCommand, PrefixCommand, FunCommand, GeneralCommand
+from src.commands.base_command import BaseCommand, SlashCommand, PrefixCommand, FunCommand, GeneralCommand, GameCommand
 from src import constants
 
 
@@ -45,7 +45,7 @@ class CommandManager:
                         # Find command classes within the module
                         for name, obj in inspect.getmembers(module):
                             # Check if it's a class, a subclass of BaseCommand, and not one of the base classes themselves
-                            if inspect.isclass(obj) and issubclass(obj, BaseCommand) and obj not in [BaseCommand, SlashCommand, PrefixCommand, FunCommand, GeneralCommand]:
+                            if inspect.isclass(obj) and issubclass(obj, BaseCommand) and obj not in [BaseCommand, SlashCommand, PrefixCommand, FunCommand, GeneralCommand, GameCommand]:
                                 # Instantiate the command and add as cog
                                 command_instance = obj(self.discord_bot)
                                 await self.bot.add_cog(command_instance)

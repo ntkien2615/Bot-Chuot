@@ -21,7 +21,8 @@ CATEGORY_NONSLASH = 'non-slash'
 
 # Command Directories
 COMMAND_DIRECTORIES = [
-    './src/commands'
+    './src/commands',
+    './src/game'
 ]
 
 
@@ -48,6 +49,7 @@ INFO_EMBED_COLOR = 0x9b59b6     # Purple
 CATEGORY_NAMES = {
     'fun': 'Fun',
     'general': 'General',
+    'game': 'Game',
     'slash': 'Slash',
     'non-slash': 'Non-Slash'
 } 

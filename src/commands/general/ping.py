@@ -18,7 +18,7 @@ class PingCommand(GeneralCommand):
         """Execute the ping command."""
         try:
             await interaction.response.send_message(
-                f'Bang, Headshot in {round(self.bot.latency*1000)} ms')
+                f'Bang!!! Headshot in {round(self.bot.latency*1000)} ms')
         except Exception as e:
             print(e)
     

@@ -41,6 +41,9 @@ class Config:
         # MongoDB configuration
         self.mongodb_uri = os.getenv("MONGODB_URI")
         self.mongodb_database = os.getenv("MONGODB_DATABASE", "botchuot")
+        
+        # Image URLs configuration
+        self.load_image_urls()
     
     def load_config(self):
         """Load configuration from config.json if exists."""
@@ -96,3 +99,29 @@ class Config:
     def get_test_guild_id(self):
         """Get the test guild ID for guild-specific command syncing."""
         return self.test_guild_id 
+        
+    def load_image_urls(self):
+        """Load image URLs from environment variables."""
+        self.image_urls = {}
+        
+        # Load all environment variables that contain image URLs
+        for key, value in os.environ.items():
+            if any(suffix in key.upper() for suffix in ['_IMAGE', '_IMAGES', '_AVATAR']):
+                if ',' in value:
+                    # Multiple URLs separated by comma
+                    self.image_urls[key] = [url.strip() for url in value.split(',')]
+                else:
+                    # Single URL
+                    self.image_urls[key] = value.strip()
+    
+    def get_image_urls(self, category):
+        """Get image URLs for a specific category."""
+        return self.image_urls.get(category.upper(), [])
+    
+    def get_image_url(self, key):
+        """Get a single image URL by key."""
+        return self.image_urls.get(key.upper(), None)
+    
+    def get_all_image_categories(self):
+        """Get all available image categories."""
+        return list(self.image_urls.keys()) 

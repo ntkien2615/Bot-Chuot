@@ -16,6 +16,8 @@ class Im(FunCommand):
         if (member == None) or (member == interaction.user):
             await interaction.response.send_message('Nhập người nào vào đi',ephemeral=True)
             return
+        elif member == self.bot.user:
+            await interaction.response.send_message('Nice try, but i must speak', ephemeral=True)
         else:
             embed = discord.Embed(title="", description="", color=discord.Color.random())
             embed.set_image(url="https://media.discordapp.net/attachments/883268139922636820/1125768473595875338/e6328ff4069e2184f8f212fd692ce117.png")
