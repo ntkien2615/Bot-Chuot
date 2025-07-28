@@ -200,3 +200,18 @@ class GameLogic:
             inline=False
         )
         return embed
+    
+    @staticmethod
+    def create_afk_timeout_embed(afk_player, winner):
+        """Create AFK timeout embed"""
+        embed = discord.Embed(
+            title=f"⏰ AFK TIMEOUT!",
+            description=f"💤 **{afk_player.user.display_name}** đã AFK quá {GameConstants.AFK_TIMEOUT} giây!",
+            color=EmbedColors.TIMEOUT
+        )
+        embed.add_field(
+            name=f"{Emojis.VICTORY} Người chiến thắng:",
+            value=f"🎉 **{winner.user.display_name}** thắng vì đối thủ AFK!",
+            inline=False
+        )
+        return embed

@@ -16,16 +16,16 @@ try:
     print("Testing legacy imports...")
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", DeprecationWarning)
-        from src.game.pvp import Pvp, Player, GameLogic, GameView, ChallengeView, GameConstants
+        from src.commands.games.pvp import Pvp, Player, GameLogic, GameView, ChallengeView, GameConstants
     print("✅ Legacy imports work!")
     
     # Test new modular imports
     print("Testing new modular imports...")
-    from src.game.pvp.player import Player as PlayerNew
-    from src.game.pvp.game_logic import GameLogic as GameLogicNew
-    from src.game.pvp.views import GameView as GameViewNew, ChallengeView as ChallengeViewNew
-    from src.game.pvp.pvp_command import Pvp as PvpNew
-    from src.game.pvp.constants import GameConstants as ConstantsNew, DamageType, EmbedColors
+    from src.commands.games.pvp.player import Player as PlayerNew
+    from src.commands.games.pvp.game_logic import GameLogic as GameLogicNew
+    from src.commands.games.pvp.views import GameView as GameViewNew, ChallengeView as ChallengeViewNew
+    from src.commands.games.pvp.pvp_command import Pvp as PvpNew
+    from src.commands.games.pvp.constants import GameConstants as ConstantsNew, DamageType, EmbedColors
     print("✅ New modular imports work!")
     
     # Test constants

@@ -30,6 +30,7 @@ class GameView(discord.ui.View):
         # AFK tracking
         self.last_action_time = time.time()
         self.afk_task = None
+        self.current_message = None  # Store current message for AFK updates
         self.start_afk_timer()
     
     def switch_turn(self):
@@ -67,13 +68,14 @@ class GameView(discord.ui.View):
     async def check_afk(self):
         """Check if current player is AFK"""
         try:
+            start_time = self.last_action_time
             await asyncio.sleep(GameConstants.AFK_TIMEOUT)
             
-            # Check if game is still active and time hasn't been reset
-            if not self.game_over and (time.time() - self.last_action_time) >= GameConstants.AFK_TIMEOUT:
+            # Check if game is still active and timer hasn't been reset
+            if not self.game_over and self.last_action_time == start_time:
                 await self.handle_afk_timeout()
         except asyncio.CancelledError:
-            # Timer was cancelled (player made an action)
+            # Timer was cancelled (player made an action or game ended)
             pass
     
     async def handle_afk_timeout(self):
@@ -85,23 +87,18 @@ class GameView(discord.ui.View):
         afk_player = self.current_turn
         winner = self.player2 if self.current_turn == self.player1 else self.player1
         
-        embed = discord.Embed(
-            title=f"⏰ AFK TIMEOUT!",
-            description=f"💤 **{afk_player.user.display_name}** đã AFK quá {GameConstants.AFK_TIMEOUT} giây!",
-            color=EmbedColors.TIMEOUT
-        )
-        embed.add_field(
-            name=f"{Emojis.VICTORY} Người chiến thắng:",
-            value=f"🎉 **{winner.user.display_name}** thắng vì đối thủ AFK!",
-            inline=False
-        )
+        embed = GameLogic.create_afk_timeout_embed(afk_player, winner)
         
         # Disable all buttons
         self.clear_items()
         
-        # Try to update the message if possible
-        # Since this is called from asyncio task, we need to handle it carefully
-        # This will be handled by the view's timeout system
+        # Try to update the message if we have a reference to it
+        if self.current_message:
+            try:
+                await self.current_message.edit(embed=embed, view=self)
+            except (discord.NotFound, discord.HTTPException):
+                # Message was deleted or other error, ignore
+                pass
     
     async def update_game(self, interaction):
         """Update the game state and UI"""
@@ -131,6 +128,9 @@ class GameView(discord.ui.View):
         embed = GameLogic.create_game_embed(self.player1, self.player2, self.current_turn.user, self.last_action)
         try:
             await interaction.response.edit_message(embed=embed, view=self)
+            # Store message reference for AFK timeout
+            if hasattr(interaction, 'message') and interaction.message:
+                self.current_message = interaction.message
         except (discord.NotFound, discord.HTTPException):
             # Interaction expired or other error, ignore
             pass
@@ -307,6 +307,15 @@ class GameView(discord.ui.View):
         except (discord.NotFound, discord.HTTPException):
             # Interaction expired, ignore
             pass
+    
+    async def on_timeout(self):
+        """Called when the view times out"""
+        # Cancel AFK timer when view times out
+        if self.afk_task:
+            self.afk_task.cancel()
+        
+        # Mark game as over
+        self.game_over = True
 
 
 class ChallengeView(discord.ui.View):
@@ -332,6 +341,10 @@ class ChallengeView(discord.ui.View):
         embed = GameLogic.create_game_embed(game_view.player1, game_view.player2, game_view.current_turn.user)
         
         await interaction.response.edit_message(embed=embed, view=game_view)
+        
+        # Store message reference for AFK system
+        if hasattr(interaction, 'message') and interaction.message:
+            game_view.current_message = interaction.message
     
     @discord.ui.button(label="Hong, sợ quá!", style=discord.ButtonStyle.danger, emoji="😰")
     async def decline_challenge(self, interaction: discord.Interaction, button: discord.ui.Button):
