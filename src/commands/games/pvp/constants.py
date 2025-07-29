@@ -30,7 +30,7 @@ class GameConstants:
     # Player stats
     MAX_HP = 100
     MAX_ARMOR = 50
-    MAX_MAGIC_ARMOR = 20
+    MAX_MAGIC_ARMOR = 15  # Giảm từ 20 xuống 15 để cân bằng
     MAX_ENERGY = 100
     
     # Energy costs
@@ -38,8 +38,8 @@ class GameConstants:
     MAGIC_ENERGY_BASE = 40
     MAGIC_ENERGY_DEVASTATE = 80
     ARMOR_ENERGY = 30
-    MAGIC_ARMOR_ENERGY = 45
-    HEAL_ENERGY = 35
+    MAGIC_ARMOR_ENERGY = 50  # Tăng từ 45 lên 50 để cân bằng chi phí
+    HEAL_ENERGY = 35  # Tăng từ 30 lên 35 để hạn chế heal spam
     
     # Energy regeneration
     ENERGY_REGEN = 20
@@ -50,13 +50,13 @@ class GameConstants:
     MAGIC_BASE_DAMAGE = 15
     TRUE_DAMAGE_AMOUNT = 40
     TRUE_CRIT_DAMAGE = 60  # Sát thương chí mạng chuẩn
-    HEAL_BASE_AMOUNT = 25
+    HEAL_BASE_AMOUNT = 20  # Giảm từ 30 xuống 20 để tránh heal spam
     
     # Probabilities (in percentage)
     CRIT_CHANCE = 40
     TRUE_DAMAGE_CHANCE = 15
     TRUE_CRIT_CHANCE = 5  # Tỷ lệ chí mạng chuẩn (trong số các True Damage)
-    HEAL_CRIT_CHANCE = 20  # Tỷ lệ hồi máu tối đa
+    HEAL_CRIT_CHANCE = 15  # Giảm từ 25% xuống 15% để hạn chế crit heal
     
     # Crit multipliers
     CRIT_LEVELS = {
@@ -65,18 +65,18 @@ class GameConstants:
         100: 2.5   # 30% of crit hits = 2.5x damage
     }
     
-    # Heal multipliers  
+    # Heal multipliers - Nerf để tránh heal quá mạnh
     HEAL_LEVELS = {
-        50: 1.5,   # 50% of heal crit = 1.5x heal
-        100: 2.0   # 50% of heal crit = 2.0x heal (max heal)
+        50: 1.3,   # Giảm từ 1.5x xuống 1.3x và tăng ngưỡng từ 40% lên 50%
+        100: 1.6   # Giảm từ 2.0x xuống 1.6x để hạn chế heal spam
     }
     
-    # Armor gain probabilities
+    # Armor gain probabilities - Cân bằng lại để giảm RNG
     ARMOR_CHANCES = {
-        5: (50, "được full giáp!"),      # 5% chance for full armor
-        15: (25, "tăng giáp! (May mắn!)"), # 10% chance for 25 armor
-        35: (15, "tăng giáp!"),          # 20% chance for 15 armor
-        100: (8, "tăng giáp!")           # 65% chance for 8 armor
+        8: (40, "được full giáp!"),      # Tăng từ 5% lên 8% 
+        20: (25, "tăng giáp! (May mắn!)"), # Tăng từ 15% lên 20%
+        45: (18, "tăng giáp!"),          # Tăng từ 35% lên 45% và tăng lượng giáp
+        100: (12, "tăng giáp!")          # Tăng lượng giáp từ 8 lên 12
     }
     
     # Timeouts

@@ -106,7 +106,7 @@ class Player:
         """Get status bar representations"""
         hp_bar = Emojis.HP_BAR * (self.hp // 10) + Emojis.EMPTY_BAR * ((GameConstants.MAX_HP - self.hp) // 10)
         armor_bar = Emojis.ARMOR_BAR * (self.armor // 5) + Emojis.EMPTY_BAR * ((GameConstants.MAX_ARMOR - self.armor) // 5)
-        magic_armor_bar = Emojis.MAGIC_ARMOR_BAR * (self.magic_armor // 4) + Emojis.EMPTY_BAR * ((GameConstants.MAX_MAGIC_ARMOR - self.magic_armor) // 4)
+        magic_armor_bar = Emojis.MAGIC_ARMOR_BAR * (self.magic_armor // 3) + Emojis.EMPTY_BAR * ((GameConstants.MAX_MAGIC_ARMOR - self.magic_armor) // 3)  # Điều chỉnh cho MAX 15
         energy_bar = Emojis.ENERGY_BAR * (self.energy // 10) + Emojis.EMPTY_BAR * ((GameConstants.MAX_ENERGY - self.energy) // 10)
         
         return {
