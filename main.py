@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import os
+import time
 from src import keep_alive
 import asyncio
 import random
@@ -50,9 +51,11 @@ class DiscordBot:
             print(f'📊 Serving {len(self.bot.guilds)} guilds')
 
             # Load extensions and sync commands after bot is ready
+            print("📦 Loading extensions...")
             await self.load_extensions()
 
             # MongoDB connection (only show result)
+            print("🗄️ Connecting to MongoDB...")
             if self.database.load():
                 print("✅ MongoDB connected")
             else:
@@ -63,6 +66,8 @@ class DiscordBot:
                 print('🐛 Debug mode: ON')
             else:
                 print('🚀 Production mode: ON')
+                
+            print("✅ Bot startup complete!")
         
         @self.bot.event
         async def on_command_error(ctx, error):
@@ -70,6 +75,18 @@ class DiscordBot:
                 await ctx.send(f'This command is on cooldown. Try again in {error.retry_after:.2f} seconds.')
             else:
                 raise error
+                
+        @self.bot.event
+        async def on_connect():
+            print("🔗 Discord connection established")
+            
+        @self.bot.event
+        async def on_disconnect():
+            print("⚠️ Discord connection lost")
+            
+        @self.bot.event
+        async def on_resumed():
+            print("🔄 Discord connection resumed")
     
     async def load_extensions(self):
         # Load commands through command manager
@@ -95,10 +112,46 @@ class DiscordBot:
                     except Exception as e:
                         print(f"Failed to load extension {module_path}: {e}")
         
-        # Sync slash commands after loading all
+        # Sync slash commands after loading all (with rate limit protection)
         try:
-            synced = await self.bot.tree.sync()
-            print(f"✅ Synced {len(synced)} slash commands")
+            # Check last sync time to avoid rate limiting
+            last_sync_file = ".last_sync"
+            should_sync = True
+            
+            if os.path.exists(last_sync_file):
+                try:
+                    with open(last_sync_file, 'r') as f:
+                        last_sync_time = float(f.read().strip())
+                    # Only sync if last sync was more than 5 minutes ago
+                    if time.time() - last_sync_time < 300:  # 5 minutes
+                        should_sync = False
+                        print(f"⏰ Skipping sync - last sync was recent")
+                except:
+                    pass
+            
+            if should_sync:
+                # Check if commands need syncing by comparing counts
+                current_commands = await self.bot.tree.fetch_commands()
+                loaded_commands = len([cmd for cmd in self.bot.tree.walk_commands()])
+                
+                if len(current_commands) != loaded_commands:
+                    synced = await self.bot.tree.sync()
+                    print(f"✅ Synced {len(synced)} slash commands")
+                    
+                    # Save sync time
+                    with open(last_sync_file, 'w') as f:
+                        f.write(str(time.time()))
+                else:
+                    print(f"✅ Commands already synced ({len(current_commands)} commands)")
+            else:
+                loaded_commands = len([cmd for cmd in self.bot.tree.walk_commands()])
+                print(f"✅ Using cached commands ({loaded_commands} commands)")
+                
+        except discord.HTTPException as e:
+            if e.status == 429:
+                print(f"⚠️ Rate limited - commands will sync automatically later")
+            else:
+                print(f"❌ Command sync failed: {e}")
         except Exception as e:
             print(f"❌ Command sync failed: {e}")
     
@@ -109,6 +162,12 @@ class DiscordBot:
         if not discord_token:
             raise ValueError("❌ Discord token is not set in environment variables")
         
+        # Validate token format (basic check)
+        if not discord_token.startswith(('MTA', 'MT', 'NTA', 'NT', 'OD')):
+            print("⚠️ Warning: Discord token format looks suspicious")
+        else:
+            print("✅ Discord token format validated")
+        
         # Start keep-alive service if URL provided
         keepalive_url = self.config.get_keepalive_url()
         if keepalive_url:
@@ -116,7 +175,16 @@ class DiscordBot:
             print(f"🔄 Keep-alive: {keepalive_url}")
         
         print("🚀 Starting bot...")
-        await self.bot.start(discord_token)
+        print("🔗 Attempting Discord connection...")
+        
+        try:
+            await self.bot.start(discord_token)
+        except discord.LoginFailure:
+            print("❌ Discord login failed - invalid token")
+            raise
+        except Exception as e:
+            print(f"❌ Failed to start bot: {e}")
+            raise
 
 
 async def main():
