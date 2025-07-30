@@ -25,22 +25,44 @@ class Config:
         self.load_config()
     
     def load_env_vars(self):
-        """Load environment variables."""
-        # Check for .env in Render's secret file location first
+        """Load environment variables from multiple sources."""
+        # Priority:
+        # 1. Render Secret Files: /etc/secrets/.env (Production)
+        # 2. Local .env file (Development)
+        # 3. System environment variables (Fallback)
+        
         render_env_path = "/etc/secrets/.env"
+        local_env_path = ".env"
+        
         if os.path.exists(render_env_path):
+            # Production on Render - use secret file
+            print("🔐 Loading config from Render Secret Files: /etc/secrets/.env")
             load_dotenv(dotenv_path=render_env_path)
+        elif os.path.exists(local_env_path):
+            # Local development - use .env file
+            print("🛠️ Loading config from local .env file")
+            load_dotenv(dotenv_path=local_env_path)
         else:
-            # Fallback for local development
+            # Fallback - try to find .env file or use system env vars
+            print("⚠️ No .env file found, using system environment variables")
             load_dotenv(find_dotenv())
-        self.discord_token = os.getenv("discord_token")
-        self.bot_owner_id = os.getenv("bot_owner_id")
-        self.debug_mode = os.getenv("debug_mode", "False").lower() == "true"
-        self.test_guild_id = os.getenv("test_guild_id")
+        
+        # Load Discord configuration
+        self.discord_token = os.getenv("BOT_TOKEN") or os.getenv("discord_token")
+        self.bot_owner_id = os.getenv("BOT_OWNER_ID") or os.getenv("bot_owner_id")
+        self.debug_mode = os.getenv("DEBUG_MODE", os.getenv("debug_mode", "False")).lower() == "true"
+        self.test_guild_id = os.getenv("TEST_GUILD_ID") or os.getenv("test_guild_id")
         
         # MongoDB configuration
-        self.mongodb_uri = os.getenv("MONGODB_URI")
-        self.mongodb_database = os.getenv("MONGODB_DATABASE", "botchuot")
+        self.mongodb_uri = os.getenv("MONGO_URI") or os.getenv("MONGODB_URI")
+        self.mongodb_database = os.getenv("MONGO_DATABASE") or os.getenv("MONGODB_DATABASE", "botchuot")
+        
+        # API Keys
+        self.search_api_key = os.getenv("SEARCH_API_KEY") or os.getenv("search_api_key")
+        self.ai_api_key = os.getenv("AI_API_KEY") or os.getenv("ai_api_key")
+        
+        # Keep alive URL
+        self.keepalive_url = os.getenv("KEEPALIVE_URL")
         
         # Image URLs configuration
         self.load_image_urls()
@@ -98,11 +120,19 @@ class Config:
         
     def get_keepalive_url(self):
         """Get the keepalive URL for hosting services."""
-        return os.getenv('KEEPALIVE_URL')
+        return self.keepalive_url
         
     def get_test_guild_id(self):
         """Get the test guild ID for guild-specific command syncing."""
         return self.test_guild_id 
+    
+    def get_search_api_key(self):
+        """Get the Google Search API key."""
+        return self.search_api_key
+    
+    def get_ai_api_key(self):
+        """Get the AI API key (Gemini/OpenAI)."""
+        return self.ai_api_key 
         
     def load_image_urls(self):
         """Load image URLs from environment variables."""
