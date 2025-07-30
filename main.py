@@ -45,25 +45,28 @@ class DiscordBot:
     def register_events(self):
         @self.bot.event
         async def on_ready():
-            print(f'Logged in as {self.bot.user}')
-            print(f'Bot version: {constants.BOT_VERSION}')
+            # Basic startup info
+            print(f'🤖 {self.bot.user} is online!')
+            print(f'📊 Serving {len(self.bot.guilds)} guilds')
 
             # Sync slash commands
             try:
                 synced = await self.bot.tree.sync()
-                print(f"Synced {len(synced)} commands")
+                print(f"✅ Synced {len(synced)} commands")
             except Exception as e:
-                print(f"Failed to sync commands: {e}")
+                print(f"❌ Command sync failed: {e}")
             
-            if self.config.is_debug_mode():
-                print('Running in debug mode')
-                
-            # Initialize MongoDB connection
-            print("Connecting to MongoDB...")
+            # MongoDB connection (only show result)
             if self.database.load():
-                print("Successfully connected to MongoDB!")
+                print("✅ MongoDB connected")
             else:
-                print("Failed to connect to MongoDB - some features may not work")
+                print("❌ MongoDB connection failed")
+                
+            # Debug mode indicator (minimal)
+            if self.config.is_debug_mode():
+                print('🐛 Debug mode: ON')
+            else:
+                print('🚀 Production mode: ON')
         
         @self.bot.event
         async def on_command_error(ctx, error):
@@ -94,37 +97,27 @@ class DiscordBot:
                 await self.bot.load_extension(module_path)
                 print(f"Loaded extension: {module_path}")
     
-    async def start(self):
-        print("🚀 Starting Bot-Chuot...")
-        
-        # Keep the bot alive (for Render.com hosting)
-        keepalive_url = self.config.get_keepalive_url()
-        if keepalive_url:
-            keep_alive.awake(
-                keepalive_url,
-                debug=self.config.is_debug_mode()
-            )
-            print("✅ Keep-alive service started")
-        else:
-            print("⚠️ No keepalive URL configured")
-        
-        # Load extensions
-        print("📦 Loading extensions...")
-        await self.load_extensions()
-        print("✅ Extensions loaded")
-        
-        # Start the bot
+    async def run_bot(self):
+        """Start the Discord bot with minimal logging"""
+        # Get Discord token
         discord_token = self.config.get_token()
         if not discord_token:
             raise ValueError("❌ Discord token is not set in environment variables")
-            
-        print("🤖 Starting Discord bot...")
+        
+        # Start keep-alive service if URL provided
+        keepalive_url = self.config.get_keepalive_url()
+        if keepalive_url:
+            keep_alive.awake(keepalive_url, debug=self.config.is_debug_mode())
+            print(f"🔄 Keep-alive: {keepalive_url}")
+        
+        print("🚀 Starting bot...")
         await self.bot.start(discord_token)
 
 
 async def main():
+    """Main entry point"""
     bot = DiscordBot()
-    await bot.start()
+    await bot.run_bot()
 
 
 # Run the bot
