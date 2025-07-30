@@ -33,17 +33,25 @@ class kissSlash(FunCommand):
             return
         
         try:
-            # NEW: Use image URLs from .env instead of .txt file
-            kiss_images = self.config.get_image_urls('KISS_IMAGES')
+            # Try to get image URLs from .env first
+            kiss_images = None
+            try:
+                kiss_images = self.config.get_image_urls('KISS_IMAGES')
+                print(f"Debug: KISS_IMAGES from config: {kiss_images}")
+            except Exception as config_error:
+                print(f"Config error in kiss command: {config_error}")
+                kiss_images = None
             
-            if kiss_images:
+            if kiss_images and len(kiss_images) > 0:
                 kiss_url = random.choice(kiss_images)
+                print(f"Debug: Selected kiss URL: {kiss_url[:50]}...")
                 embed = discord.Embed(title="",
                                     description=f"{interaction.user.mention} đã hôn {user.mention} 😘",
                                     color=discord.Colour.random())
                 embed.set_image(url=kiss_url)
                 await interaction.response.send_message(embed=embed)
             else:
+                print(f"Debug: No KISS_IMAGES found, using fallback")
                 # Fallback to old method if no URLs in .env
                 kiss_url = self.random_file_read("src/txt_files/kiss.txt")
                 if kiss_url:

@@ -81,7 +81,8 @@ class MultiplayerRPS(GameCommand):
             value="• 🎯 Bấm **Tham gia** để vào game\n"
                   "• 🚀 Host bấm **Bắt đầu** khi đủ người\n"
                   "• ⏰ Có 10 giây để chọn\n"
-                  "• 🏆 Kết quả sẽ được công bố",
+                  "• 🏆 Kết quả sẽ được công bố\n"
+                  "• ⚠️ Game tự hủy sau 30s nếu không hoạt động",
             inline=True
         )
         
@@ -94,3 +95,10 @@ class MultiplayerRPS(GameCommand):
         invite_view = InviteRPSView(interaction.user, max_players)
         
         await interaction.response.send_message(embed=embed, view=invite_view)
+        
+        # Lưu message reference để xử lý timeout
+        try:
+            message = await interaction.original_response()
+            invite_view.message = message
+        except Exception:
+            pass  # Ignore lỗi nếu không lấy được message

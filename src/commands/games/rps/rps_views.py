@@ -223,10 +223,42 @@ class InviteRPSView(discord.ui.View):
     """View để mời người chơi tham gia RPS"""
     
     def __init__(self, host: discord.Member, max_players: int = 8):
-        super().__init__(timeout=60)
+        super().__init__(timeout=30)  # 30 giây timeout
         self.host = host
         self.max_players = max_players
         self.joined_players = [host]
+        self.message: Optional[discord.Message] = None
+    
+    async def on_timeout(self):
+        """Xử lý khi hết thời gian chờ"""
+        if self.message:
+            embed = discord.Embed(
+                title="⏰ HẾT THỜI GIAN CHỜ",
+                description=f"🎮 Game RPS đã tự động hủy sau 30 giây không có hoạt động.\n"
+                           f"🎭 Host: **{self.host.display_name}**\n"
+                           f"👥 Người tham gia: {len(self.joined_players)}/{self.max_players}",
+                color=discord.Color.orange()
+            )
+            
+            if len(self.joined_players) > 1:
+                player_list = [f"🎮 {member.display_name}" for member in self.joined_players]
+                embed.add_field(
+                    name="👥 Danh sách người chơi đã tham gia",
+                    value="\n".join(player_list),
+                    inline=False
+                )
+            
+            embed.set_footer(text="💡 Hãy tạo game mới để chơi tiếp!")
+            
+            # Disable tất cả buttons
+            for item in self.children:
+                if isinstance(item, discord.ui.Button):
+                    item.disabled = True
+            
+            try:
+                await self.message.edit(embed=embed, view=self)
+            except discord.NotFound:
+                pass  # Message đã bị xóa
         
     @discord.ui.button(label="� Tham gia", style=discord.ButtonStyle.green, emoji="🎮")
     async def join_game(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -277,7 +309,8 @@ class InviteRPSView(discord.ui.View):
             value="• 🎯 Bấm **Tham gia** để vào game\n"
                   "• 🚀 Host bấm **Bắt đầu** khi đủ người\n"
                   "• ⏰ Có 10 giây để chọn\n"
-                  "• 🏆 Kết quả sẽ được công bố",
+                  "• 🏆 Kết quả sẽ được công bố\n"
+                  "• ⚠️ Game tự hủy sau 30s nếu không hoạt động",
             inline=True
         )
         
@@ -298,6 +331,9 @@ class InviteRPSView(discord.ui.View):
             await interaction.response.send_message("❌ Cần ít nhất 2 người chơi!", ephemeral=True)
             return
         
+        # Stop timeout vì game đã bắt đầu
+        self.stop()
+        
         # Tạo MultiplayerRPSView mới để bắt đầu game
         game_view = MultiplayerRPSView(self.joined_players, self.host)
         await game_view.start_choice_phase(interaction)
@@ -307,6 +343,9 @@ class InviteRPSView(discord.ui.View):
         if interaction.user != self.host:
             await interaction.response.send_message("❌ Chỉ host mới có thể hủy!", ephemeral=True)
             return
+        
+        # Stop timeout vì game đã bị hủy
+        self.stop()
         
         embed = discord.Embed(
             title="🛑 GAME ĐÃ BỊ HỦY",
