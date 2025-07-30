@@ -98,7 +98,7 @@ class GunGameView(discord.ui.View):
         
         # Cập nhật button
         for item in self.children:
-            if hasattr(item, 'custom_id') and item.custom_id == f"chamber_{chamber_id}":
+            if isinstance(item, discord.ui.Button) and item.custom_id == f"chamber_{chamber_id}":
                 item.disabled = True
                 if chamber_result == '💥':
                     item.label = f"💥 {chamber_id+1}"
@@ -135,7 +135,7 @@ class GunGameView(discord.ui.View):
                 
                 # Disable tất cả buttons
                 for item in self.children:
-                    if hasattr(item, 'disabled'):
+                    if isinstance(item, discord.ui.Button):
                         item.disabled = True
                         
             else:
@@ -192,7 +192,7 @@ class GunGameView(discord.ui.View):
         
         # Disable tất cả buttons
         for item in self.children:
-            if hasattr(item, 'disabled'):
+            if isinstance(item, discord.ui.Button):
                 item.disabled = True
         
         self.game_over = True
@@ -202,7 +202,7 @@ class GunGameView(discord.ui.View):
         """Xử lý khi view timeout"""
         # Disable tất cả buttons
         for item in self.children:
-            if hasattr(item, 'disabled'):
+            if isinstance(item, discord.ui.Button):
                 item.disabled = True
         
         # Note: Không thể edit message ở đây vì không có interaction

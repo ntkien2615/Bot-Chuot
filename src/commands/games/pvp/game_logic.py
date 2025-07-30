@@ -169,13 +169,24 @@ class GameLogic:
         return embed
     
     @staticmethod
-    def create_victory_embed(winner, player1, player2):
-        """Create victory embed"""
+    def create_victory_embed(winner, player1, player2, last_killing_action=None):
+        """Create victory embed with optional last hit information"""
+        loser = player2 if winner == player1 else player1
+        
         embed = discord.Embed(
             title=f"{Emojis.VICTORY} KẾT THÚC TRẬN ĐẤU!",
             description=f"🎉 **{winner.user.display_name}** đã chiến thắng!",
             color=EmbedColors.VICTORY
         )
+        
+        # Thêm thông tin Last Hit nếu có
+        if last_killing_action:
+            embed.add_field(
+                name="⚰️ LAST HIT:",
+                value=f"_{last_killing_action}_",
+                inline=False
+            )
+        
         embed.add_field(
             name="📊 Thống kê cuối trận:",
             value=(

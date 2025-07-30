@@ -1,5 +1,22 @@
 """
-Discord UI views for PvP game
+Discord UI v    def __init__(self, player1, player2):
+        super().__init__(timeout=GameConstants.GAME_TIMEOUT)
+        self.player1 = Player(player1)
+        self.player2 = Player(player2)
+        
+        # Random người chọi đầu tiên để công bằng
+        import random
+        self.current_turn = random.choice([self.player1, self.player2])
+        self.last_action = f"🎲 {self.current_turn.user.display_name} được quyền đánh trước!"
+        self.last_killing_action = None  # Lưu action gây chết cuối cùng
+        self.game_over = False
+        self.turn_count = 0  # Đếm số turn để cân bằng energy
+        
+        # AFK tracking
+        self.last_action_time = time.time()
+        self.afk_task = None
+        self.current_message = None  # Store current message for AFK updates
+        self.start_afk_timer()
 Handles buttons, interactions, and user interface
 """
 
@@ -53,6 +70,11 @@ class GameView(discord.ui.View):
         
         # Reset AFK timer for new turn
         self.reset_afk_timer()
+    
+    def check_and_record_killing_action(self, action_text):
+        """Check if anyone died and record the killing action"""
+        if not self.player1.is_alive() or not self.player2.is_alive():
+            self.last_killing_action = action_text
     
     def start_afk_timer(self):
         """Start AFK timer for current player"""
@@ -113,7 +135,7 @@ class GameView(discord.ui.View):
             if self.afk_task:
                 self.afk_task.cancel()
             
-            embed = GameLogic.create_victory_embed(winner, self.player1, self.player2)
+            embed = GameLogic.create_victory_embed(winner, self.player1, self.player2, self.last_killing_action)
             
             # Disable all buttons
             self.clear_items()
@@ -167,6 +189,10 @@ class GameView(discord.ui.View):
         self.last_action = f"{Emojis.PUNCH} {self.current_turn.user.display_name} {action_text}"
         
         target.take_damage(final_damage, damage_type)
+        
+        # Check if this action killed someone
+        self.check_and_record_killing_action(self.last_action)
+        
         self.switch_turn()
         await self.update_game(interaction)
     
@@ -188,6 +214,9 @@ class GameView(discord.ui.View):
         
         self.last_action = f"{Emojis.MAGIC} {self.current_turn.user.display_name} {action_text}"
         target.take_damage(damage, DamageType.MAGIC)
+        
+        # Check if this action killed someone
+        self.check_and_record_killing_action(self.last_action)
         
         self.switch_turn()
         await self.update_game(interaction)

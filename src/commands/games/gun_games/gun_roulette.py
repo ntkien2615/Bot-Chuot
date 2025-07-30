@@ -26,6 +26,11 @@ class InviteView(discord.ui.View):
     @discord.ui.button(label="🎮 Tham gia", style=discord.ButtonStyle.green, emoji="🎯")
     async def join_game(self, interaction: discord.Interaction, button: discord.ui.Button):
         """Button để tham gia game"""
+        # Kiểm tra user là Member
+        if not isinstance(interaction.user, discord.Member):
+            await interaction.response.send_message("❌ Chỉ có thể sử dụng trong server!", ephemeral=True)
+            return
+            
         if interaction.user in self.joined_players:
             await interaction.response.send_message("❌ Bạn đã tham gia rồi!", ephemeral=True)
             return
@@ -38,6 +43,9 @@ class InviteView(discord.ui.View):
         
         # Cập nhật embed
         gun_type = get_gun_type(self.gun_type_key)
+        if not gun_type:
+            await interaction.response.send_message("❌ Lỗi loại súng!", ephemeral=True)
+            return
         embed = discord.Embed(
             title=f"🎮 Russian Roulette - {gun_type.name}",
             description=f"{gun_type.description}\n\n"
@@ -80,6 +88,10 @@ class InviteView(discord.ui.View):
         random.shuffle(self.joined_players)
         
         gun_type = get_gun_type(self.gun_type_key)
+        if not gun_type:
+            await interaction.response.send_message("❌ Lỗi loại súng!", ephemeral=True)
+            return
+            
         embed = create_game_embed(gun_type, self.joined_players, self.joined_players[0])
         
         # Tạo game view
@@ -102,7 +114,8 @@ class InviteView(discord.ui.View):
         
         # Disable tất cả buttons
         for item in self.children:
-            item.disabled = True
+            if isinstance(item, discord.ui.Button):
+                item.disabled = True
         
         await interaction.response.edit_message(embed=embed, view=self)
 
@@ -134,6 +147,14 @@ class GunRoulette(GameCommand):
         if not interaction.guild:
             await interaction.response.send_message(
                 "❌ Lệnh này chỉ có thể sử dụng trong server!",
+                ephemeral=True
+            )
+            return
+        
+        # Kiểm tra user là Member
+        if not isinstance(interaction.user, discord.Member):
+            await interaction.response.send_message(
+                "❌ Lỗi: Không thể xác định thông tin người dùng!",
                 ephemeral=True
             )
             return
@@ -209,6 +230,14 @@ class GunRoulette(GameCommand):
             )
             return
         
+        # Kiểm tra user là Member
+        if not isinstance(interaction.user, discord.Member):
+            await interaction.response.send_message(
+                "❌ Lỗi: Không thể xác định thông tin người dùng!",
+                ephemeral=True
+            )
+            return
+        
         # Parse người chơi
         members = parse_players_from_string(players, interaction.guild, interaction.user)
         
@@ -232,7 +261,7 @@ class GunRoulette(GameCommand):
         
         # Tạo game ngay lập tức
         embed = create_game_embed(selected_gun, members, members[0])
-        game_view = GunGameView(members, selected_gun, interaction.user)
+        game_view = GunGameView(members, selected_gun, interaction.user)  # interaction.user đã được validate là Member ở trên
         
         await interaction.response.send_message(embed=embed, view=game_view)
 
