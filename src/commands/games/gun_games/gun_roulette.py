@@ -264,8 +264,3 @@ class GunRoulette(GameCommand):
         game_view = GunGameView(members, selected_gun, interaction.user)  # interaction.user đã được validate là Member ở trên
         
         await interaction.response.send_message(embed=embed, view=game_view)
-
-
-async def setup(bot):
-    """Setup function để load cog"""
-    await bot.add_cog(GunRoulette(bot))

@@ -95,20 +95,30 @@ class DiscordBot:
                 print(f"Loaded extension: {module_path}")
     
     async def start(self):
-        # Keep the bot alive
-        keep_alive.awake(
-            constants.KEEPALIVE_URL,
-            debug=self.config.is_debug_mode()
-        )
+        print("🚀 Starting Bot-Chuot...")
+        
+        # Keep the bot alive (for Render.com hosting)
+        keepalive_url = self.config.get_keepalive_url()
+        if keepalive_url:
+            keep_alive.awake(
+                keepalive_url,
+                debug=self.config.is_debug_mode()
+            )
+            print("✅ Keep-alive service started")
+        else:
+            print("⚠️ No keepalive URL configured")
         
         # Load extensions
+        print("📦 Loading extensions...")
         await self.load_extensions()
+        print("✅ Extensions loaded")
         
         # Start the bot
         discord_token = self.config.get_token()
         if not discord_token:
-            raise ValueError("Discord token is not set in environment variables")
+            raise ValueError("❌ Discord token is not set in environment variables")
             
+        print("🤖 Starting Discord bot...")
         await self.bot.start(discord_token)
 
 

@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: bot-chuot-keepalive
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"
+      - key: BOT_TOKEN
+        sync: false
+      - key: MONGO_URI
+        sync: false
+      - key: DEBUG_MODE
+        value: "false"
+      - key: KEEPALIVE_URL
+        sync: false
+    autoDeploy: true
+    branch: main

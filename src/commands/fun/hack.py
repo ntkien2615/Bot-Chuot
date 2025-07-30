@@ -4,6 +4,7 @@ from discord import app_commands
 import asyncio
 import random
 import os
+from typing import Optional
 
 from src.commands.base_command import FunCommand
 
@@ -31,7 +32,7 @@ class Hack(FunCommand):
 
     @app_commands.command(name='hack', description='hack vào máy ai đó (beta)')
     @app_commands.describe(user='máy tính của ai')
-    async def hack(self, interaction: discord.Interaction, user: discord.Member = None):
+    async def hack(self, interaction: discord.Interaction, user: Optional[discord.Member] = None):
         if user is None:
             await interaction.response.send_message("Hãy chọn người để hack", ephemeral=True)
             return
@@ -141,6 +142,3 @@ class Hack(FunCommand):
             await interaction.edit_original_response(content='Đăng đăng lên bán...')
             await asyncio.sleep(3)
             await interaction.edit_original_response(content='Bán thành công! Tôi được 10 tỷ VNĐ!')
-
-async def setup(bot):
-    await bot.add_cog(Hack(bot))

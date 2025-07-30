@@ -108,8 +108,3 @@ class GuessNumCog(GameCommand):
             self.end_game(channel_id)
             await interaction.followup.send('💥 Đã xảy ra lỗi trong trò chơi. Vui lòng thử lại!')
             print(f"Error in guess_num game: {e}")  # For debugging
-
-
-async def setup(bot):
-    """Setup function for loading the cog"""
-    await bot.add_cog(GuessNumCog(bot))

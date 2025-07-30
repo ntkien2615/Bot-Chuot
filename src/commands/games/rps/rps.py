@@ -1,53 +1,96 @@
+"""
+Rock Paper Scissors Multiplayer Command
+"""
 import discord
 from discord.ext import commands
 from discord import app_commands
-import random
+
+from src.commands.base_command import GameCommand
+from .rps_views import InviteRPSView
 
 
-from src.commands.base_command import FunCommand
-
-
-class rpsslash(FunCommand):
-
+class MultiplayerRPS(GameCommand):
+    """Rock Paper Scissors multiplayer game"""
+    
     def __init__(self, discord_bot):
         super().__init__(discord_bot)
-        self.bot = discord_bot.bot
-
+    
     @app_commands.command(
         name='rps',
-        description='rock,paper,scissors aka kéo, búa, bao'
+        description='Chơi kéo búa bao với nhiều người!'
     )
-    @app_commands.describe(value='chọn 1 trong 3')
-    @app_commands.choices(value=[
-        discord.app_commands.Choice(name="Kéo", value="Kéo"),
-        discord.app_commands.Choice(name="Búa", value="Búa"),
-        discord.app_commands.Choice(name="Bao", value="Bao")
-    ])
-    async def rps(self, interaction: discord.Interaction, value: str):
-        npc = ['Kéo', 'Búa', 'Bao']
-        npc_ran = random.choice(npc)
-        npc_enemy = [
-            'NPC', 'CHAT GPTEO', 'KHÁ BẢNH', 'bé Triết phi phai', 'tranbinh',
-            'ambatukam'
-        ]
-        npc_enemy_ran = random.choice(npc_enemy)
-        embed_msg = discord.Embed(title="RPS CLASSIC",
-                                  color=discord.Color.random())
-        embed_msg.add_field(name="",
-                            value=f"{interaction.user} chọn: {value}",
-                            inline=False)
-        embed_msg.add_field(name="",
-                            value=f"{npc_enemy_ran} chọn: {npc_ran}",
-                            inline=False)
-        if value == npc_ran:
-            embed_msg.add_field(name="", value="Cả hai hòa", inline=False)
-        elif (value == 'Kéo' and npc_ran == 'Búa') or (
-            value == 'Búa' and npc_ran == 'Bao') or (value == 'Bao'
-                                                     and npc_ran == 'Kéo'):
-            embed_msg.add_field(
-                name="",
-                value=f"Bạn thua, trông bạn như vậy lại thua {npc_enemy_ran}",
-                inline=False)
-        else:
-            embed_msg.add_field(name="", value="Bạn thắng!", inline=False)
-        await interaction.response.send_message(embed=embed_msg)
+    @app_commands.describe(
+        max_players='Số người chơi tối đa (2-8, mặc định 8)'
+    )
+    async def rps_multi(
+        self,
+        interaction: discord.Interaction,
+        max_players: int = 8
+    ):
+        """Command chính để tạo game RPS multiplayer"""
+        
+        # Kiểm tra guild
+        if not interaction.guild:
+            await interaction.response.send_message(
+                "❌ Lệnh này chỉ có thể sử dụng trong server!",
+                ephemeral=True
+            )
+            return
+        
+        # Kiểm tra user là Member
+        if not isinstance(interaction.user, discord.Member):
+            await interaction.response.send_message(
+                "❌ Lỗi: Không thể xác định thông tin người dùng!",
+                ephemeral=True
+            )
+            return
+        
+        # Kiểm tra max_players
+        if max_players < 2 or max_players > 8:
+            await interaction.response.send_message(
+                "❌ Số người chơi tối đa phải từ 2 đến 8!",
+                ephemeral=True
+            )
+            return
+        
+        # Tạo embed mời chơi
+        embed = discord.Embed(
+            title="✂️ 🪨 📄 ROCK PAPER SCISSORS",
+            description="🎯 **Game đối kháng nhiều người chơi!**\n"
+                       "🔥 Mọi người sẽ chọn bí mật trong tin nhắn riêng\n"
+                       "⚡ Ai có lựa chọn thông minh nhất sẽ thắng!",
+            color=discord.Color.gold()
+        )
+        
+        embed.add_field(
+            name=f"👥 Người chơi (1/{max_players})",
+            value=f"🎮 {interaction.user.mention}",
+            inline=False
+        )
+        
+        embed.add_field(
+            name="� Luật chơi",
+            value="🪨 **Búa** thắng **Kéo** ✂️\n"
+                  "✂️ **Kéo** thắng **Bao** 📄\n" 
+                  "📄 **Bao** thắng **Búa** 🪨",
+            inline=True
+        )
+        
+        embed.add_field(
+            name="🎮 Hướng dẫn",
+            value="• 🎯 Bấm **Tham gia** để vào game\n"
+                  "• 🚀 Host bấm **Bắt đầu** khi đủ người\n"
+                  "• ⏰ Có 10 giây để chọn\n"
+                  "• 🏆 Kết quả sẽ được công bố",
+            inline=True
+        )
+        
+        embed.set_footer(
+            text=f"🎭 Host: {interaction.user.display_name} | Cần ít nhất 2 người chơi",
+            icon_url=interaction.user.display_avatar.url
+        )
+        
+        # Tạo invite view
+        invite_view = InviteRPSView(interaction.user, max_players)
+        
+        await interaction.response.send_message(embed=embed, view=invite_view)

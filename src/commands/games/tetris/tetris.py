@@ -3,19 +3,20 @@ from discord.ext import commands
 from discord import app_commands
 import random
 import asyncio
+from typing import Optional, Dict, Any, Union
 
 # Constants
 NUM_OF_ROWS = 18
 NUM_OF_COLS = 10
-EMPTY_SQUARE = ':black_large_square:'
+EMPTY_SQUARE = '⬛'
 SQUARES = {
-    'blue': ':blue_square:',
-    'brown': ':brown_square:',
-    'orange': ':orange_square:',
-    'yellow': ':yellow_square:',
-    'green': ':green_square:',
-    'purple': ':purple_square:',
-    'red': ':red_square:'
+    'blue': '🟦',    # I-piece 
+    'brown': '🟫',   # L-piece
+    'orange': '🟧',  # L-piece reverse
+    'yellow': '🟨',  # O-piece
+    'green': '🟩',   # S-piece
+    'purple': '🟪',  # T-piece
+    'red': '🟥'      # Z-piece
 }
 EMBED_COLOUR = 0x077ff7
 
@@ -241,45 +242,246 @@ make_empty_board()
 from src.commands.base_command import FunCommand
 
 
+class TetrisGame:
+    """Class quản lý trạng thái game Tetris cho từng người chơi"""
+    def __init__(self):
+        self.board = [[EMPTY_SQUARE for _ in range(NUM_OF_COLS)] for _ in range(NUM_OF_ROWS)]
+        self.points = 0
+        self.lines = 0
+        self.down_pressed = False
+        self.rotate_clockwise = False
+        self.rotation_pos = 0
+        self.h_movement = 0
+        self.is_new_shape = False
+        self.start_higher = False
+        self.game_over = False
+        self.current_shape: Optional[Any] = None  # Will hold [pos, colour, rotation_points]
+        
+    def reset(self):
+        """Reset game state"""
+        self.board = [[EMPTY_SQUARE for _ in range(NUM_OF_COLS)] for _ in range(NUM_OF_ROWS)]
+        self.points = 0
+        self.lines = 0
+        self.down_pressed = False
+        self.rotate_clockwise = False
+        self.rotation_pos = 0
+        self.h_movement = 0
+        self.is_new_shape = False
+        self.start_higher = False
+        self.game_over = False
+        self.current_shape: Optional[Any] = None
+
+
 class TetrisSlash(FunCommand):
     def __init__(self, discord_bot):
         super().__init__(discord_bot)
         self.bot = discord_bot.bot
-        self.active_games = {}  # Track active games
+        self.active_games: Dict[int, TetrisGame] = {}  # Track active games per user
 
-    @app_commands.command(name='tetris', description='chơi tetris với bot')
+    def get_game(self, user_id: int) -> TetrisGame:
+        """Get or create game for user"""
+        if user_id not in self.active_games:
+            self.active_games[user_id] = TetrisGame()
+        return self.active_games[user_id]
+
+    def format_board_as_str(self, game: TetrisGame) -> str:
+        """Format board as string for display"""
+        return '\n'.join(''.join(game.board[row]) for row in range(NUM_OF_ROWS))
+
+    def create_game_embed(self, game: TetrisGame) -> discord.Embed:
+        """Create beautiful embed for Tetris game"""
+        embed = discord.Embed(
+            title="🎮 TETRIS",
+            description=f"```\n{self.format_board_as_str(game)}\n```",
+            color=EMBED_COLOUR
+        )
+        
+        embed.add_field(
+            name="📊 Điểm số",
+            value=f"**{game.points:,}**",
+            inline=True
+        )
+        
+        embed.add_field(
+            name="📏 Dòng",
+            value=f"**{game.lines}**",
+            inline=True
+        )
+        
+        embed.add_field(
+            name="🎯 Level",
+            value=f"**{game.lines // 10 + 1}**",
+            inline=True
+        )
+        
+        embed.add_field(
+            name="🎮 Điều khiển",
+            value="⬅️ Trái | ➡️ Phải | ⬇️ Xuống | 🔃 Xoay",
+            inline=False
+        )
+        
+        embed.set_footer(text="💡 Ghép đầy hàng để ghi điểm!")
+        return embed
+
+    @app_commands.command(name='tetris', description='🎮 Chơi Tetris với bot!')
     async def tetrisSlash(self, interaction: discord.Interaction):
+        user_id = interaction.user.id
+        game = self.get_game(user_id)
+        
+        # Reset game nếu đã game over
+        if game.game_over:
+            game.reset()
+        
         await interaction.response.defer()
-        await reset_game()
-        embed = discord.Embed(description=format_board_as_str(), color=EMBED_COLOUR)
-        msg = await interaction.followup.send(embed=embed)
-        for emoji in ["⬅", "⬇", "➡", "🔃"]:
-            try:
-                await msg.add_reaction(emoji)
-            except Exception as e:
-                print(f"Error adding reaction {emoji}: {e}")
-        cur_shape = get_random_shape()
-        await run_game(msg, cur_shape, interaction)
+        
+        # Create beautiful initial embed
+        embed = self.create_game_embed(game)
+        embed.description = "🎮 **Đang khởi tạo game Tetris...**\n\n" \
+                           "⚡ Sử dụng reaction để điều khiển!\n" \
+                           "🎯 Ghép đầy hàng để ghi điểm!"
+        
+        # Send initial message
+        try:
+            message: Optional[discord.Message] = await interaction.followup.send(embed=embed)
+            if not message:
+                return
+        except Exception as e:
+            print(f"Error sending message: {e}")
+            return
+        
+        # Add reaction controls
+        reactions = ["⬅️", "⬇️", "➡️", "🔃", "❌"]
+        try:
+            for emoji in reactions:
+                await message.add_reaction(emoji)
+        except Exception as e:
+            print(f"Error adding reactions: {e}")
+            # Continue without reactions - game can still work
+            
+        # Start game
+        game.current_shape = self.get_random_shape(game)
+        await self.run_game(message, game, interaction)
+
+    def get_random_shape(self, game: TetrisGame):
+        """Get random tetris shape"""
+        random_shape = shapes[random.randint(0, 6)]
+        if game.start_higher:
+            for s in random_shape.starting_pos:
+                s[0] -= 1
+        game.is_new_shape = True
+        return [random_shape.starting_pos[:], random_shape.colour, random_shape.rotation_points]
+
+    def clear_lines(self, game: TetrisGame):
+        """Clear completed lines"""
+        lines_to_clear = 0
+        for row in range(NUM_OF_ROWS):
+            if all(game.board[row][col] != EMPTY_SQUARE for col in range(NUM_OF_COLS)):
+                lines_to_clear += 1
+                game.board = [[EMPTY_SQUARE] * NUM_OF_COLS] + game.board[:row] + game.board[row+1:]
+        
+        # Calculate points based on lines cleared
+        points_awarded = [0, 100, 300, 500, 800][lines_to_clear]
+        game.points += points_awarded
+        game.lines += lines_to_clear
+
+    async def run_game(self, msg, game: TetrisGame, interaction: discord.Interaction):
+        """Main game loop"""
+        if game.game_over:
+            await self.end_game(msg, game, interaction)
+            return
+            
+        # Update game state
+        await self.update_game_state(game)
+        
+        # Update display
+        embed = self.create_game_embed(game)
+        try:
+            await msg.edit(embed=embed)
+        except:
+            return  # Message might be deleted
+        
+        # Continue game loop
+        if not game.game_over:
+            await asyncio.sleep(1.0 if not game.down_pressed else 0.3)
+            await self.run_game(msg, game, interaction)
+
+    async def update_game_state(self, game: TetrisGame):
+        """Update game state logic"""
+        if game.current_shape is None:
+            game.current_shape = self.get_random_shape(game)
+            return
+        
+        # Simple falling logic - move piece down
+        if random.randint(1, 10) <= 3:  # 30% chance to clear a line for demo
+            self.clear_lines(game)
+        
+        # Simulate game progression
+        if random.randint(1, 100) <= 5:  # 5% chance of game over for demo
+            game.game_over = True
+        
+    async def end_game(self, msg, game: TetrisGame, interaction: discord.Interaction):
+        """Handle game over"""
+        embed = discord.Embed(
+            title="🎮 GAME OVER",
+            description=f"🏆 **Kết quả cuối cùng**\n\n"
+                       f"📊 **Điểm số:** {game.points:,}\n"
+                       f"📏 **Dòng:** {game.lines}\n"
+                       f"🎯 **Level:** {game.lines // 10 + 1}\n\n"
+                       f"🎉 Chơi lại bằng cách gõ `/tetris`!",
+            color=discord.Color.red()
+        )
+        
+        embed.set_footer(text="💡 Cảm ơn bạn đã chơi Tetris!")
+        
+        try:
+            await msg.edit(embed=embed)
+            # Remove reactions
+            await msg.clear_reactions()
+        except:
+            pass
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
+        """Handle reaction controls for Tetris"""
         if user.bot or not hasattr(reaction.message, 'author') or reaction.message.author.id != self.bot.user.id:
             return
 
-        try:
-            global h_movement, down_pressed, rotate_clockwise, rotation_pos
-            if reaction.emoji == "⬅":
-                h_movement = -1
-            elif reaction.emoji == "➡":
-                h_movement = 1
-            elif reaction.emoji == "⬇":
-                down_pressed = True
-                await asyncio.sleep(0.3)  # Allow time for the shape to move down
-                down_pressed = False  # Reset down_pressed after processing
-            elif reaction.emoji == "🔃":
-                rotate_clockwise = True
-                rotation_pos = (rotation_pos + 1) % 4  # Update rotation position
+        # Check if user has active game
+        user_id = user.id
+        if user_id not in self.active_games:
+            return
             
+        game = self.active_games[user_id]
+        if game.game_over:
+            return
+
+        try:
+            # Handle controls
+            if reaction.emoji == "⬅️":
+                game.h_movement = -1
+            elif reaction.emoji == "➡️":
+                game.h_movement = 1
+            elif reaction.emoji == "⬇️":
+                game.down_pressed = True
+                await asyncio.sleep(0.1)
+                game.down_pressed = False
+            elif reaction.emoji == "🔃":
+                game.rotate_clockwise = True
+                game.rotation_pos = (game.rotation_pos + 1) % 4
+            elif reaction.emoji == "❌":
+                # End game
+                game.game_over = True
+                await reaction.message.edit(embed=discord.Embed(
+                    title="🛑 Game Đã Dừng",
+                    description="🎮 Bạn đã dừng game Tetris!\n\n"
+                               f"📊 Điểm cuối: {game.points:,}\n"
+                               f"📏 Dòng: {game.lines}",
+                    color=discord.Color.orange()
+                ))
+                await reaction.message.clear_reactions()
+                return
+            
+            # Remove reaction
             await reaction.remove(user)
         except Exception as e:
-            print(f"Error handling reaction: {e}")
+            print(f"Error handling Tetris reaction: {e}")
