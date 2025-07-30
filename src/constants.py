@@ -21,16 +21,15 @@ CATEGORY_NONSLASH = 'non-slash'
 
 # Command Directories
 COMMAND_DIRECTORIES = [
-    './src/commands',
-    './src/games'
+    'src/commands'
 ]
 
 
 
 # Other Extension Directories
 OTHER_EXTENSION_DIRECTORIES = [
-    './src/status',
-    './src/message'
+    'src/status',
+    'src/message'
 ]
 
 # Required Extensions (only these will be loaded)

@@ -49,13 +49,9 @@ class DiscordBot:
             print(f'🤖 {self.bot.user} is online!')
             print(f'📊 Serving {len(self.bot.guilds)} guilds')
 
-            # Sync slash commands
-            try:
-                synced = await self.bot.tree.sync()
-                print(f"✅ Synced {len(synced)} commands")
-            except Exception as e:
-                print(f"❌ Command sync failed: {e}")
-            
+            # Load extensions and sync commands after bot is ready
+            await self.load_extensions()
+
             # MongoDB connection (only show result)
             if self.database.load():
                 print("✅ MongoDB connected")
@@ -82,20 +78,29 @@ class DiscordBot:
         # Load other extensions
         required_extensions = getattr(constants, 'REQUIRED_EXTENSIONS', {})
         for directory in constants.OTHER_EXTENSION_DIRECTORIES:
-            # Correct the path for os.listdir
-            corrected_directory = directory.replace('./', '')
-            files = [f for f in os.listdir(corrected_directory) if f.endswith('.py')]
-            category = directory.split('/')[-1]
-            
-            # Filter files if required extensions are specified
-            if category in required_extensions:
-                files = [f for f in files if f[:-3] in required_extensions[category]]
+            if os.path.exists(directory):
+                files = [f for f in os.listdir(directory) if f.endswith('.py')]
+                category = directory.split('/')[-1]
                 
-            random.shuffle(files)
-            for filename in files:
-                module_path = f'{directory.replace("./", "").replace("/", ".")}.{filename[:-3]}'
-                await self.bot.load_extension(module_path)
-                print(f"Loaded extension: {module_path}")
+                # Filter files if required extensions are specified
+                if category in required_extensions:
+                    files = [f for f in files if f[:-3] in required_extensions[category]]
+                    
+                random.shuffle(files)
+                for filename in files:
+                    module_path = f'{directory.replace("/", ".")}.{filename[:-3]}'
+                    try:
+                        await self.bot.load_extension(module_path)
+                        print(f"Loaded extension: {module_path}")
+                    except Exception as e:
+                        print(f"Failed to load extension {module_path}: {e}")
+        
+        # Sync slash commands after loading all
+        try:
+            synced = await self.bot.tree.sync()
+            print(f"✅ Synced {len(synced)} slash commands")
+        except Exception as e:
+            print(f"❌ Command sync failed: {e}")
     
     async def run_bot(self):
         """Start the Discord bot with minimal logging"""
