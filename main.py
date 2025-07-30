@@ -50,9 +50,9 @@ class DiscordBot:
             print(f'🤖 {self.bot.user} is online!')
             print(f'📊 Serving {len(self.bot.guilds)} guilds')
 
-            # Load extensions and sync commands after bot is ready
-            print("📦 Loading extensions...")
-            await self.load_extensions()
+            # Commands already loaded in run_bot(), just sync if needed
+            print("� Checking command sync...")
+            await self.sync_commands_if_needed()
 
             # MongoDB connection (only show result)
             print("🗄️ Connecting to MongoDB...")
@@ -111,8 +111,9 @@ class DiscordBot:
                         print(f"Loaded extension: {module_path}")
                     except Exception as e:
                         print(f"Failed to load extension {module_path}: {e}")
-        
-        # Sync slash commands after loading all (with rate limit protection)
+    
+    async def sync_commands_if_needed(self):
+        """Sync slash commands with rate limit protection"""
         try:
             # Check last sync time to avoid rate limiting
             last_sync_file = ".last_sync"
@@ -168,7 +169,11 @@ class DiscordBot:
         else:
             print("✅ Discord token format validated")
         
-        # Start keep-alive service if URL provided
+        # Pre-load commands before starting bot
+        print("📦 Pre-loading extensions...")
+        await self.load_extensions()
+        
+        # Start keep-alive service if URL provided (after commands loaded)
         keepalive_url = self.config.get_keepalive_url()
         if keepalive_url:
             keep_alive.awake(keepalive_url, debug=self.config.is_debug_mode())
