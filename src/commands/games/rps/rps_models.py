@@ -10,7 +10,7 @@ class RPSChoiceModal(discord.ui.Modal):
     """Modal ẩn để người chơi chọn kéo búa bao"""
     
     def __init__(self, game_view, player: discord.Member):
-        super().__init__(title="Chọn kéo, búa, bao", timeout=10)
+        super().__init__(title="Chọn kéo, búa, bao", timeout=30)  # Tăng lên 30s
         self.game_view = game_view
         self.player = player
         
@@ -46,14 +46,59 @@ class RPSChoiceModal(discord.ui.Modal):
             )
 
 
+class RPSButtonView(discord.ui.View):
+    """View với 3 buttons để chọn kéo búa bao"""
+    
+    def __init__(self, game_view, player: discord.Member):
+        super().__init__(timeout=30)  # 30 giây timeout
+        self.game_view = game_view
+        self.player = player
+    
+    @discord.ui.button(label="✂️ Kéo", style=discord.ButtonStyle.secondary, emoji="✂️")
+    async def choose_scissors(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await self.game_view.submit_choice(interaction, self.player, "Kéo")
+        # Disable all buttons sau khi chọn
+        for item in self.children:
+            if isinstance(item, discord.ui.Button):
+                item.disabled = True
+        await interaction.edit_original_response(view=self)
+    
+    @discord.ui.button(label="🪨 Búa", style=discord.ButtonStyle.secondary, emoji="🪨")
+    async def choose_rock(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await self.game_view.submit_choice(interaction, self.player, "Búa")
+        # Disable all buttons sau khi chọn
+        for item in self.children:
+            if isinstance(item, discord.ui.Button):
+                item.disabled = True
+        await interaction.edit_original_response(view=self)
+    
+    @discord.ui.button(label="📄 Bao", style=discord.ButtonStyle.secondary, emoji="📄") 
+    async def choose_paper(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await self.game_view.submit_choice(interaction, self.player, "Bao")
+        # Disable all buttons sau khi chọn
+        for item in self.children:
+            if isinstance(item, discord.ui.Button):
+                item.disabled = True
+        await interaction.edit_original_response(view=self)
+    
+    @discord.ui.button(label="❌ Bỏ qua", style=discord.ButtonStyle.danger, emoji="❌")
+    async def skip_turn(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await self.game_view.submit_choice(interaction, self.player, None)
+        # Disable all buttons sau khi chọn
+        for item in self.children:
+            if isinstance(item, discord.ui.Button):
+                item.disabled = True
+        await interaction.edit_original_response(view=self)
+
+
 class ModalSenderView(discord.ui.View):
-    """View để gửi modal qua DM"""
+    """View để gửi modal qua DM (legacy support)"""
     
     def __init__(self, modal: RPSChoiceModal):
-        super().__init__(timeout=10)
+        super().__init__(timeout=30)  # Tăng lên 30s
         self.modal = modal
     
-    @discord.ui.button(label="🎯 Chọn ngay", style=discord.ButtonStyle.primary)
+    @discord.ui.button(label="🎯 Chọn bằng text", style=discord.ButtonStyle.secondary)
     async def open_modal(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_modal(self.modal)
 

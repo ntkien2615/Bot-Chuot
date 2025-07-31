@@ -46,9 +46,10 @@ WARNING_EMBED_COLOR = 0xf1c40f  # Yellow
 INFO_EMBED_COLOR = 0x9b59b6     # Purple 
 
 CATEGORY_NAMES = {
-    'fun': 'Fun',
-    'general': 'General',
-    'game': 'Game',
-    'slash': 'Slash',
-    'non-slash': 'Non-Slash'
+    'fun': 'Lệnh Giải Trí',
+    'general': 'Lệnh Chung',
+    'games': 'Lệnh Trò Chơi',
+    'economy': 'Lệnh Kinh Tế',
+    'slash': 'Slash Commands',
+    'non-slash': 'Non-Slash Commands'
 } 

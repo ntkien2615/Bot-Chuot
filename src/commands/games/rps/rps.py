@@ -80,7 +80,7 @@ class MultiplayerRPS(GameCommand):
             name="🎮 Hướng dẫn",
             value="• 🎯 Bấm **Tham gia** để vào game\n"
                   "• 🚀 Host bấm **Bắt đầu** khi đủ người\n"
-                  "• ⏰ Có 10 giây để chọn\n"
+                  "• ⏰ Có 30 giây để chọn bằng nút\n"
                   "• 🏆 Kết quả sẽ được công bố\n"
                   "• ⚠️ Game tự hủy sau 30s nếu không hoạt động",
             inline=True

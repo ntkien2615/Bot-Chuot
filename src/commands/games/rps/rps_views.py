@@ -6,7 +6,7 @@ import random
 import asyncio
 from typing import List, Dict, Optional
 
-from .rps_models import RPSChoiceModal, ModalSenderView, calculate_rps_results
+from .rps_models import RPSButtonView, calculate_rps_results
 
 
 class MultiplayerRPSView(discord.ui.View):
@@ -17,31 +17,45 @@ class MultiplayerRPSView(discord.ui.View):
         self.players = players
         self.host = host
         self.player_choices: Dict[discord.Member, Optional[str]] = {}
-        self.game_started = False
-        self.choice_phase = False
         self.results_shown = False
-        self.choice_start_time = None
-        
+    
     async def start_choice_phase(self, interaction: discord.Interaction):
         """Bắt đầu giai đoạn chọn"""
-        self.choice_phase = True
-        self.game_started = True
-        self.choice_start_time = asyncio.get_event_loop().time()
-        
-        # Disable start button
-        for item in self.children:
-            if isinstance(item, discord.ui.Button) and item.label == "🚀 Bắt đầu":
-                item.disabled = True
-        
         embed = self.create_choice_embed()
         await interaction.response.edit_message(embed=embed, view=self)
         
-        # Gửi modal cho từng người chơi
+        # Gửi button interface cho từng người chơi
         for player in self.players:
             try:
-                modal = RPSChoiceModal(self, player)
-                await player.send("🎮 Thời gian chọn cho game Rock Paper Scissors!", 
-                                view=ModalSenderView(modal))
+                # Chỉ gửi buttons, không có modal text nữa
+                button_view = RPSButtonView(self, player)
+                
+                embed = discord.Embed(
+                    title="🎮 ROCK PAPER SCISSORS",
+                    description=f"⏰ **{player.display_name}**, hãy chọn kéo, búa hoặc bao!\n"
+                               f"🕐 Bạn có **30 giây** để suy nghĩ và chọn.",
+                    color=discord.Color.blue()
+                )
+                
+                embed.add_field(
+                    name="🎯 Cách chơi",
+                    value="✂️ **Kéo** → thắng Bao\n"
+                          "🪨 **Búa** → thắng Kéo\n"
+                          "📄 **Bao** → thắng Búa",
+                    inline=True
+                )
+                
+                embed.add_field(
+                    name="⚡ Lưu ý",
+                    value="• Nhấn nút để chọn nhanh\n"
+                          "• Chỉ được chọn 1 lần!\n"
+                          "• Nút sẽ tắt sau khi chọn",
+                    inline=True
+                )
+                
+                # Chỉ gửi buttons interface
+                await player.send(embed=embed, view=button_view)
+                
             except discord.Forbidden:
                 self.player_choices[player] = None
         
@@ -85,13 +99,13 @@ class MultiplayerRPSView(discord.ui.View):
         return embed
     
     async def countdown_and_update(self, interaction: discord.Interaction):
-        """Countdown 10 giây và cập nhật realtime"""
-        for remaining in range(10, 0, -1):
+        """Countdown 30 giây và cập nhật realtime"""
+        for remaining in range(30, 0, -1):
             if len(self.player_choices) >= len(self.players):
                 break
                 
             embed = self.create_choice_embed()
-            embed.description = f"Các người chọi đang chọn kéo, búa, bao trong tin nhắn riêng!\n⏰ Còn lại: {remaining} giây"
+            embed.description = f"Các người chơi đang chọn kéo, búa, bao trong tin nhắn riêng!\n⏰ Còn lại: {remaining} giây"
             
             try:
                 await interaction.edit_original_response(embed=embed, view=self)
@@ -147,7 +161,7 @@ class MultiplayerRPSView(discord.ui.View):
     def create_results_embed(self, results: Dict) -> discord.Embed:
         """Tạo embed kết quả"""
         embed = discord.Embed(
-            title="� ROCK PAPER SCISSORS - KẾT QUẢ!",
+            title="🏆 ROCK PAPER SCISSORS - KẾT QUẢ!",
             color=discord.Color.green()
         )
         
@@ -201,13 +215,12 @@ class MultiplayerRPSView(discord.ui.View):
             name="📊 Thống kê game",
             value=f"👥 Tổng người chơi: **{total_players}**\n"
                   f"🎯 Đã tham gia: **{active_players}**\n"
-                  f"⏱️ Thời gian: **10 giây**",
+                  f"⏱️ Thời gian: **30 giây**",
             inline=False
         )
         
         embed.set_footer(
-            text="🎮 Cảm ơn bạn đã chơi Rock Paper Scissors!",
-            icon_url="https://cdn.discordapp.com/emojis/🎮.png"
+            text="🎮 Cảm ơn bạn đã chơi Rock Paper Scissors!"
         )
         
         # Thống kê
@@ -248,7 +261,13 @@ class InviteRPSView(discord.ui.View):
                     inline=False
                 )
             
-            embed.set_footer(text="💡 Hãy tạo game mới để chơi tiếp!")
+            embed.add_field(
+                name="💡 Cách tránh timeout",
+                value="• Host có thể bắt đầu sớm với ít người\n"
+                      "• Mời bạn bè nhanh hơn\n"
+                      "• Hoặc thử lại lệnh /rps",
+                inline=False
+            )
             
             # Disable tất cả buttons
             for item in self.children:
@@ -257,107 +276,123 @@ class InviteRPSView(discord.ui.View):
             
             try:
                 await self.message.edit(embed=embed, view=self)
-            except discord.NotFound:
-                pass  # Message đã bị xóa
-        
-    @discord.ui.button(label="� Tham gia", style=discord.ButtonStyle.green, emoji="🎮")
-    async def join_game(self, interaction: discord.Interaction, button: discord.ui.Button):
-        if not isinstance(interaction.user, discord.Member):
-            await interaction.response.send_message("❌ Chỉ có thể sử dụng trong server!", ephemeral=True)
-            return
-            
-        if interaction.user in self.joined_players:
-            await interaction.response.send_message("❌ Bạn đã tham gia rồi!", ephemeral=True)
-            return
-            
-        if len(self.joined_players) >= self.max_players:
-            await interaction.response.send_message("❌ Game đã đủ người!", ephemeral=True)
-            return
-            
-        self.joined_players.append(interaction.user)
-        embed = self.create_invite_embed()
-        await interaction.response.edit_message(embed=embed, view=self)
+            except:
+                pass
     
     def create_invite_embed(self) -> discord.Embed:
         """Tạo embed mời chơi"""
         embed = discord.Embed(
-            title="✂️ 🪨 📄 ROCK PAPER SCISSORS",
-            description="🎯 **Game đối kháng nhiều người chơi!**\n"
-                       "🔥 Mọi người sẽ chọn bí mật trong tin nhắn riêng\n"
-                       "⚡ Ai có lựa chọn thông minh nhất sẽ thắng!",
-            color=discord.Color.gold()
+            title="🎮 ROCK PAPER SCISSORS - Mời tham gia!",
+            description=f"🎭 **Host:** {self.host.display_name}\n"
+                       f"🎯 **Chơi cùng nhau:** Kéo, Búa, Bao!\n"
+                       f"⏰ **Thời gian chờ:** 30 giây",
+            color=discord.Color.blue()
         )
         
-        player_list = [f"🎮 {i+1}. {member.display_name}" for i, member in enumerate(self.joined_players)]
+        # Danh sách người đã tham gia
+        if len(self.joined_players) > 1:
+            player_list = []
+            for i, player in enumerate(self.joined_players, 1):
+                emoji = "👑" if player == self.host else "🎮"
+                player_list.append(f"{emoji} {i}. {player.display_name}")
+            
+            embed.add_field(
+                name=f"👥 Người tham gia ({len(self.joined_players)}/{self.max_players})",
+                value="\n".join(player_list),
+                inline=False
+            )
+        else:
+            embed.add_field(
+                name=f"👥 Người tham gia ({len(self.joined_players)}/{self.max_players})",
+                value=f"👑 1. {self.host.display_name}\n"
+                      f"⏳ Đang chờ thêm người chơi...",
+                inline=False
+            )
         
         embed.add_field(
-            name=f"👥 Người chơi ({len(self.joined_players)}/{self.max_players})",
-            value="\n".join(player_list),
-            inline=False
-        )
-        
-        embed.add_field(
-            name="📋 Luật chơi",
-            value="🪨 **Búa** thắng **Kéo** ✂️\n"
-                  "✂️ **Kéo** thắng **Bao** 📄\n" 
-                  "📄 **Bao** thắng **Búa** 🪨",
+            name="🎯 Cách chơi",
+            value="• Nhấn **Tham gia** để vào game\n"
+                  "• Host nhấn **Bắt đầu** khi đủ người\n"
+                  "• Mọi người chọn kéo/búa/bao cùng lúc",
             inline=True
         )
         
         embed.add_field(
-            name="🎮 Hướng dẫn",
-            value="• 🎯 Bấm **Tham gia** để vào game\n"
-                  "• 🚀 Host bấm **Bắt đầu** khi đủ người\n"
-                  "• ⏰ Có 10 giây để chọn\n"
-                  "• 🏆 Kết quả sẽ được công bố\n"
-                  "• ⚠️ Game tự hủy sau 30s nếu không hoạt động",
+            name="🏆 Luật chơi",
+            value="✂️ **Kéo** thắng **Bao**\n"
+                  "🪨 **Búa** thắng **Kéo**\n"
+                  "📄 **Bao** thắng **Búa**",
             inline=True
-        )
-        
-        embed.set_footer(
-            text=f"🎭 Host: {self.host.display_name} | Cần ít nhất 2 người chơi",
-            icon_url=self.host.display_avatar.url
         )
         
         return embed
     
-    @discord.ui.button(label="🚀 Bắt đầu", style=discord.ButtonStyle.primary, emoji="⚡")
-    async def start_game(self, interaction: discord.Interaction, button: discord.ui.Button):
-        if interaction.user != self.host:
-            await interaction.response.send_message("❌ Chỉ host mới có thể bắt đầu!", ephemeral=True)
+    @discord.ui.button(label="🎮 Tham gia", style=discord.ButtonStyle.primary)
+    async def join_game(self, interaction: discord.Interaction, button: discord.ui.Button):
+        """Tham gia game"""
+        # Kiểm tra user là Member
+        if not isinstance(interaction.user, discord.Member):
+            await interaction.response.send_message("❌ Lệnh này chỉ có thể sử dụng trong server!", ephemeral=True)
             return
             
-        if len(self.joined_players) < 2:
-            await interaction.response.send_message("❌ Cần ít nhất 2 người chơi!", ephemeral=True)
+        if interaction.user in self.joined_players:
+            await interaction.response.send_message("🎮 Bạn đã tham gia rồi!", ephemeral=True)
             return
         
-        # Stop timeout vì game đã bắt đầu
-        self.stop()
+        if len(self.joined_players) >= self.max_players:
+            await interaction.response.send_message("🚫 Game đã đầy người!", ephemeral=True)
+            return
         
-        # Tạo MultiplayerRPSView mới để bắt đầu game
+        self.joined_players.append(interaction.user)
+        embed = self.create_invite_embed()
+        await interaction.response.edit_message(embed=embed, view=self)
+    
+    @discord.ui.button(label="🚀 Bắt đầu", style=discord.ButtonStyle.success)
+    async def start_game(self, interaction: discord.Interaction, button: discord.ui.Button):
+        """Bắt đầu game"""
+        # Kiểm tra user là Member
+        if not isinstance(interaction.user, discord.Member):
+            await interaction.response.send_message("❌ Lệnh này chỉ có thể sử dụng trong server!", ephemeral=True)
+            return
+            
+        if interaction.user != self.host:
+            await interaction.response.send_message("🔒 Chỉ host mới có thể bắt đầu game!", ephemeral=True)
+            return
+        
+        if len(self.joined_players) < 2:
+            await interaction.response.send_message("👥 Cần ít nhất 2 người để chơi!", ephemeral=True)
+            return
+        
+        # Chuyển sang MultiplayerRPSView
         game_view = MultiplayerRPSView(self.joined_players, self.host)
         await game_view.start_choice_phase(interaction)
     
-    @discord.ui.button(label="❌ Hủy game", style=discord.ButtonStyle.danger, emoji="🛑")
-    async def cancel_game(self, interaction: discord.Interaction, button: discord.ui.Button):
-        if interaction.user != self.host:
-            await interaction.response.send_message("❌ Chỉ host mới có thể hủy!", ephemeral=True)
+    @discord.ui.button(label="❌ Rời khỏi", style=discord.ButtonStyle.secondary)
+    async def leave_game(self, interaction: discord.Interaction, button: discord.ui.Button):
+        """Rời khỏi game"""
+        # Kiểm tra user là Member
+        if not isinstance(interaction.user, discord.Member):
+            await interaction.response.send_message("❌ Lệnh này chỉ có thể sử dụng trong server!", ephemeral=True)
+            return
+            
+        if interaction.user not in self.joined_players:
+            await interaction.response.send_message("❌ Bạn chưa tham gia!", ephemeral=True)
             return
         
-        # Stop timeout vì game đã bị hủy
-        self.stop()
+        if interaction.user == self.host and len(self.joined_players) > 1:
+            await interaction.response.send_message("👑 Host không thể rời khi còn người chơi!", ephemeral=True)
+            return
         
-        embed = discord.Embed(
-            title="🛑 GAME ĐÃ BỊ HỦY",
-            description=f"🎭 Host **{self.host.display_name}** đã hủy game.\n"
-                       "🎮 Hãy tạo game mới để chơi tiếp!",
-            color=discord.Color.red()
-        )
+        self.joined_players.remove(interaction.user)
         
-        embed.set_footer(text="Cảm ơn mọi người đã quan tâm!")
-        
-        for item in self.children:
-            if isinstance(item, discord.ui.Button):
-                item.disabled = True
-        
-        await interaction.response.edit_message(embed=embed, view=self)
+        if len(self.joined_players) == 0:
+            # Game bị hủy
+            embed = discord.Embed(
+                title="🚫 GAME ĐÃ BỊ HỦY",
+                description="❌ Host đã rời và không còn ai trong game.",
+                color=discord.Color.red()
+            )
+            await interaction.response.edit_message(embed=embed, view=None)
+        else:
+            embed = self.create_invite_embed()
+            await interaction.response.edit_message(embed=embed, view=self)
